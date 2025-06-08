@@ -1,0 +1,1398 @@
+[LOG] HDRScreenSaver starting. Command line: ''
+[LOG] No mode specified. Proceeding as screensaver.
+[LOG] Using image path: 'C:\hdrscreensaver\resources\P1020583.jpg'
+[LOG] Using DirectX10BitBackend for true HDR output.
+[LOG] DX11: Created borderless window for HDR output. HWND=0000000000970DB0
+[LOG] D3D11 device and 10-bit swapchain initialized.
+[LOG] Skia: Image has embedded color space. Ptr: 000001A7F467EBE0
+[LOG] Skia: Embedded gamut: NOT sRGB (likely P3 or other)
+[LOG] Skia: Embedded ICC profile size: 68
+[LOG] Skia: SkImage::readPixels result: success
+[DEBUG] First 5 output pixels (R G B A, hex): [0x2757,0x2389,0x23a9,0x3c00] [0x274b,0x23f5,0x2333,0x3c00] [0x274b,0x23f5,0x2261,0x3c00] [0x2818,0x249c,0x237f,0x3c00] [0x2869,0x2510,0x2426,0x3c00]
+[LOG] Skia: Image loaded, output in scRGB (linear sRGB) F16.
+
+Image size: 13187025 bytes
+[JPEG] Marker dump:
+  SOI (Start of Image)
+  Marker 0xe1 (FFE1) APP1, length=13369, remaining size=13187023
+  Marker 0xed (FFED) APP13, length=12624, remaining size=13173652
+  Marker 0xe2 (FFE2) APP2, length=564, remaining size=13161026 [ICC_PROFILE]
+    ICC_PROFILE block, first 32 bytes: 49 43 43 5f 50 52 4f 46 49 4c 45 0 1 1 0 0 2 24 61 70 70 6c 4 0 0 0 6d 6e 74 72 52 47
+    ICC tag count: 10
+    ICC desc: Display P3.
+  Marker 0xe1 (FFE1) APP1, length=33258, remaining size=13160460 [XMP]
+    XMP block (printable): http://ns.adobe.com/xap/1.0/.<?xpacket begin="..." id="W5M0MpCehiHzreSzNTczkc9d"?>.<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 7.0-c000 1.000000, 0000/00/00-00:00:00        ">. <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">.  <rdf:Description rdf:about="".    xmlns:aux="http://ns.adobe.com/exif/1.0/aux/".    xmlns:xmp="http://ns.adobe.com/xap/1.0/".    xmlns:photoshop="http://ns.adobe.com/photoshop/1.0/".    xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/".    xmlns:stEvt="http://ns.adobe.com/xap/1.0/sType/ResourceEvent#".    xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#".    xmlns:dc="http://purl.org/dc/elements/1.1/".    xmlns:xmpDM="http://ns.adobe.com/xmp/1.0/DynamicMedia/".    xmlns:crs="http://ns.adobe.com/camera-raw-settings/1.0/".    xmlns:hdrgm="http://ns.adobe.com/hdr-gain-map/1.0/".   aux:Lens="LEICA DG SUMMILUX 25/F1.4".   aux:LensSerialNumber="12081100850".   aux:SerialNumber="F971309300254".   aux:DistortionCorrectionAlreadyApplied="True".   aux:LateralChromaticAberrationCorrectionAlreadyApplied="True".   xmp:ModifyDate="2025-04-27T19:45:01+02:00".   xmp:CreateDate="2014-03-22T18:49:13".   xmp:CreatorTool="Adobe Photoshop Lightroom Classic 14.2 (Windows)".   xmp:MetadataDate="2025-04-27T19:45:01+02:00".   photoshop:DateCreated="2014-03-22T18:49:13".   xmpMM:DocumentID="xmp.did:1eb28467-2402-1a48-8a29-298c9ad260ff".   xmpMM:OriginalDocumentID="A80F7A238C732A109ACCA64520779E1F".   xmpMM:InstanceID="xmp.iid:1eb28467-2402-1a48-8a29-298c9ad260ff".   dc:format="image/jpeg".   xmpDM:pick="0".   crs:RawFileName="P1020583.RW2".   crs:Version="17.2".   crs:CompatibleVersion="251920384".   crs:ProcessVersion="15.4".   crs:WhiteBalance="As Shot".   crs:Temperature="5250".   crs:Tint="+14".   crs:Exposure2012="+0.60".   crs:Contrast2012="0".   crs:Highlights2012="0".   crs:Shadows2012="+50".   crs:Whites2012="0".   crs:Blacks2012="0".   crs:Texture="0".   crs:Clarity2012="+10".   crs:Dehaze="0".   crs:Vibrance="0".   crs:Saturation="0".   crs:ParametricShadows="0".   crs:ParametricDarks="0".   crs:ParametricLights="0".   crs:ParametricHighlights="0".   crs:ParametricShadowSplit="25".   crs:ParametricMidtoneSplit="50".   crs:ParametricHighlightSplit="75".   crs:Sharpness="25".   crs:SharpenRadius="+1.0".   crs:SharpenDetail="25".   crs:SharpenEdgeMasking="0".   crs:LuminanceSmoothing="15".   crs:LuminanceNoiseReductionDetail="50".   crs:LuminanceNoiseReductionContrast="0".   crs:ColorNoiseReduction="25".   crs:ColorNoiseReductionDetail="50".   crs:ColorNoiseReductionSmoothness="50".   crs:GrayMixerRed="-9".   crs:GrayMixerOrange="-18".   crs:GrayMixerYellow="-22".   crs:GrayMixerGreen="-26".   crs:GrayMixerAqua="-18".   crs:GrayMixerBlue="+9".   crs:GrayMixerPurple="+15".   crs:GrayMixerMagenta="+4".   crs:HueAdjustmentRed="0".   crs:HueAdjustmentOrange="0".   crs:HueAdjustmentYellow="0".   crs:HueAdjustmentGreen="0".   crs:HueAdjustmentAqua="0".   crs:HueAdjustmentBlue="0".   crs:HueAdjustmentPurple="0".   crs:HueAdjustmentMagenta="0".   crs:SaturationAdjustmentRed="0".   crs:SaturationAdjustmentOrange="0".   crs:SaturationAdjustmentYellow="0".   crs:SaturationAdjustmentGreen="0".   crs:SaturationAdjustmentAqua="0".   crs:SaturationAdjustmentBlue="0".   crs:SaturationAdjustmentPurple="0".   crs:SaturationAdjustmentMagenta="0".   crs:LuminanceAdjustmentRed="0".   crs:LuminanceAdjustmentOrange="0".   crs:LuminanceAdjustmentYellow="0".   crs:LuminanceAdjustmentGreen="0".   crs:LuminanceAdjustmentAqua="0".   crs:LuminanceAdjustmentBlue="0".   crs:LuminanceAdjustmentPurple="0".   crs:LuminanceAdjustmentMagenta="0".   crs:SplitToningShadowHue="0".   crs:SplitToningShadowSaturation="0".   crs:SplitToningHighlightHue="0".   crs:SplitToningHighlightSaturation="0".   crs:SplitToningBalance="0".   crs:ColorGradeMidtoneHue="0".   crs:ColorGradeMidtoneSat="0".   crs:ColorGradeShadowLum="0".   crs:ColorGradeMidtoneLum="0".   crs:ColorGradeHighlightLum="0".   crs:ColorGradeBlending="50".   crs:ColorGradeGlobalHue="0".   crs:ColorGradeGlobalSat="0".   crs:ColorGradeGlobalLum="0".   crs:AutoLateralCA="0".   crs:LensProfileEnable="0".   crs:LensManualDistortionAmount="0".   crs:VignetteAmount="0".   crs:DefringePurpleAmount="0".   crs:DefringePurpleHueLo="30".   crs:DefringePurpleHueHi="70".   crs:DefringeGreenAmount="0".   crs:DefringeGreenHueLo="40".   crs:DefringeGreenHueHi="60".   crs:PerspectiveUpright="0".   crs:PerspectiveVertical="0".   crs:PerspectiveHorizontal="0".   crs:PerspectiveRotate="0.0".   crs:PerspectiveAspect="0".   crs:PerspectiveScale="100".   crs:PerspectiveX="0.00".   crs:PerspectiveY="0.00".   crs:GrainAmount="0".   crs:PostCropVignetteAmount="0".   crs:ShadowTint="0".   crs:RedHue="0".   crs:RedSaturation="0".   crs:GreenHue="0".   crs:GreenSaturation="0".   crs:BlueHue="0".   crs:BlueSaturation="0".   crs:HDREditMode="1".   crs:HDRMaxValue="+4.00".   crs:SDRBrightness="+100".   crs:SDRContrast="+20".   crs:SDRClarity="0".   crs:SDRHighlights="-100".   crs:SDRShadows="-100".   crs:SDRWhites="0".   crs:SDRBlend="0".   crs:ConvertToGrayscale="False".   crs:OverrideLookVignette="False".   crs:ToneCurveName2012="Linear".   crs:CameraProfile="Adobe Standard".   crs:CameraProfileDigest="1DAA9EA30ECFDFB688C3E9562340D822".   crs:HasSettings="True".   crs:CropTop="0".   crs:CropLeft="0".   crs:CropBottom="1".   crs:CropRight="1".   crs:CropAngle="0".   crs:CropConstrainToWarp="0".   crs:HasCrop="False".   crs:AlreadyApplied="True".   hdrgm:Version="1.0">.   <xmpMM:History>.    <rdf:Seq>.     <rdf:li.      stEvt:action="derived".      stEvt:parameters="converted from image/x-panasonic-raw to image/jpeg, saved to new location"/>.     <rdf:li.      stEvt:action="saved".      stEvt:instanceID="xmp.iid:1eb28467-2402-1a48-8a29-298c9ad260ff".      stEvt:when="2025-04-27T19:45:01+02:00".      stEvt:softwareAgent="Adobe Photoshop Lightroom Classic 14.2 (Windows)".      stEvt:changed="/"/>.    </rdf:Seq>.   </xmpMM:History>.   <xmpMM:DerivedFrom.    stRef:documentID="A80F7A238C732A109ACCA64520779E1F".    stRef:originalDocumentID="A80F7A238C732A109ACCA64520779E1F"/>.   <crs:ToneCurvePV2012>.    <rdf:Seq>.     <rdf:li>0, 0</rdf:li>.     <rdf:li>255, 255</rdf:li>.    </rdf:Seq>.   </crs:ToneCurvePV2012>.   <crs:ToneCurvePV2012Red>.    <rdf:Seq>.     <rdf:li>0, 0</rdf:li>.     <rdf:li>255, 255</rdf:li>.    </rdf:Seq>.   </crs:ToneCurvePV2012Red>.   <crs:ToneCurvePV2012Green>.    <rdf:Seq>.     <rdf:li>0, 0</rdf:li>.     <rdf:li>255, 255</rdf:li>.    </rdf:Seq>.   </crs:ToneCurvePV2012Green>.   <crs:ToneCurvePV2012Blue>.    <rdf:Seq>.     <rdf:li>0, 0</rdf:li>.     <rdf:li>255, 255</rdf:li>.    </rdf:Seq>.   </crs:ToneCurvePV2012Blue>.   <crs:PointColors>.    <rdf:Seq>.     <rdf:li>-1.000000, -1.000000, -1.000000, -1.000000, -1.000000, -1.000000, -1.000000, -1.000000, -1.000000, -1.000000, -1.000000, -1.000000, -1.000000, -1.000000, -1.000000, -1.000000, -1.000000, -1.000000, -1.000000</rdf:li>.    </rdf:Seq>.   </crs:PointColors>.   <crs:RetouchAreas>.    <rdf:Seq>.     <rdf:li>.      <rdf:Description.       crs:SpotType="heal_patchmatch".       crs:SourceState="sourceAutoComputed".       crs:Opacity="1".       crs:Seed="2".       crs:pm_patch="F589CDE2EE141271F4938BDD8C7E9760".       crs:pm_remap_info_0="0.052887771,0.058701456,0.000000000,1.000000000".       crs:pm_remap_info_1="0.065415427,0.075516902,0.000000000,1.000000000".       crs:pm_remap_info_2="0.054444190,0.060669869,0.000000000,1.000000000".       crs:pm_gamma_type="1".       crs:pm_whole_image_top="8".       crs:pm_whole_image_left="8".       crs:pm_whole_image_bottom="3456".       crs:pm_whole_image_right="4600".       crs:pm_target_top="2772".       crs:pm_target_left="747".       crs:pm_target_bottom="2813".       crs:pm_target_right="787".       crs:pm_search_top="2692".       crs:pm_search_left="667".       crs:pm_search_bottom="2892".       crs:pm_search_right="867".       crs:pm_source_type="full".       crs:pm_version="327680".       crs:pm_black_level="2360".       crs:pm_input_digest="6A381BBCB39ED518F45979B2F1E3AE30">.      <crs:Masks>.       <rdf:Seq>.        <rdf:li.         crs:What="Mask/Ellipse".         crs:MaskActive="true".         crs:MaskBlendMode="0".         crs:MaskInverted="false".         crs:MaskSyncID="A91F11ACB373F644B14056BE7CE2F47B".         crs:MaskValue="1".         crs:X="0.165317".         crs:Y="0.807605".         crs:SizeX="0.004283".         crs:SizeY="0.004283".         crs:Alpha="0".         crs:CenterValue="1".         crs:PerimeterValue="0"/>.       </rdf:Seq>.      </crs:Masks>.      </rdf:Description>.     </rdf:li>.     <rdf:li>.      <rdf:Description.       crs:SpotType="heal_patchmatch".       crs:SourceState="sourceAutoComputed".       crs:Opacity="1".       crs:Seed="2".       crs:pm_patch="3DB9FFDB4068FA0F3508AE8CD7C95EA7".       crs:pm_remap_info_0="0.057343405,0.061722744,0.000000000,1.000000000".       crs:pm_remap_info_1="0.076997027,0.086030364,0.000000000,1.000000000".       crs:pm_remap_info_2="0.062729836,0.071519032,0.000000000,1.000000000".       crs:pm_gamma_type="1".       crs:pm_whole_image_top="8".       crs:pm_whole_image_left="8".       crs:pm_whole_image_bottom="3456".       crs:pm_whole_image_right="4600".       crs:pm_target_top="3108".       crs:pm_target_left="1625".       crs:pm_target_bottom="3135".       crs:pm_target_right="1651".       crs:pm_search_top="3021".       crs:pm_search_left="1538".       crs:pm_search_bottom="3221".       crs:pm_search_right="1738".       crs:pm_source_type="full".       crs:pm_version="327680".       crs:pm_black_level="2360".       crs:pm_input_digest="6A381BBCB39ED518F45979B2F1E3AE30">.      <crs:Masks>.       <rdf:Seq>.        <rdf:li.         crs:What="Mask/Ellipse".         crs:MaskActive="true".         crs:MaskBlendMode="0".         crs:MaskInverted="false".         crs:MaskSyncID="48434F44C0BF64488B6F788A4E26CB1B".         crs:MaskValue="1".         crs:X="0.354921".         crs:Y="0.902951".         crs:SizeX="0.00278".         crs:SizeY="0.00278".         crs:Alpha="0".         crs:CenterValue="1".         crs:PerimeterValue="0"/>.       </rdf:Seq>.      </crs:Masks>.      </rdf:Description>.     </rdf:li>.    </rdf:Seq>.   </crs:RetouchAreas>.   <crs:MaskGroupBasedCorrections>.    <rdf:Seq>.     <rdf:li>.      <rdf:Description.       crs:What="Correction".       crs:CorrectionAmount="1".       crs:CorrectionActive="true".       crs:CorrectionName="Mask 1".       crs:CorrectionSyncID="1FF3A4BAD26E658B7266A43DA0F8BE87".       crs:LocalExposure="0".       crs:LocalSaturation="-0.3".       crs:LocalContrast="0".       crs:LocalClarity="0".       crs:LocalSharpness="0".       crs:LocalBrightness="0".       crs:LocalToningHue="233".       crs:LocalToningSaturation="0".       crs:LocalExposure2012="0.05".       crs:LocalContrast2012="0".       crs:LocalHighlights2012="0".       crs:LocalShadows2012="0".       crs:LocalClarity2012="0".       crs:LocalLuminanceNoise="0".       crs:LocalMoire="0".       crs:LocalDefringe="0".       crs:LocalTemperature="0".       crs:LocalTint="0".       crs:LocalCurveRefineSaturation="100">.      <crs:CorrectionMasks>.       <rdf:Seq>.        <rdf:li>.         <rdf:Description.          crs:What="Mask/Aggregate".          crs:MaskActive="true".          crs:MaskName="Brush 1".          crs:MaskBlendMode="0".          crs:MaskInverted="false".          crs:MaskSyncID="BCF1825DBF706F4BAD6D113DC89F9688".          crs:MaskValue="1">.         <crs:Masks>.          <rdf:Seq>.           <rdf:li>.            <rdf:Description.             crs:What="Mask/Paint".             crs:MaskActive="true".             crs:MaskBlendMode="0".             crs:MaskInverted="false".             crs:MaskSyncID="A536730F428D0049A2A96DF22CDAE008".             crs:MaskValue="1".             crs:Radius="0.01233".             crs:Flow="1".             crs:CenterWeight="0">.            <crs:Dabs>.             <rdf:Seq>.              <rdf:li>d 0.212208 0.658389</rdf:li>.              <rdf:li>d 0.208680 0.658939</rdf:li>.              <rdf:li>d 0.207150 0.662329</rdf:li>.              <rdf:li>d 0.207150 0.667255</rdf:li>.              <rdf:li>d 0.207586 0.671602</rdf:li>.              <rdf:li>d 0.208457 0.675708</rdf:li>.              <rdf:li>d 0.208893 0.680054</rdf:li>.              <rdf:li>d 0.211770 0.682133</rdf:li>.              <rdf:li>d 0.215342 0.682717</rdf:li>.              <rdf:li>d 0.218670 0.683210</rdf:li>.              <rdf:li>d 0.220983 0.682380</rdf:li>.              <rdf:li>d 0.222990 0.679627</rdf:li>.              <rdf:li>d 0.221829 0.675633</rdf:li>.              <rdf:li>d 0.219149 0.672505</rdf:li>.              <rdf:li>d 0.216611 0.670229</rdf:li>.              <rdf:li>d 0.213823 0.667508</rdf:li>.              <rdf:li>d 0.212343 0.663704</rdf:li>.              <rdf:li>d 0.212763 0.661294</rdf:li>.              <rdf:li>d 0.214780 0.665249</rdf:li>.              <rdf:li>d 0.216823 0.668327</rdf:li>.              <rdf:li>d 0.219085 0.671463</rdf:li>.              <rdf:li>d 0.222097 0.673975</rdf:li>.              <rdf:li>d 0.224634 0.676182</rdf:li>.              <rdf:li>d 0.228333 0.676182</rdf:li>.              <rdf:li>d 0.232032 0.676182</rdf:li>.              <rdf:li>d 0.235732 0.676182</rdf:li>.              <rdf:li>d 0.238834 0.678423</rdf:li>.              <rdf:li>d 0.240388 0.681378</rdf:li>.              <rdf:li>d 0.243861 0.682305</rdf:li>.              <rdf:li>d 0.244821 0.682783</rdf:li>.              <rdf:li>d 0.247275 0.679915</rdf:li>.              <rdf:li>d 0.249976 0.678125</rdf:li>.              <rdf:li>d 0.252338 0.676534</rdf:li>.              <rdf:li>d 0.254257 0.679394</rdf:li>.              <rdf:li>d 0.253692 0.677250</rdf:li>.              <rdf:li>d 0.251266 0.673631</rdf:li>.              <rdf:li>d 0.251868 0.669507</rdf:li>.              <rdf:li>d 0.249720 0.666757</rdf:li>.              <rdf:li>d 0.247542 0.663930</rdf:li>.              <rdf:li>d 0.246051 0.660260</rdf:li>.              <rdf:li>d 0.244229 0.656302</rdf:li>.              <rdf:li>d 0.243079 0.651857</rdf:li>.              <rdf:li>d 0.240270 0.649849</rdf:li>.              <rdf:li>d 0.237989 0.650532</rdf:li>.              <rdf:li>d 0.237989 0.655459</rdf:li>.              <rdf:li>d 0.237989 0.660385</rdf:li>.              <rdf:li>d 0.237989 0.665311</rdf:li>.              <rdf:li>d 0.237989 0.670238</rdf:li>.              <rdf:li>d 0.238405 0.675096</rdf:li>.              <rdf:li>d 0.240688 0.678884</rdf:li>.              <rdf:li>d 0.243697 0.679726</rdf:li>.              <rdf:li>d 0.242341 0.675262</rdf:li>.              <rdf:li>d 0.241890 0.670584</rdf:li>.              <rdf:li>d 0.241561 0.665711</rdf:li>.              <rdf:li>d 0.241050 0.660842</rdf:li>.              <rdf:li>d 0.240466 0.655979</rdf:li>.              <rdf:li>d 0.239780 0.652692</rdf:li>.              <rdf:li>d 0.239758 0.657616</rdf:li>.              <rdf:li>d 0.239033 0.662409</rdf:li>.              <rdf:li>d 0.237369 0.666209</rdf:li>.              <rdf:li>d 0.236917 0.670993</rdf:li>.              <rdf:li>d 0.237168 0.675781</rdf:li>.              <rdf:li>d 0.239516 0.678706</rdf:li>.              <rdf:li>d 0.243044 0.679257</rdf:li>.              <rdf:li>d 0.244946 0.676572</rdf:li>.              <rdf:li>d 0.245140 0.671653</rdf:li>.              <rdf:li>d 0.245335 0.666733</rdf:li>.              <rdf:li>d 0.245687 0.661879</rdf:li>.              <rdf:li>d 0.246107 0.657012</rdf:li>.              <rdf:li>d 0.246790 0.652994</rdf:li>.              <rdf:li>d 0.249269 0.655994</rdf:li>.              <rdf:li>d 0.251387 0.659824</rdf:li>.              <rdf:li>d 0.253244 0.663473</rdf:li>.              <rdf:li>d 0.256171 0.666000</rdf:li>.              <rdf:li>d 0.259190 0.668104</rdf:li>.              <rdf:li>d 0.262410 0.670360</rdf:li>.              <rdf:li>d 0.263687 0.668290</rdf:li>.              <rdf:li>d 0.263687 0.663364</rdf:li>.              <rdf:li>d 0.264591 0.658721</rdf:li>.              <rdf:li>d 0.265999 0.654237</rdf:li>.              <rdf:li>d 0.266852 0.649723</rdf:li>.              <rdf:li>d 0.267784 0.645090</rdf:li>.              <rdf:li>d 0.269328 0.641355</rdf:li>.              <rdf:li>d 0.272096 0.642916</rdf:li>.              <rdf:li>d 0.273374 0.647470</rdf:li>.              <rdf:li>d 0.274535 0.652032</rdf:li>.              <rdf:li>d 0.274987 0.656816</rdf:li>.              <rdf:li>d 0.274987 0.661742</rdf:li>.              <rdf:li>d 0.274987 0.666668</rdf:li>.              <rdf:li>d 0.274987 0.671595</rdf:li>.              <rdf:li>d 0.274906 0.675645</rdf:li>.              <rdf:li>d 0.271207 0.675645</rdf:li>.              <rdf:li>d 0.270873 0.675830</rdf:li>.              <rdf:li>d 0.272677 0.679068</rdf:li>.              <rdf:li>d 0.270553 0.682959</rdf:li>.              <rdf:li>d 0.268164 0.686720</rdf:li>.              <rdf:li>d 0.270056 0.688644</rdf:li>.              <rdf:li>d 0.273224 0.689822</rdf:li>.              <rdf:li>d 0.276919 0.689850</rdf:li>.              <rdf:li>d 0.280618 0.689850</rdf:li>.              <rdf:li>d 0.283676 0.688995</rdf:li>.              <rdf:li>d 0.283676 0.684069</rdf:li>.              <rdf:li>d 0.284882 0.679707</rdf:li>.              <rdf:li>d 0.286442 0.676334</rdf:li>.              <rdf:li>d 0.288551 0.673683</rdf:li>.              <rdf:li>d 0.290105 0.670122</rdf:li>.              <rdf:li>d 0.290105 0.665196</rdf:li>.              <rdf:li>d 0.289254 0.660501</rdf:li>.              <rdf:li>d 0.288052 0.655842</rdf:li>.              <rdf:li>d 0.285865 0.652385</rdf:li>.              <rdf:li>d 0.283627 0.649045</rdf:li>.              <rdf:li>d 0.281571 0.645592</rdf:li>.              <rdf:li>d 0.278366 0.644426</rdf:li>.              <rdf:li>d 0.274855 0.643808</rdf:li>.              <rdf:li>d 0.273257 0.642424</rdf:li>.              <rdf:li>d 0.276305 0.644626</rdf:li>.              <rdf:li>d 0.279223 0.647619</rdf:li>.              <rdf:li>d 0.281590 0.651338</rdf:li>.              <rdf:li>d 0.283929 0.655092</rdf:li>.              <rdf:li>d 0.286166 0.658820</rdf:li>.              <rdf:li>d 0.289469 0.660952</rdf:li>.              <rdf:li>d 0.292884 0.662692</rdf:li>.              <rdf:li>d 0.294984 0.666059</rdf:li>.              <rdf:li>d 0.295310 0.669966</rdf:li>.              <rdf:li>d 0.298882 0.670742</rdf:li>.              <rdf:li>d 0.302581 0.670742</rdf:li>.              <rdf:li>d 0.304786 0.668753</rdf:li>.              <rdf:li>d 0.304786 0.663826</rdf:li>.              <rdf:li>d 0.304355 0.658937</rdf:li>.              <rdf:li>d 0.304334 0.654013</rdf:li>.              <rdf:li>d 0.304657 0.649122</rdf:li>.              <rdf:li>d 0.305281 0.644366</rdf:li>.              <rdf:li>d 0.306899 0.640055</rdf:li>.              <rdf:li>d 0.309131 0.636451</rdf:li>.              <rdf:li>d 0.311402 0.637638</rdf:li>.              <rdf:li>d 0.313502 0.641058</rdf:li>.              <rdf:li>d 0.316388 0.643426</rdf:li>.              <rdf:li>d 0.317141 0.648008</rdf:li>.              <rdf:li>d 0.317141 0.652934</rdf:li>.              <rdf:li>d 0.319225 0.656126</rdf:li>.              <rdf:li>d 0.321680 0.659673</rdf:li>.              <rdf:li>d 0.323522 0.663745</rdf:li>.              <rdf:li>d 0.325024 0.668235</rdf:li>.              <rdf:li>d 0.326466 0.672717</rdf:li>.              <rdf:li>d 0.326917 0.677043</rdf:li>.              <rdf:li>d 0.323325 0.677186</rdf:li>.              <rdf:li>d 0.319626 0.677186</rdf:li>.              <rdf:li>d 0.315966 0.676900</rdf:li>.              <rdf:li>d 0.312498 0.675981</rdf:li>.              <rdf:li>d 0.308799 0.675981</rdf:li>.              <rdf:li>d 0.305422 0.674631</rdf:li>.              <rdf:li>d 0.306821 0.677667</rdf:li>.              <rdf:li>d 0.309730 0.679357</rdf:li>.              <rdf:li>d 0.313418 0.679393</rdf:li>.              <rdf:li>d 0.316570 0.678262</rdf:li>.              <rdf:li>d 0.317425 0.673605</rdf:li>.              <rdf:li>d 0.316405 0.669018</rdf:li>.              <rdf:li>d 0.314822 0.664689</rdf:li>.              <rdf:li>d 0.313208 0.660518</rdf:li>.              <rdf:li>d 0.312357 0.655860</rdf:li>.              <rdf:li>d 0.312303 0.654503</rdf:li>.              <rdf:li>d 0.311956 0.659373</rdf:li>.              <rdf:li>d 0.311852 0.664282</rdf:li>.              <rdf:li>d 0.311852 0.669208</rdf:li>.              <rdf:li>d 0.311852 0.674135</rdf:li>.              <rdf:li>d 0.309405 0.674531</rdf:li>.              <rdf:li>d 0.308186 0.670152</rdf:li>.              <rdf:li>d 0.307934 0.665245</rdf:li>.              <rdf:li>d 0.310313 0.667682</rdf:li>.              <rdf:li>d 0.312842 0.671260</rdf:li>.              <rdf:li>d 0.315860 0.673968</rdf:li>.              <rdf:li>d 0.319491 0.674894</rdf:li>.              <rdf:li>d 0.323181 0.674801</rdf:li>.              <rdf:li>d 0.326646 0.673290</rdf:li>.              <rdf:li>d 0.329524 0.670357</rdf:li>.              <rdf:li>d 0.331737 0.666488</rdf:li>.              <rdf:li>d 0.335281 0.665705</rdf:li>.              <rdf:li>d 0.335028 0.667198</rdf:li>.              <rdf:li>d 0.333398 0.663459</rdf:li>.              <rdf:li>d 0.331924 0.659061</rdf:li>.              <rdf:li>d 0.331873 0.654163</rdf:li>.              <rdf:li>d 0.331873 0.649237</rdf:li>.              <rdf:li>d 0.332326 0.644913</rdf:li>.              <rdf:li>d 0.333229 0.640271</rdf:li>.              <rdf:li>d 0.334949 0.636574</rdf:li>.              <rdf:li>d 0.337155 0.632619</rdf:li>.              <rdf:li>d 0.340054 0.630501</rdf:li>.              <rdf:li>d 0.343753 0.630501</rdf:li>.              <rdf:li>d 0.347265 0.629899</rdf:li>.              <rdf:li>d 0.349938 0.631667</rdf:li>.              <rdf:li>d 0.349938 0.636593</rdf:li>.              <rdf:li>d 0.349869 0.641498</rdf:li>.              <rdf:li>d 0.349485 0.646303</rdf:li>.              <rdf:li>d 0.349485 0.651230</rdf:li>.              <rdf:li>d 0.351215 0.655458</rdf:li>.              <rdf:li>d 0.353568 0.659193</rdf:li>.              <rdf:li>d 0.356071 0.662727</rdf:li>.              <rdf:li>d 0.357772 0.666361</rdf:li>.              <rdf:li>d 0.359050 0.670793</rdf:li>.              <rdf:li>d 0.359264 0.675692</rdf:li>.              <rdf:li>d 0.357802 0.679151</rdf:li>.              <rdf:li>d 0.355596 0.681715</rdf:li>.              <rdf:li>d 0.351897 0.681715</rdf:li>.              <rdf:li>d 0.348198 0.681715</rdf:li>.              <rdf:li>d 0.344499 0.681715</rdf:li>.              <rdf:li>d 0.340800 0.681715</rdf:li>.              <rdf:li>d 0.337454 0.681148</rdf:li>.              <rdf:li>d 0.335772 0.677502</rdf:li>.              <rdf:li>d 0.335471 0.672641</rdf:li>.              <rdf:li>d 0.335819 0.667760</rdf:li>.              <rdf:li>d 0.336545 0.662930</rdf:li>.              <rdf:li>d 0.337269 0.658099</rdf:li>.              <rdf:li>d 0.338484 0.653631</rdf:li>.              <rdf:li>d 0.339235 0.649012</rdf:li>.              <rdf:li>d 0.340141 0.652726</rdf:li>.              <rdf:li>d 0.340209 0.657647</rdf:li>.              <rdf:li>d 0.340614 0.662544</rdf:li>.              <rdf:li>d 0.340949 0.667450</rdf:li>.              <rdf:li>d 0.341283 0.672356</rdf:li>.              <rdf:li>d 0.341801 0.677103</rdf:li>.              <rdf:li>d 0.342065 0.673478</rdf:li>.              <rdf:li>d 0.342909 0.668685</rdf:li>.              <rdf:li>d 0.343419 0.663809</rdf:li>.              <rdf:li>d 0.344251 0.659009</rdf:li>.              <rdf:li>d 0.345114 0.654219</rdf:li>.              <rdf:li>d 0.345866 0.649406</rdf:li>.              <rdf:li>d 0.346863 0.644748</rdf:li>.              <rdf:li>d 0.348644 0.642564</rdf:li>.              <rdf:li>d 0.349519 0.647314</rdf:li>.              <rdf:li>d 0.350112 0.652175</rdf:li>.              <rdf:li>d 0.350857 0.656998</rdf:li>.              <rdf:li>d 0.352032 0.661653</rdf:li>.              <rdf:li>d 0.352480 0.666537</rdf:li>.              <rdf:li>d 0.352781 0.671414</rdf:li>.              <rdf:li>d 0.352781 0.676341</rdf:li>.              <rdf:li>d 0.352781 0.681267</rdf:li>.              <rdf:li>d 0.351101 0.684913</rdf:li>.              <rdf:li>d 0.348887 0.687448</rdf:li>.              <rdf:li>d 0.346044 0.690102</rdf:li>.              <rdf:li>d 0.344177 0.693668</rdf:li>.              <rdf:li>d 0.341867 0.696542</rdf:li>.              <rdf:li>d 0.339026 0.699144</rdf:li>.              <rdf:li>d 0.335720 0.700390</rdf:li>.              <rdf:li>d 0.332873 0.702063</rdf:li>.              <rdf:li>d 0.335649 0.699212</rdf:li>.              <rdf:li>d 0.338615 0.696376</rdf:li>.              <rdf:li>d 0.341769 0.694029</rdf:li>.              <rdf:li>d 0.344224 0.690417</rdf:li>.              <rdf:li>d 0.346570 0.686622</rdf:li>.              <rdf:li>d 0.348722 0.682619</rdf:li>.              <rdf:li>d 0.351338 0.679135</rdf:li>.              <rdf:li>d 0.354278 0.676222</rdf:li>.              <rdf:li>d 0.357311 0.673649</rdf:li>.              <rdf:li>d 0.359828 0.675224</rdf:li>.              <rdf:li>d 0.362767 0.676237</rdf:li>.              <rdf:li>d 0.365068 0.673800</rdf:li>.              <rdf:li>d 0.367324 0.671046</rdf:li>.              <rdf:li>d 0.369235 0.667322</rdf:li>.              <rdf:li>d 0.370007 0.663098</rdf:li>.              <rdf:li>d 0.370007 0.658172</rdf:li>.              <rdf:li>d 0.370840 0.653588</rdf:li>.              <rdf:li>d 0.372116 0.649365</rdf:li>.              <rdf:li>d 0.371731 0.644477</rdf:li>.              <rdf:li>d 0.371664 0.639558</rdf:li>.              <rdf:li>d 0.370776 0.635814</rdf:li>.              <rdf:li>d 0.368564 0.633493</rdf:li>.              <rdf:li>d 0.367253 0.629502</rdf:li>.              <rdf:li>d 0.365267 0.628451</rdf:li>.              <rdf:li>d 0.364816 0.633281</rdf:li>.              <rdf:li>d 0.363784 0.637814</rdf:li>.              <rdf:li>d 0.362720 0.642466</rdf:li>.              <rdf:li>d 0.361696 0.647166</rdf:li>.              <rdf:li>d 0.360295 0.651399</rdf:li>.              <rdf:li>d 0.359049 0.655911</rdf:li>.              <rdf:li>d 0.357887 0.660554</rdf:li>.              <rdf:li>d 0.356457 0.665058</rdf:li>.              <rdf:li>d 0.354838 0.669434</rdf:li>.              <rdf:li>d 0.351827 0.670794</rdf:li>.             </rdf:Seq>.            </crs:Dabs>.            </rdf:Description>.           </rdf:li>.           <rdf:li>.            <rdf:Description.             crs:What="Mask/Paint".             crs:MaskActive="true".             crs:MaskBlendMode="0".             crs:MaskInverted="false".             crs:MaskSyncID="632663CE498BC44F82BBD36593560FAC".             crs:MaskValue="1".             crs:Radius="0.006588".             crs:Flow="1".             crs:CenterWeight="0">.            <crs:Dabs>.             <rdf:Seq>.              <rdf:li>d 0.322711 0.707491</rdf:li>.              <rdf:li>d 0.320735 0.707491</rdf:li>.              <rdf:li>d 0.319430 0.706598</rdf:li>.              <rdf:li>d 0.318288 0.705486</rdf:li>.              <rdf:li>d 0.316615 0.705083</rdf:li>.              <rdf:li>d 0.315091 0.705685</rdf:li>.              <rdf:li>d 0.313115 0.705685</rdf:li>.              <rdf:li>d 0.311381 0.706288</rdf:li>.              <rdf:li>d 0.309591 0.706889</rdf:li>.              <rdf:li>d 0.307615 0.706889</rdf:li>.              <rdf:li>d 0.306074 0.707469</rdf:li>.              <rdf:li>d 0.304550 0.708071</rdf:li>.              <rdf:li>d 0.304273 0.708071</rdf:li>.              <rdf:li>d 0.306249 0.708071</rdf:li>.              <rdf:li>d 0.308225 0.708071</rdf:li>.              <rdf:li>d 0.310201 0.708071</rdf:li>.              <rdf:li>d 0.312178 0.708071</rdf:li>.              <rdf:li>d 0.314154 0.708071</rdf:li>.              <rdf:li>d 0.316130 0.708071</rdf:li>.              <rdf:li>d 0.318106 0.708071</rdf:li>.             </rdf:Seq>.            </crs:Dabs>.            </rdf:Description>.           </rdf:li>.           <rdf:li>.            <rdf:Description.             crs:What="Mask/Paint".             crs:MaskActive="true".             crs:MaskBlendMode="0".             crs:MaskInverted="false".             crs:MaskSyncID="512E5A84DDD93148B27A0D4D6DF7568D".             crs:MaskValue="1".             crs:Radius="0.006588".             crs:Flow="1".             crs:CenterWeight="0">.            <crs:Dabs>.             <rdf:Seq>.              <rdf:li>d 0.294886 0.710749</rdf:li>.              <rdf:li>d 0.293149 0.709617</rdf:li>.              <rdf:li>d 0.292341 0.707784</rdf:li>.              <rdf:li>d 0.290984 0.706959</rdf:li>.              <rdf:li>d 0.289085 0.707322</rdf:li>.              <rdf:li>d 0.287159 0.707561</rdf:li>.              <rdf:li>d 0.285369 0.708162</rdf:li>.              <rdf:li>d 0.283393 0.708162</rdf:li>.              <rdf:li>d 0.281417 0.708162</rdf:li>.              <rdf:li>d 0.279751 0.708575</rdf:li>.              <rdf:li>d 0.279149 0.710405</rdf:li>.             </rdf:Seq>.            </crs:Dabs>.            </rdf:Description>.           </rdf:li>.          </rdf:Seq>.         </crs:Masks>.         </rdf:Description>.        </rdf:li>.       </rdf:Seq>.      </crs:CorrectionMasks>.      </rdf:Description>.     </rdf:li>.    </rdf:Seq>.   </crs:MaskGroupBasedCorrections>.  </rdf:Description>. </rdf:RDF>.</x:xmpmeta>.                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                                                                    .                                                       .<?xpacket end="w"
+  Marker 0xe2 (FFE2) APP2, length=88, remaining size=13127200
+  Marker 0xe2 (FFE2) APP2, length=34, remaining size=13127110
+  Marker 0xdb (FFDB), length=132, remaining size=13127074
+  Marker 0xdd (FFDD), length=4, remaining size=13126940
+  Marker 0xee (FFEE) APP14, length=14, remaining size=13126934
+  Marker 0xc0 (FFC0) SOF0, length=17, remaining size=13126918
+    SOF precision: 8 bits/sample
+  Marker 0xc4 (FFC4), length=198, remaining size=13126899
+
+  SOS (Start of Scan), remaining size: 13126699
+  Marker 0x0 (FF00), length=840, remaining size=13126443
+  Marker 0x0 (FF00), length=1379, remaining size=13125253
+  Marker 0x0 (FF00), length=22165, remaining size=13123226
+  Marker 0x0 (FF00), length=42650, remaining size=13101025
+  Marker 0x0 (FF00), length=26106, remaining size=13058046
+  Marker 0x0 (FF00), length=34618, remaining size=13031927
+  Marker 0x0 (FF00), length=25054, remaining size=12997047
+  Marker 0x0 (FF00), length=34997, remaining size=12971048
+  Marker 0x0 (FF00), length=39340, remaining size=12935878
+  Marker 0x0 (FF00), length=56509, remaining size=12896022
+  Marker 0x0 (FF00), length=3142, remaining size=12839484
+  Marker 0x0 (FF00), length=45101, remaining size=12836130
+  Marker 0x0 (FF00), length=52506, remaining size=12790831
+  Marker 0x0 (FF00), length=13814, remaining size=12738263
+  Marker 0x0 (FF00), length=17204, remaining size=12724441
+  Marker 0x0 (FF00), length=11056, remaining size=12705852
+  Marker 0x0 (FF00), length=6014, remaining size=12694639
+  Marker 0x0 (FF00), length=36096, remaining size=12688563
+  Marker 0x0 (FF00), length=41631, remaining size=12652450
+  Marker 0x0 (FF00), length=15988, remaining size=12610803
+  Marker 0x0 (FF00), length=53970, remaining size=12594719
+  Marker 0x0 (FF00), length=43743, remaining size=12540726
+  Marker 0x0 (FF00), length=27727, remaining size=12496914
+  Marker 0x0 (FF00), length=36336, remaining size=12469094
+  Marker 0x0 (FF00), length=15618, remaining size=12432629
+  Marker 0x0 (FF00), length=25176, remaining size=12417003
+  Marker 0x0 (FF00), length=8371, remaining size=12391823
+  Marker 0x0 (FF00), length=40954, remaining size=12383224
+  Marker 0x0 (FF00), length=34510, remaining size=12341833
+  Marker 0x0 (FF00), length=31232, remaining size=12307304
+  Marker 0x0 (FF00), length=33360, remaining size=12274827
+  Marker 0x0 (FF00), length=31238, remaining size=12241399
+  Marker 0x0 (FF00), length=12518, remaining size=12209886
+  Marker 0x0 (FF00), length=35377, remaining size=12197123
+  Marker 0x0 (FF00), length=3175, remaining size=12161510
+  Marker 0x0 (FF00), length=7420, remaining size=12157951
+  Marker 0x0 (FF00), length=58832, remaining size=12150478
+  Marker 0x0 (FF00), length=8510, remaining size=12091630
+  Marker 0x0 (FF00), length=38599, remaining size=12082058
+  Marker 0x0 (FF00), length=25911, remaining size=12042758
+  Marker 0x0 (FF00), length=5520, remaining size=12016624
+  Marker 0xd7 (FFD7), length=64765, remaining size=12010749
+  Marker 0x0 (FF00), length=13461, remaining size=11945740
+  Marker 0x0 (FF00), length=47006, remaining size=11932057
+  Marker 0x0 (FF00), length=3543, remaining size=11885017
+  Marker 0x0 (FF00), length=17490, remaining size=11881271
+  Marker 0x0 (FF00), length=60579, remaining size=11863690
+  Marker 0x0 (FF00), length=57619, remaining size=11802949
+  Marker 0x0 (FF00), length=62393, remaining size=11745313
+  Marker 0x0 (FF00), length=17994, remaining size=11682893
+  Marker 0x0 (FF00), length=3946, remaining size=11664654
+  Marker 0x0 (FF00), length=47604, remaining size=11660474
+  Marker 0x0 (FF00), length=23066, remaining size=11612855
+  Marker 0x0 (FF00), length=43464, remaining size=11589467
+  Marker 0x0 (FF00), length=61384, remaining size=11544588
+  Marker 0x0 (FF00), length=9413, remaining size=11482881
+  Marker 0x0 (FF00), length=43126, remaining size=11473270
+  Marker 0xd2 (FFD2), length=63747, remaining size=11430118
+  Marker 0x0 (FF00), length=35442, remaining size=11366326
+  Marker 0x0 (FF00), length=20142, remaining size=11330854
+  Marker 0x0 (FF00), length=3941, remaining size=11310530
+  Marker 0x0 (FF00), length=14183, remaining size=11306386
+  Marker 0x0 (FF00), length=36612, remaining size=11292029
+  Marker 0x0 (FF00), length=42666, remaining size=11255412
+  Marker 0x0 (FF00), length=54167, remaining size=11212562
+  Marker 0x0 (FF00), length=34825, remaining size=11158182
+  Marker 0x0 (FF00), length=1918, remaining size=11122802
+  Marker 0x0 (FF00), length=34361, remaining size=11120096
+  Marker 0x0 (FF00), length=58334, remaining size=11085723
+  Marker 0x0 (FF00), length=4223, remaining size=11027119
+  Marker 0x0 (FF00), length=12281, remaining size=11022889
+  Marker 0x0 (FF00), length=51763, remaining size=11010605
+  Marker 0x0 (FF00), length=19831, remaining size=10958446
+  Marker 0x0 (FF00), length=6712, remaining size=10937969
+  Marker 0x0 (FF00), length=44661, remaining size=10930425
+  Marker 0xd7 (FFD7), length=63891, remaining size=10885733
+  Marker 0x0 (FF00), length=21363, remaining size=10821489
+  Marker 0x0 (FF00), length=9563, remaining size=10799932
+  Marker 0x0 (FF00), length=20799, remaining size=10790308
+  Marker 0x0 (FF00), length=46723, remaining size=10769469
+  Marker 0x0 (FF00), length=35807, remaining size=10722295
+  Marker 0x0 (FF00), length=3532, remaining size=10686393
+  Marker 0x0 (FF00), length=42910, remaining size=10682571
+  Marker 0x0 (FF00), length=44714, remaining size=10639091
+  Marker 0x0 (FF00), length=50174, remaining size=10593172
+  Marker 0x0 (FF00), length=40353, remaining size=10542959
+  Marker 0x0 (FF00), length=61697, remaining size=10502602
+  Marker 0x0 (FF00), length=19722, remaining size=10440771
+  Marker 0x0 (FF00), length=3127, remaining size=10420009
+  Marker 0x0 (FF00), length=14442, remaining size=10416538
+  Marker 0x0 (FF00), length=42589, remaining size=10401640
+  Marker 0x0 (FF00), length=23315, remaining size=10358949
+  Marker 0x0 (FF00), length=46036, remaining size=10335552
+  Marker 0x0 (FF00), length=53013, remaining size=10289415
+  Marker 0x0 (FF00), length=7484, remaining size=10236313
+  Marker 0xd2 (FFD2), length=63904, remaining size=10228671
+  Marker 0x0 (FF00), length=33814, remaining size=10164523
+  Marker 0x0 (FF00), length=61141, remaining size=10129926
+  Marker 0x0 (FF00), length=38554, remaining size=10068712
+  Marker 0x0 (FF00), length=57746, remaining size=10028812
+  Marker 0x0 (FF00), length=18081, remaining size=9970243
+  Marker 0x0 (FF00), length=20577, remaining size=9951803
+  Marker 0x0 (FF00), length=38095, remaining size=9930875
+  Marker 0xd4 (FFD4), length=63909, remaining size=9892543
+  Marker 0x0 (FF00), length=2497, remaining size=9828437
+  Marker 0x0 (FF00), length=6375, remaining size=9825903
+  Marker 0x0 (FF00), length=33160, remaining size=9818919
+  Marker 0x0 (FF00), length=4085, remaining size=9785683
+  Marker 0x0 (FF00), length=38476, remaining size=9781512
+  Marker 0x0 (FF00), length=51870, remaining size=9743005
+  Marker 0x0 (FF00), length=42878, remaining size=9690840
+  Marker 0x0 (FF00), length=33979, remaining size=9647578
+  Marker 0x0 (FF00), length=19600, remaining size=9612005
+  Marker 0x0 (FF00), length=254, remaining size=9591265
+  Marker 0x0 (FF00), length=35517, remaining size=9590885
+  Marker 0x0 (FF00), length=28239, remaining size=9555316
+  Marker 0x0 (FF00), length=4337, remaining size=9526745
+  Marker 0x0 (FF00), length=50471, remaining size=9522287
+  Marker 0xd4 (FFD4), length=63872, remaining size=9471777
+  Marker 0x0 (FF00), length=51061, remaining size=9407598
+  Marker 0x0 (FF00), length=17823, remaining size=9356521
+  Marker 0x0 (FF00), length=42334, remaining size=9338613
+  Marker 0x0 (FF00), length=4988, remaining size=9296212
+  Marker 0x0 (FF00), length=25550, remaining size=9291199
+  Marker 0x0 (FF00), length=20910, remaining size=9265297
+  Marker 0x0 (FF00), length=37100, remaining size=9243738
+  Marker 0x0 (FF00), length=37529, remaining size=9205733
+  Marker 0x0 (FF00), length=11521, remaining size=9168094
+  Marker 0x0 (FF00), length=2940, remaining size=9156497
+  Marker 0x0 (FF00), length=39599, remaining size=9153496
+  Marker 0x0 (FF00), length=24445, remaining size=9113800
+  Marker 0x0 (FF00), length=54091, remaining size=9088970
+  Marker 0x0 (FF00), length=11752, remaining size=9034391
+  Marker 0x0 (FF00), length=20596, remaining size=9022633
+  Marker 0x0 (FF00), length=12776, remaining size=9001933
+  Marker 0x0 (FF00), length=32031, remaining size=8989094
+  Marker 0x0 (FF00), length=24804, remaining size=8956907
+  Marker 0x0 (FF00), length=20238, remaining size=8931819
+  Marker 0x0 (FF00), length=10247, remaining size=8911231
+  Marker 0x0 (FF00), length=675, remaining size=8900106
+  Marker 0x0 (FF00), length=54943, remaining size=8899056
+  Marker 0x0 (FF00), length=19942, remaining size=8843883
+  Marker 0x0 (FF00), length=24314, remaining size=8823921
+  Marker 0x0 (FF00), length=41848, remaining size=8799420
+  Marker 0x0 (FF00), length=54345, remaining size=8756786
+  Marker 0x0 (FF00), length=3725, remaining size=8702156
+  Marker 0x0 (FF00), length=59210, remaining size=8698164
+  Marker 0x0 (FF00), length=38891, remaining size=8638847
+  Marker 0x0 (FF00), length=21814, remaining size=8599881
+  Marker 0x0 (FF00), length=43159, remaining size=8577866
+  Marker 0x0 (FF00), length=58665, remaining size=8534358
+  Marker 0x0 (FF00), length=41954, remaining size=8475561
+  Marker 0x0 (FF00), length=546, remaining size=8433604
+  Marker 0x0 (FF00), length=41553, remaining size=8432911
+  Marker 0x0 (FF00), length=3913, remaining size=8390561
+  Marker 0x0 (FF00), length=40635, remaining size=8386438
+  Marker 0x0 (FF00), length=62272, remaining size=8345534
+  Marker 0x0 (FF00), length=50867, remaining size=8282641
+  Marker 0x0 (FF00), length=36991, remaining size=8231669
+  Marker 0x0 (FF00), length=28503, remaining size=8194674
+  Marker 0x0 (FF00), length=12564, remaining size=8165464
+  Marker 0xd6 (FFD6), length=63529, remaining size=8152353
+  Marker 0x0 (FF00), length=11612, remaining size=8088547
+  Marker 0x0 (FF00), length=4216, remaining size=8076900
+  Marker 0x0 (FF00), length=50507, remaining size=8072592
+  Marker 0x0 (FF00), length=11208, remaining size=8021653
+  Marker 0x0 (FF00), length=26571, remaining size=8010296
+  Marker 0x0 (FF00), length=56515, remaining size=7983303
+  Marker 0x0 (FF00), length=43660, remaining size=7926144
+  Marker 0x0 (FF00), length=47983, remaining size=7882395
+  Marker 0x0 (FF00), length=27671, remaining size=7834029
+  Marker 0x0 (FF00), length=64841, remaining size=7804531
+  Marker 0x0 (FF00), length=42577, remaining size=7739211
+  Marker 0x0 (FF00), length=21269, remaining size=7696248
+  Marker 0x0 (FF00), length=11603, remaining size=7674566
+  Marker 0x0 (FF00), length=2071, remaining size=7662407
+  Marker 0x0 (FF00), length=40846, remaining size=7659497
+  Marker 0x0 (FF00), length=55813, remaining size=7618124
+  Marker 0x0 (FF00), length=29352, remaining size=7561899
+  Marker 0x0 (FF00), length=4850, remaining size=7532530
+  Marker 0x0 (FF00), length=10230, remaining size=7527416
+  Marker 0x0 (FF00), length=3196, remaining size=7517034
+  Marker 0x0 (FF00), length=54567, remaining size=7513733
+  Marker 0x0 (FF00), length=32105, remaining size=7459091
+  Marker 0x0 (FF00), length=34955, remaining size=7426918
+  Marker 0x0 (FF00), length=51612, remaining size=7391305
+  Marker 0x0 (FF00), length=25476, remaining size=7339575
+  Marker 0x0 (FF00), length=42676, remaining size=7313212
+  Marker 0x0 (FF00), length=51634, remaining size=7270529
+  Marker 0x0 (FF00), length=50578, remaining size=7218879
+  Marker 0x0 (FF00), length=54000, remaining size=7168138
+  Marker 0x0 (FF00), length=20775, remaining size=7113638
+  Marker 0x0 (FF00), length=8258, remaining size=7092358
+  Marker 0x0 (FF00), length=19810, remaining size=7083430
+  Marker 0x0 (FF00), length=13313, remaining size=7062971
+  Marker 0x0 (FF00), length=6168, remaining size=7049562
+  Marker 0x0 (FF00), length=17023, remaining size=7043061
+  Marker 0x0 (FF00), length=21169, remaining size=7025953
+  Marker 0x0 (FF00), length=27146, remaining size=7004782
+  Marker 0x0 (FF00), length=13118, remaining size=6977524
+  Marker 0x0 (FF00), length=56133, remaining size=6963647
+  Marker 0x0 (FF00), length=35026, remaining size=6907256
+  Marker 0x0 (FF00), length=49558, remaining size=6871796
+  Marker 0x0 (FF00), length=57874, remaining size=6819964
+  Marker 0x0 (FF00), length=35211, remaining size=6761688
+  Marker 0x0 (FF00), length=56580, remaining size=6726152
+  Marker 0x0 (FF00), length=17479, remaining size=6669499
+  Marker 0x0 (FF00), length=21481, remaining size=6652015
+  Marker 0x0 (FF00), length=21260, remaining size=6629382
+  Marker 0x0 (FF00), length=39623, remaining size=6607426
+  Marker 0x0 (FF00), length=34852, remaining size=6567136
+  Marker 0x0 (FF00), length=32327, remaining size=6531009
+  Marker 0x0 (FF00), length=39402, remaining size=6498671
+  Marker 0x0 (FF00), length=3356, remaining size=6459191
+  Marker 0x0 (FF00), length=42642, remaining size=6455395
+  Marker 0x0 (FF00), length=18908, remaining size=6412071
+  Marker 0x0 (FF00), length=28380, remaining size=6392561
+  Marker 0x0 (FF00), length=18090, remaining size=6364033
+  Marker 0x0 (FF00), length=20021, remaining size=6345456
+  Marker 0x0 (FF00), length=8919, remaining size=6325015
+  Marker 0x0 (FF00), length=52781, remaining size=6315944
+  Marker 0x0 (FF00), length=17343, remaining size=6263141
+  Marker 0x0 (FF00), length=50014, remaining size=6245679
+  Marker 0x0 (FF00), length=19592, remaining size=6195512
+  Marker 0x0 (FF00), length=29916, remaining size=6175741
+  Marker 0x0 (FF00), length=34491, remaining size=6145467
+  Marker 0x0 (FF00), length=666, remaining size=6110102
+  Marker 0x0 (FF00), length=33503, remaining size=6109416
+  Marker 0x0 (FF00), length=4479, remaining size=6075239
+  Marker 0x0 (FF00), length=29237, remaining size=6070681
+  Marker 0x0 (FF00), length=60041, remaining size=6041399
+  Marker 0x0 (FF00), length=56132, remaining size=5981226
+  Marker 0x0 (FF00), length=3367, remaining size=5925068
+  Marker 0x0 (FF00), length=29822, remaining size=5920319
+  Marker 0x0 (FF00), length=22735, remaining size=5890211
+  Marker 0x0 (FF00), length=46683, remaining size=5866698
+  Marker 0x0 (FF00), length=26450, remaining size=5819624
+  Marker 0x0 (FF00), length=10082, remaining size=5791594
+  Marker 0x0 (FF00), length=45951, remaining size=5781445
+  Marker 0x0 (FF00), length=51201, remaining size=5735384
+  Marker 0x0 (FF00), length=22834, remaining size=5683940
+  Marker 0x0 (FF00), length=53216, remaining size=5660865
+  Marker 0x0 (FF00), length=24797, remaining size=5607506
+  Marker 0x0 (FF00), length=36170, remaining size=5582650
+  Marker 0x0 (FF00), length=10061, remaining size=5546440
+  Marker 0x0 (FF00), length=35833, remaining size=5536269
+  Marker 0x0 (FF00), length=41029, remaining size=5500227
+  Marker 0x0 (FF00), length=64030, remaining size=5458804
+  Marker 0x0 (FF00), length=7651, remaining size=5394737
+  Marker 0x0 (FF00), length=1902, remaining size=5387034
+  Marker 0x0 (FF00), length=36170, remaining size=5385021
+  Marker 0x0 (FF00), length=46141, remaining size=5348784
+  Marker 0x0 (FF00), length=6636, remaining size=5301834
+  Marker 0x0 (FF00), length=36323, remaining size=5294707
+  Marker 0x0 (FF00), length=12938, remaining size=5258321
+  Marker 0x0 (FF00), length=10363, remaining size=5245214
+  Marker 0x0 (FF00), length=60047, remaining size=5234816
+  Marker 0x0 (FF00), length=3785, remaining size=5174683
+  Marker 0x0 (FF00), length=850, remaining size=5170827
+  Marker 0x0 (FF00), length=51665, remaining size=5169946
+  Marker 0x0 (FF00), length=6740, remaining size=5118138
+  Marker 0x0 (FF00), length=26218, remaining size=5111096
+  Marker 0x0 (FF00), length=9150, remaining size=5084759
+  Marker 0x0 (FF00), length=55077, remaining size=5075536
+  Marker 0x0 (FF00), length=47310, remaining size=5019687
+  Marker 0x0 (FF00), length=63046, remaining size=4972119
+  Marker 0x0 (FF00), length=58157, remaining size=4909049
+  Marker 0x0 (FF00), length=7196, remaining size=4850422
+  Marker 0x0 (FF00), length=3622, remaining size=4842720
+  Marker 0x0 (FF00), length=23173, remaining size=4839069
+  Marker 0x0 (FF00), length=9935, remaining size=4814746
+  Marker 0x0 (FF00), length=22364, remaining size=4804661
+  Marker 0x0 (FF00), length=44058, remaining size=4782057
+  Marker 0x0 (FF00), length=19748, remaining size=4737928
+  Marker 0x0 (FF00), length=38005, remaining size=4718178
+  Marker 0x0 (FF00), length=53381, remaining size=4678520
+  Marker 0x0 (FF00), length=53961, remaining size=4625108
+  Marker 0x0 (FF00), length=38120, remaining size=4570787
+  Marker 0x0 (FF00), length=8726, remaining size=4532384
+  Marker 0x0 (FF00), length=27966, remaining size=4522348
+  Marker 0x0 (FF00), length=10085, remaining size=4494322
+  Marker 0x0 (FF00), length=44388, remaining size=4484130
+  Marker 0x0 (FF00), length=5818, remaining size=4439709
+  Marker 0x0 (FF00), length=11124, remaining size=4432654
+  Marker 0x0 (FF00), length=25315, remaining size=4421342
+  Marker 0x0 (FF00), length=25395, remaining size=4394246
+  Marker 0x0 (FF00), length=36221, remaining size=4368453
+  Marker 0x0 (FF00), length=58930, remaining size=4331345
+  Marker 0x0 (FF00), length=37955, remaining size=4272098
+  Marker 0x0 (FF00), length=38863, remaining size=4233884
+  Marker 0x0 (FF00), length=60934, remaining size=4194922
+  Marker 0x0 (FF00), length=38202, remaining size=4132660
+  Marker 0x0 (FF00), length=3772, remaining size=4094118
+  Marker 0x0 (FF00), length=27099, remaining size=4089561
+  Marker 0x0 (FF00), length=27115, remaining size=4062172
+  Marker 0x0 (FF00), length=52478, remaining size=4034827
+  Marker 0x0 (FF00), length=6129, remaining size=3982216
+  Marker 0x0 (FF00), length=28141, remaining size=3974475
+  Marker 0x0 (FF00), length=40788, remaining size=3946305
+  Marker 0xd3 (FFD3), length=58580, remaining size=3904627
+  Marker 0x0 (FF00), length=7834, remaining size=3846040
+  Marker 0x0 (FF00), length=45760, remaining size=3838074
+  Marker 0x0 (FF00), length=38450, remaining size=3792034
+  Marker 0x0 (FF00), length=40219, remaining size=3752812
+  Marker 0x0 (FF00), length=45376, remaining size=3711721
+  Marker 0x0 (FF00), length=0, remaining size=3665163
+  Marker 0x0 (FF00), length=7565, remaining size=3665053
+  Marker 0x0 (FF00), length=31373, remaining size=3655934
+  Marker 0x0 (FF00), length=62805, remaining size=3624107
+  Marker 0x0 (FF00), length=64094, remaining size=3560459
+  Marker 0x0 (FF00), length=20855, remaining size=3494937
+  Marker 0x0 (FF00), length=62658, remaining size=3473916
+  Marker 0x0 (FF00), length=26855, remaining size=3411038
+  Marker 0x0 (FF00), length=9186, remaining size=3383828
+  Marker 0x0 (FF00), length=37769, remaining size=3373637
+  Marker 0x0 (FF00), length=590, remaining size=3335775
+  Marker 0x0 (FF00), length=46432, remaining size=3334888
+  Marker 0x0 (FF00), length=42999, remaining size=3286976
+  Marker 0x0 (FF00), length=28838, remaining size=3243747
+  Marker 0x0 (FF00), length=36379, remaining size=3214569
+  Marker 0x0 (FF00), length=1951, remaining size=3177631
+  Marker 0x0 (FF00), length=16811, remaining size=3173632
+  Marker 0x0 (FF00), length=44778, remaining size=3156360
+  Marker 0x0 (FF00), length=52109, remaining size=3111387
+  Marker 0x0 (FF00), length=57914, remaining size=3059237
+  Marker 0x0 (FF00), length=60743, remaining size=3000442
+  Marker 0x0 (FF00), length=14256, remaining size=2939453
+  Marker 0x0 (FF00), length=14927, remaining size=2925134
+  Marker 0x0 (FF00), length=55373, remaining size=2909942
+  Marker 0x0 (FF00), length=37455, remaining size=2854451
+  Marker 0x0 (FF00), length=50335, remaining size=2816976
+  Marker 0x0 (FF00), length=36925, remaining size=2766298
+  Marker 0x0 (FF00), length=51439, remaining size=2728754
+  Marker 0x0 (FF00), length=16892, remaining size=2677068
+  Marker 0x0 (FF00), length=44239, remaining size=2659669
+  Marker 0x0 (FF00), length=14542, remaining size=2615079
+  Marker 0x0 (FF00), length=22307, remaining size=2600510
+  Marker 0x0 (FF00), length=50369, remaining size=2578132
+  Marker 0xd3 (FFD3), length=54717, remaining size=2526603
+  Marker 0x0 (FF00), length=37570, remaining size=2471869
+  Marker 0x0 (FF00), length=7489, remaining size=2432959
+  Marker 0x0 (FF00), length=32554, remaining size=2425306
+  Marker 0x0 (FF00), length=32046, remaining size=2392163
+  Marker 0x0 (FF00), length=7591, remaining size=2359997
+  Marker 0x0 (FF00), length=25682, remaining size=2351640
+  Marker 0x0 (FF00), length=40270, remaining size=2325611
+  Marker 0x0 (FF00), length=24675, remaining size=2284950
+  Marker 0x0 (FF00), length=50191, remaining size=2259950
+  Marker 0x0 (FF00), length=8627, remaining size=2208768
+  Marker 0x0 (FF00), length=27641, remaining size=2199205
+  Marker 0x0 (FF00), length=54328, remaining size=2171302
+  Marker 0x0 (FF00), length=20190, remaining size=2116913
+  Marker 0x0 (FF00), length=41456, remaining size=2096693
+  Marker 0x0 (FF00), length=16189, remaining size=2054651
+  Marker 0x0 (FF00), length=14697, remaining size=2036757
+  Marker 0x0 (FF00), length=3188, remaining size=2020302
+  Marker 0x0 (FF00), length=32124, remaining size=2016796
+  Marker 0xd3 (FFD3), length=59434, remaining size=1984507
+  Marker 0x0 (FF00), length=35645, remaining size=1924907
+  Marker 0x0 (FF00), length=6621, remaining size=1889148
+  Marker 0x0 (FF00), length=1670, remaining size=1882178
+  Marker 0x0 (FF00), length=15093, remaining size=1879810
+  Marker 0x0 (FF00), length=36160, remaining size=1863861
+  Marker 0x0 (FF00), length=55577, remaining size=1827638
+  Marker 0x0 (FF00), length=3449, remaining size=1771299
+  Marker 0x0 (FF00), length=49614, remaining size=1767815
+  Marker 0x0 (FF00), length=26737, remaining size=1717978
+  Marker 0x0 (FF00), length=15527, remaining size=1690709
+  Marker 0x0 (FF00), length=36344, remaining size=1674888
+  Marker 0x0 (FF00), length=37731, remaining size=1638384
+  Marker 0x0 (FF00), length=54767, remaining size=1600105
+  Marker 0x0 (FF00), length=2745, remaining size=1544811
+  Marker 0x0 (FF00), length=12673, remaining size=1541323
+  Marker 0x0 (FF00), length=8719, remaining size=1528076
+  Marker 0x0 (FF00), length=37336, remaining size=1519304
+  Marker 0x0 (FF00), length=15244, remaining size=1480450
+  Marker 0x0 (FF00), length=38534, remaining size=1464159
+  Marker 0x0 (FF00), length=51439, remaining size=1425185
+  Marker 0x0 (FF00), length=54988, remaining size=1372644
+  Marker 0x0 (FF00), length=27055, remaining size=1316419
+  Marker 0x0 (FF00), length=34851, remaining size=1289164
+  Marker 0x0 (FF00), length=7428, remaining size=1252769
+  Marker 0x0 (FF00), length=7015, remaining size=1244987
+  Marker 0x0 (FF00), length=44076, remaining size=1237176
+  Marker 0x0 (FF00), length=53450, remaining size=1192261
+  Marker 0x0 (FF00), length=25901, remaining size=1138276
+  Marker 0x0 (FF00), length=20748, remaining size=1111568
+  Marker 0x0 (FF00), length=36378, remaining size=1090774
+  Marker 0x0 (FF00), length=36606, remaining size=1054244
+  Marker 0x0 (FF00), length=11687, remaining size=1017563
+  Marker 0x0 (FF00), length=26606, remaining size=1005309
+  Marker 0x0 (FF00), length=14030, remaining size=978545
+  Marker 0x0 (FF00), length=29902, remaining size=964462
+  Marker 0x0 (FF00), length=49581, remaining size=934478
+  Marker 0x0 (FF00), length=20115, remaining size=882635
+  Marker 0x0 (FF00), length=58448, remaining size=862492
+  Marker 0x0 (FF00), length=27000, remaining size=803975
+  Marker 0x0 (FF00), length=36964, remaining size=776164
+  Marker 0x0 (FF00), length=8314, remaining size=738571
+  Marker 0x0 (FF00), length=12719, remaining size=729784
+  Marker 0x0 (FF00), length=20951, remaining size=716997
+  Marker 0x0 (FF00), length=7484, remaining size=694863
+  Marker 0x0 (FF00), length=54068, remaining size=687012
+  Marker 0x0 (FF00), length=54750, remaining size=632500
+  Marker 0x0 (FF00), length=2438, remaining size=576679
+  Marker 0x0 (FF00), length=45396, remaining size=574041
+  Marker 0x0 (FF00), length=35180, remaining size=528261
+  Marker 0x0 (FF00), length=52470, remaining size=493075
+  Marker 0x0 (FF00), length=38573, remaining size=440515
+  Marker 0x0 (FF00), length=15051, remaining size=401452
+  Marker 0x0 (FF00), length=25187, remaining size=385636
+  Marker 0x0 (FF00), length=47397, remaining size=360260
+  Marker 0x0 (FF00), length=22482, remaining size=312450
+  Marker 0x0 (FF00), length=19115, remaining size=289899
+  Marker 0x0 (FF00), length=3404, remaining size=270731
+  Marker 0x0 (FF00), length=36212, remaining size=266944
+  Marker 0x0 (FF00), length=36440, remaining size=230560
+  Marker 0x0 (FF00), length=64264, remaining size=193945
+  Marker 0x0 (FF00), length=6581, remaining size=129654
+  Marker 0x0 (FF00), length=9320, remaining size=122873
+  Marker 0x0 (FF00), length=47111, remaining size=113543
+  Marker 0xd1 (FFD1), length=62702, remaining size=66378
+  Marker 0x0 (FF00), length=36912, remaining size=2918
+
+[GainMap] Extracting gain map from: C:\hdrscreensaver\resources\P1020583.jpg
+[GainMap] First EOI (FFD9) found at offset: 13373
+[GainMap] Second SOI (FFD8) found at offset: 13535
+[GainMap] Second EOI (FFD9) found at offset: 25970
+[GainMap] Gain map JPEG size: 12435 bytes
+[GainMap] XMP packet extracted (52646 bytes)
+[GainMap] crs:HDRMaxValue = +4.00
+[GainMap] crs:SDRBrightness = +100
+[GainMap] crs:SDRContrast = +20
+[GainMap] crs:SDRClarity = 0
+[GainMap] crs:SDRHighlights = -100
+[GainMap] crs:SDRShadows = -100
+[GainMap] crs:SDRWhites = 0
+[GainMap] crs:SDRBlend = 0
+[GainMap] Extraction not yet implemented.
+[DEBUG] UploadImageBuffer: pixelData=000001A78000B040, width=4592, height=3448, rowBytes=36736
+[LOG] [DX11] Uploaded image buffer to DirectX texture.
+[LOG] DX11: Entering main message/render loop.
+[LOG] DX11: Message received: 49353
+[LOG] DX11: Compiling shaders... (no color conversion, Skia handles all color management)
+[LOG] DX11: Shaders compiled and input layout created (no color conversion).
+[LOG] DX11: Creating vertex buffer for fullscreen quad (aspect-correct).
+[LOG] DX11: Setting up pipeline and drawing quad.
+[LOG] DX11: Presenting fullscreen textured quad.
+[LOG] DX11: Message received: 256
+[LOG] DX11: Quit/close/key message received, exiting loop.
+[LOG] DirectX10BitBackend finished. Exiting.
+
+
+
+
+[GainMap] Extracting gain map from: C:\hdrscreensaver\resources\P1020583.jpg
+[GainMap] JPEG marker scan:
+  Offset: 0  Marker: 0xd8 (SOI)
+  Offset: 2  Marker: 0xe1 (APP1), length=13369
+  Offset: 13373  Marker: 0xed (APP13), length=12624
+  Offset: 25999  Marker: 0xe2 (APP2), length=564
+  Offset: 26565  Marker: 0xe1 (APP1), length=33258
+  Offset: 59825  Marker: 0xe2 (APP2), length=88
+  Offset: 59915  Marker: 0xe2 (APP2), length=34
+  Offset: 59951  Marker: 0xdb (DQT), length=132
+  Offset: 60085  Marker: 0xdd (DRI), length=4
+  Offset: 60091  Marker: 0xee (APP14), length=14
+  Offset: 60107  Marker: 0xc0 (SOF0), length=17
+  Offset: 60126  Marker: 0xc4 (DHT), length=198
+  Offset: 60326  Marker: 0xda (SOS), length=12
+  Offset: 72825  Marker: 0xd0
+  Offset: 85257  Marker: 0xd1
+  Offset: 97773  Marker: 0xd2
+  Offset: 110128  Marker: 0xd3
+  Offset: 122582  Marker: 0xd4
+  Offset: 135106  Marker: 0xd5
+  Offset: 147741  Marker: 0xd6
+  Offset: 160326  Marker: 0xd7
+  Offset: 172848  Marker: 0xd0
+  Offset: 185365  Marker: 0xd1
+  Offset: 197903  Marker: 0xd2
+  Offset: 210498  Marker: 0xd3
+  Offset: 222994  Marker: 0xd4
+  Offset: 235619  Marker: 0xd5
+  Offset: 248162  Marker: 0xd6
+  Offset: 260598  Marker: 0xd7
+  Offset: 273196  Marker: 0xd0
+  Offset: 285887  Marker: 0xd1
+  Offset: 298556  Marker: 0xd2
+  Offset: 311214  Marker: 0xd3
+  Offset: 324082  Marker: 0xd4
+  Offset: 336819  Marker: 0xd5
+  Offset: 349719  Marker: 0xd6
+  Offset: 362663  Marker: 0xd7
+  Offset: 375340  Marker: 0xd0
+  Offset: 387879  Marker: 0xd1
+  Offset: 400509  Marker: 0xd2
+  Offset: 412920  Marker: 0xd3
+  Offset: 425319  Marker: 0xd4
+  Offset: 437770  Marker: 0xd5
+  Offset: 450194  Marker: 0xd6
+  Offset: 462599  Marker: 0xd7
+  Offset: 475289  Marker: 0xd0
+  Offset: 487929  Marker: 0xd1
+  Offset: 500666  Marker: 0xd2
+  Offset: 513400  Marker: 0xd3
+  Offset: 526346  Marker: 0xd4
+  Offset: 539322  Marker: 0xd5
+  Offset: 552095  Marker: 0xd6
+  Offset: 564697  Marker: 0xd7
+  Offset: 577309  Marker: 0xd0
+  Offset: 589840  Marker: 0xd1
+  Offset: 602474  Marker: 0xd2
+  Offset: 615286  Marker: 0xd3
+  Offset: 627963  Marker: 0xd4
+  Offset: 640540  Marker: 0xd5
+  Offset: 653105  Marker: 0xd6
+  Offset: 665722  Marker: 0xd7
+  Offset: 678558  Marker: 0xd0
+  Offset: 691343  Marker: 0xd1
+  Offset: 704150  Marker: 0xd2
+  Offset: 716963  Marker: 0xd3
+  Offset: 729694  Marker: 0xd4
+  Offset: 742193  Marker: 0xd5
+  Offset: 754964  Marker: 0xd6
+  Offset: 767662  Marker: 0xd7
+  Offset: 780434  Marker: 0xd0
+  Offset: 793344  Marker: 0xd1
+  Offset: 806170  Marker: 0xd2
+  Offset: 818970  Marker: 0xd3
+  Offset: 831690  Marker: 0xd4
+  Offset: 844250  Marker: 0xd5
+  Offset: 856842  Marker: 0xd6
+  Offset: 869565  Marker: 0xd7
+  Offset: 882497  Marker: 0xd0
+  Offset: 895445  Marker: 0xd1
+  Offset: 908491  Marker: 0xd2
+  Offset: 921582  Marker: 0xd3
+  Offset: 934630  Marker: 0xd4
+  Offset: 947499  Marker: 0xd5
+  Offset: 960331  Marker: 0xd6
+  Offset: 973165  Marker: 0xd7
+  Offset: 985990  Marker: 0xd0
+  Offset: 998736  Marker: 0xd1
+  Offset: 1011512  Marker: 0xd2
+  Offset: 1024182  Marker: 0xd3
+  Offset: 1036877  Marker: 0xd4
+  Offset: 1049524  Marker: 0xd5
+  Offset: 1062209  Marker: 0xd6
+  Offset: 1074840  Marker: 0xd7
+  Offset: 1087473  Marker: 0xd0
+  Offset: 1100080  Marker: 0xd1
+  Offset: 1112766  Marker: 0xd2
+  Offset: 1125458  Marker: 0xd3
+  Offset: 1138130  Marker: 0xd4
+  Offset: 1150812  Marker: 0xd5
+  Offset: 1163546  Marker: 0xd6
+  Offset: 1176276  Marker: 0xd7
+  Offset: 1189229  Marker: 0xd0
+  Offset: 1202508  Marker: 0xd1
+  Offset: 1216039  Marker: 0xd2
+  Offset: 1229691  Marker: 0xd3
+  Offset: 1243549  Marker: 0xd4
+  Offset: 1257437  Marker: 0xd5
+  Offset: 1271425  Marker: 0xd6
+  Offset: 1285667  Marker: 0xd7
+  Offset: 1300311  Marker: 0xd0
+  Offset: 1315130  Marker: 0xd1
+  Offset: 1330245  Marker: 0xd2
+  Offset: 1345797  Marker: 0xd3
+  Offset: 1361761  Marker: 0xd4
+  Offset: 1378008  Marker: 0xd5
+  Offset: 1394553  Marker: 0xd6
+  Offset: 1411335  Marker: 0xd7
+  Offset: 1428267  Marker: 0xd0
+  Offset: 1445621  Marker: 0xd1
+  Offset: 1463356  Marker: 0xd2
+  Offset: 1481321  Marker: 0xd3
+  Offset: 1499479  Marker: 0xd4
+  Offset: 1517794  Marker: 0xd5
+  Offset: 1536181  Marker: 0xd6
+  Offset: 1554566  Marker: 0xd7
+  Offset: 1573111  Marker: 0xd0
+  Offset: 1591931  Marker: 0xd1
+  Offset: 1611067  Marker: 0xd2
+  Offset: 1630062  Marker: 0xd3
+  Offset: 1648550  Marker: 0xd4
+  Offset: 1666750  Marker: 0xd5
+  Offset: 1684739  Marker: 0xd6
+  Offset: 1702687  Marker: 0xd7
+  Offset: 1720804  Marker: 0xd0
+  Offset: 1738874  Marker: 0xd1
+  Offset: 1756907  Marker: 0xd2
+  Offset: 1775039  Marker: 0xd3
+  Offset: 1793124  Marker: 0xd4
+  Offset: 1811580  Marker: 0xd5
+  Offset: 1830209  Marker: 0xd6
+  Offset: 1848791  Marker: 0xd7
+  Offset: 1867457  Marker: 0xd0
+  Offset: 1886167  Marker: 0xd1
+  Offset: 1905017  Marker: 0xd2
+  Offset: 1923842  Marker: 0xd3
+  Offset: 1942664  Marker: 0xd4
+  Offset: 1961450  Marker: 0xd5
+  Offset: 1980184  Marker: 0xd6
+  Offset: 1998817  Marker: 0xd7
+  Offset: 2017540  Marker: 0xd0
+  Offset: 2036243  Marker: 0xd1
+  Offset: 2055009  Marker: 0xd2
+  Offset: 2073867  Marker: 0xd3
+  Offset: 2092896  Marker: 0xd4
+  Offset: 2111836  Marker: 0xd5
+  Offset: 2130776  Marker: 0xd6
+  Offset: 2149713  Marker: 0xd7
+  Offset: 2168607  Marker: 0xd0
+  Offset: 2187560  Marker: 0xd1
+  Offset: 2206442  Marker: 0xd2
+  Offset: 2225352  Marker: 0xd3
+  Offset: 2244343  Marker: 0xd4
+  Offset: 2263294  Marker: 0xd5
+  Offset: 2282364  Marker: 0xd6
+  Offset: 2301292  Marker: 0xd7
+  Offset: 2320347  Marker: 0xd0
+  Offset: 2339452  Marker: 0xd1
+  Offset: 2358565  Marker: 0xd2
+  Offset: 2377748  Marker: 0xd3
+  Offset: 2396800  Marker: 0xd4
+  Offset: 2415871  Marker: 0xd5
+  Offset: 2434845  Marker: 0xd6
+  Offset: 2453941  Marker: 0xd7
+  Offset: 2472855  Marker: 0xd0
+  Offset: 2491532  Marker: 0xd1
+  Offset: 2510397  Marker: 0xd2
+  Offset: 2529081  Marker: 0xd3
+  Offset: 2547944  Marker: 0xd4
+  Offset: 2566680  Marker: 0xd5
+  Offset: 2585465  Marker: 0xd6
+  Offset: 2604133  Marker: 0xd7
+  Offset: 2622637  Marker: 0xd0
+  Offset: 2641232  Marker: 0xd1
+  Offset: 2659729  Marker: 0xd2
+  Offset: 2678220  Marker: 0xd3
+  Offset: 2696850  Marker: 0xd4
+  Offset: 2715430  Marker: 0xd5
+  Offset: 2734126  Marker: 0xd6
+  Offset: 2752978  Marker: 0xd7
+  Offset: 2771785  Marker: 0xd0
+  Offset: 2790637  Marker: 0xd1
+  Offset: 2809481  Marker: 0xd2
+  Offset: 2828269  Marker: 0xd3
+  Offset: 2846970  Marker: 0xd4
+  Offset: 2865430  Marker: 0xd5
+  Offset: 2883860  Marker: 0xd6
+  Offset: 2902489  Marker: 0xd7
+  Offset: 2921035  Marker: 0xd0
+  Offset: 2939655  Marker: 0xd1
+  Offset: 2958354  Marker: 0xd2
+  Offset: 2976933  Marker: 0xd3
+  Offset: 2995628  Marker: 0xd4
+  Offset: 3014233  Marker: 0xd5
+  Offset: 3032966  Marker: 0xd6
+  Offset: 3051551  Marker: 0xd7
+  Offset: 3070165  Marker: 0xd0
+  Offset: 3088873  Marker: 0xd1
+  Offset: 3107421  Marker: 0xd2
+  Offset: 3126044  Marker: 0xd3
+  Offset: 3144514  Marker: 0xd4
+  Offset: 3163055  Marker: 0xd5
+  Offset: 3181655  Marker: 0xd6
+  Offset: 3200285  Marker: 0xd7
+  Offset: 3218967  Marker: 0xd0
+  Offset: 3237720  Marker: 0xd1
+  Offset: 3256525  Marker: 0xd2
+  Offset: 3275513  Marker: 0xd3
+  Offset: 3294482  Marker: 0xd4
+  Offset: 3313659  Marker: 0xd5
+  Offset: 3332832  Marker: 0xd6
+  Offset: 3352315  Marker: 0xd7
+  Offset: 3371773  Marker: 0xd0
+  Offset: 3390903  Marker: 0xd1
+  Offset: 3409869  Marker: 0xd2
+  Offset: 3428722  Marker: 0xd3
+  Offset: 3447521  Marker: 0xd4
+  Offset: 3466022  Marker: 0xd5
+  Offset: 3484286  Marker: 0xd6
+  Offset: 3502281  Marker: 0xd7
+  Offset: 3519954  Marker: 0xd0
+  Offset: 3537441  Marker: 0xd1
+  Offset: 3554618  Marker: 0xd2
+  Offset: 3571637  Marker: 0xd3
+  Offset: 3588293  Marker: 0xd4
+  Offset: 3604728  Marker: 0xd5
+  Offset: 3620893  Marker: 0xd6
+  Offset: 3636910  Marker: 0xd7
+  Offset: 3652825  Marker: 0xd0
+  Offset: 3668626  Marker: 0xd1
+  Offset: 3684277  Marker: 0xd2
+  Offset: 3699891  Marker: 0xd3
+  Offset: 3715248  Marker: 0xd4
+  Offset: 3730641  Marker: 0xd5
+  Offset: 3746009  Marker: 0xd6
+  Offset: 3761205  Marker: 0xd7
+  Offset: 3776414  Marker: 0xd0
+  Offset: 3791475  Marker: 0xd1
+  Offset: 3806598  Marker: 0xd2
+  Offset: 3821707  Marker: 0xd3
+  Offset: 3836748  Marker: 0xd4
+  Offset: 3851738  Marker: 0xd5
+  Offset: 3866659  Marker: 0xd6
+  Offset: 3881703  Marker: 0xd7
+  Offset: 3896789  Marker: 0xd0
+  Offset: 3911926  Marker: 0xd1
+  Offset: 3927159  Marker: 0xd2
+  Offset: 3942424  Marker: 0xd3
+  Offset: 3957901  Marker: 0xd4
+  Offset: 3973466  Marker: 0xd5
+  Offset: 3989205  Marker: 0xd6
+  Offset: 4005062  Marker: 0xd7
+  Offset: 4021134  Marker: 0xd0
+  Offset: 4037288  Marker: 0xd1
+  Offset: 4053593  Marker: 0xd2
+  Offset: 4069890  Marker: 0xd3
+  Offset: 4086191  Marker: 0xd4
+  Offset: 4102474  Marker: 0xd5
+  Offset: 4118742  Marker: 0xd6
+  Offset: 4134826  Marker: 0xd7
+  Offset: 4150830  Marker: 0xd0
+  Offset: 4166739  Marker: 0xd1
+  Offset: 4182513  Marker: 0xd2
+  Offset: 4198060  Marker: 0xd3
+  Offset: 4213588  Marker: 0xd4
+  Offset: 4229177  Marker: 0xd5
+  Offset: 4244675  Marker: 0xd6
+  Offset: 4259955  Marker: 0xd7
+  Offset: 4275209  Marker: 0xd0
+  Offset: 4290326  Marker: 0xd1
+  Offset: 4305235  Marker: 0xd2
+  Offset: 4320325  Marker: 0xd3
+  Offset: 4335744  Marker: 0xd4
+  Offset: 4351078  Marker: 0xd5
+  Offset: 4366400  Marker: 0xd6
+  Offset: 4381557  Marker: 0xd7
+  Offset: 4396813  Marker: 0xd0
+  Offset: 4412072  Marker: 0xd1
+  Offset: 4427368  Marker: 0xd2
+  Offset: 4442766  Marker: 0xd3
+  Offset: 4458270  Marker: 0xd4
+  Offset: 4473871  Marker: 0xd5
+  Offset: 4489575  Marker: 0xd6
+  Offset: 4505507  Marker: 0xd7
+  Offset: 4521493  Marker: 0xd0
+  Offset: 4537677  Marker: 0xd1
+  Offset: 4553855  Marker: 0xd2
+  Offset: 4570131  Marker: 0xd3
+  Offset: 4586490  Marker: 0xd4
+  Offset: 4602967  Marker: 0xd5
+  Offset: 4619540  Marker: 0xd6
+  Offset: 4636209  Marker: 0xd7
+  Offset: 4652872  Marker: 0xd0
+  Offset: 4669581  Marker: 0xd1
+  Offset: 4686338  Marker: 0xd2
+  Offset: 4703224  Marker: 0xd3
+  Offset: 4720199  Marker: 0xd4
+  Offset: 4737516  Marker: 0xd5
+  Offset: 4754843  Marker: 0xd6
+  Offset: 4772393  Marker: 0xd7
+  Offset: 4790037  Marker: 0xd0
+  Offset: 4807590  Marker: 0xd1
+  Offset: 4825004  Marker: 0xd2
+  Offset: 4842297  Marker: 0xd3
+  Offset: 4859260  Marker: 0xd4
+  Offset: 4876322  Marker: 0xd5
+  Offset: 4893699  Marker: 0xd6
+  Offset: 4911125  Marker: 0xd7
+  Offset: 4928577  Marker: 0xd0
+  Offset: 4946199  Marker: 0xd1
+  Offset: 4963994  Marker: 0xd2
+  Offset: 4981767  Marker: 0xd3
+  Offset: 4999282  Marker: 0xd4
+  Offset: 5016918  Marker: 0xd5
+  Offset: 5034672  Marker: 0xd6
+  Offset: 5052457  Marker: 0xd7
+  Offset: 5070355  Marker: 0xd0
+  Offset: 5088330  Marker: 0xd1
+  Offset: 5106354  Marker: 0xd2
+  Offset: 5124693  Marker: 0xd3
+  Offset: 5143089  Marker: 0xd4
+  Offset: 5161498  Marker: 0xd5
+  Offset: 5179853  Marker: 0xd6
+  Offset: 5198241  Marker: 0xd7
+  Offset: 5216687  Marker: 0xd0
+  Offset: 5235465  Marker: 0xd1
+  Offset: 5254318  Marker: 0xd2
+  Offset: 5273130  Marker: 0xd3
+  Offset: 5291840  Marker: 0xd4
+  Offset: 5310666  Marker: 0xd5
+  Offset: 5329400  Marker: 0xd6
+  Offset: 5347949  Marker: 0xd7
+  Offset: 5366467  Marker: 0xd0
+  Offset: 5384942  Marker: 0xd1
+  Offset: 5403483  Marker: 0xd2
+  Offset: 5421940  Marker: 0xd3
+  Offset: 5440430  Marker: 0xd4
+  Offset: 5458807  Marker: 0xd5
+  Offset: 5476934  Marker: 0xd6
+  Offset: 5495212  Marker: 0xd7
+  Offset: 5513544  Marker: 0xd0
+  Offset: 5531711  Marker: 0xd1
+  Offset: 5549827  Marker: 0xd2
+  Offset: 5568081  Marker: 0xd3
+  Offset: 5586563  Marker: 0xd4
+  Offset: 5605070  Marker: 0xd5
+  Offset: 5623531  Marker: 0xd6
+  Offset: 5642117  Marker: 0xd7
+  Offset: 5660679  Marker: 0xd0
+  Offset: 5679144  Marker: 0xd1
+  Offset: 5697947  Marker: 0xd2
+  Offset: 5716621  Marker: 0xd3
+  Offset: 5735259  Marker: 0xd4
+  Offset: 5753965  Marker: 0xd5
+  Offset: 5772778  Marker: 0xd6
+  Offset: 5791588  Marker: 0xd7
+  Offset: 5810340  Marker: 0xd0
+  Offset: 5829084  Marker: 0xd1
+  Offset: 5847839  Marker: 0xd2
+  Offset: 5866524  Marker: 0xd3
+  Offset: 5885238  Marker: 0xd4
+  Offset: 5903895  Marker: 0xd5
+  Offset: 5922462  Marker: 0xd6
+  Offset: 5940644  Marker: 0xd7
+  Offset: 5959052  Marker: 0xd0
+  Offset: 5977489  Marker: 0xd1
+  Offset: 5995862  Marker: 0xd2
+  Offset: 6014515  Marker: 0xd3
+  Offset: 6033012  Marker: 0xd4
+  Offset: 6051444  Marker: 0xd5
+  Offset: 6069876  Marker: 0xd6
+  Offset: 6088042  Marker: 0xd7
+  Offset: 6106380  Marker: 0xd0
+  Offset: 6124807  Marker: 0xd1
+  Offset: 6143539  Marker: 0xd2
+  Offset: 6162374  Marker: 0xd3
+  Offset: 6180944  Marker: 0xd4
+  Offset: 6199582  Marker: 0xd5
+  Offset: 6217978  Marker: 0xd6
+  Offset: 6236152  Marker: 0xd7
+  Offset: 6254222  Marker: 0xd0
+  Offset: 6272512  Marker: 0xd1
+  Offset: 6290609  Marker: 0xd2
+  Offset: 6308583  Marker: 0xd3
+  Offset: 6326445  Marker: 0xd4
+  Offset: 6344280  Marker: 0xd5
+  Offset: 6362064  Marker: 0xd6
+  Offset: 6379798  Marker: 0xd7
+  Offset: 6397518  Marker: 0xd0
+  Offset: 6414986  Marker: 0xd1
+  Offset: 6432362  Marker: 0xd2
+  Offset: 6449272  Marker: 0xd3
+  Offset: 6465993  Marker: 0xd4
+  Offset: 6482828  Marker: 0xd5
+  Offset: 6499710  Marker: 0xd6
+  Offset: 6516887  Marker: 0xd7
+  Offset: 6534018  Marker: 0xd0
+  Offset: 6551046  Marker: 0xd1
+  Offset: 6567866  Marker: 0xd2
+  Offset: 6584736  Marker: 0xd3
+  Offset: 6601588  Marker: 0xd4
+  Offset: 6618284  Marker: 0xd5
+  Offset: 6635005  Marker: 0xd6
+  Offset: 6651748  Marker: 0xd7
+  Offset: 6668633  Marker: 0xd0
+  Offset: 6685471  Marker: 0xd1
+  Offset: 6702114  Marker: 0xd2
+  Offset: 6718682  Marker: 0xd3
+  Offset: 6735298  Marker: 0xd4
+  Offset: 6751795  Marker: 0xd5
+  Offset: 6768488  Marker: 0xd6
+  Offset: 6785085  Marker: 0xd7
+  Offset: 6801730  Marker: 0xd0
+  Offset: 6818438  Marker: 0xd1
+  Offset: 6835088  Marker: 0xd2
+  Offset: 6851718  Marker: 0xd3
+  Offset: 6868390  Marker: 0xd4
+  Offset: 6885390  Marker: 0xd5
+  Offset: 6902449  Marker: 0xd6
+  Offset: 6919284  Marker: 0xd7
+  Offset: 6936049  Marker: 0xd0
+  Offset: 6952901  Marker: 0xd1
+  Offset: 6969749  Marker: 0xd2
+  Offset: 6986644  Marker: 0xd3
+  Offset: 7003389  Marker: 0xd4
+  Offset: 7020086  Marker: 0xd5
+  Offset: 7036925  Marker: 0xd6
+  Offset: 7053920  Marker: 0xd7
+  Offset: 7070926  Marker: 0xd0
+  Offset: 7088141  Marker: 0xd1
+  Offset: 7105322  Marker: 0xd2
+  Offset: 7122651  Marker: 0xd3
+  Offset: 7140292  Marker: 0xd4
+  Offset: 7157910  Marker: 0xd5
+  Offset: 7175377  Marker: 0xd9 (EOI)
+  Offset: 7175379  Marker: 0xd8 (SOI)
+  Offset: 7175381  Marker: 0xe1 (APP1), length=1105
+  Offset: 7176488  Marker: 0xe2 (APP2), length=171
+  Offset: 7176661  Marker: 0xdb (DQT), length=132
+  Offset: 7176795  Marker: 0xdd (DRI), length=4
+  Offset: 7176801  Marker: 0xee (APP14), length=14
+  Offset: 7176817  Marker: 0xc0 (SOF0), length=17
+  Offset: 7176836  Marker: 0xc4 (DHT), length=197
+  Offset: 7177035  Marker: 0xda (SOS), length=12
+  Offset: 7186848  Marker: 0xd0
+  Offset: 7196777  Marker: 0xd1
+  Offset: 7206627  Marker: 0xd2
+  Offset: 7216544  Marker: 0xd3
+  Offset: 7226540  Marker: 0xd4
+  Offset: 7236650  Marker: 0xd5
+  Offset: 7246845  Marker: 0xd6
+  Offset: 7256871  Marker: 0xd7
+  Offset: 7266890  Marker: 0xd0
+  Offset: 7276974  Marker: 0xd1
+  Offset: 7287103  Marker: 0xd2
+  Offset: 7297247  Marker: 0xd3
+  Offset: 7307389  Marker: 0xd4
+  Offset: 7317556  Marker: 0xd5
+  Offset: 7327668  Marker: 0xd6
+  Offset: 7337746  Marker: 0xd7
+  Offset: 7347952  Marker: 0xd0
+  Offset: 7358226  Marker: 0xd1
+  Offset: 7368490  Marker: 0xd2
+  Offset: 7378780  Marker: 0xd3
+  Offset: 7389210  Marker: 0xd4
+  Offset: 7399638  Marker: 0xd5
+  Offset: 7410197  Marker: 0xd6
+  Offset: 7420515  Marker: 0xd7
+  Offset: 7430354  Marker: 0xd0
+  Offset: 7439951  Marker: 0xd1
+  Offset: 7449540  Marker: 0xd2
+  Offset: 7459117  Marker: 0xd3
+  Offset: 7468811  Marker: 0xd4
+  Offset: 7478576  Marker: 0xd5
+  Offset: 7488483  Marker: 0xd6
+  Offset: 7498394  Marker: 0xd7
+  Offset: 7508367  Marker: 0xd0
+  Offset: 7518346  Marker: 0xd1
+  Offset: 7528362  Marker: 0xd2
+  Offset: 7538408  Marker: 0xd3
+  Offset: 7548598  Marker: 0xd4
+  Offset: 7558653  Marker: 0xd5
+  Offset: 7568453  Marker: 0xd6
+  Offset: 7578054  Marker: 0xd7
+  Offset: 7587573  Marker: 0xd0
+  Offset: 7597049  Marker: 0xd1
+  Offset: 7606518  Marker: 0xd2
+  Offset: 7616192  Marker: 0xd3
+  Offset: 7625866  Marker: 0xd4
+  Offset: 7635455  Marker: 0xd5
+  Offset: 7645053  Marker: 0xd6
+  Offset: 7654602  Marker: 0xd7
+  Offset: 7664261  Marker: 0xd0
+  Offset: 7674052  Marker: 0xd1
+  Offset: 7683945  Marker: 0xd2
+  Offset: 7693654  Marker: 0xd3
+  Offset: 7703341  Marker: 0xd4
+  Offset: 7713174  Marker: 0xd5
+  Offset: 7723032  Marker: 0xd6
+  Offset: 7733008  Marker: 0xd7
+  Offset: 7743087  Marker: 0xd0
+  Offset: 7753207  Marker: 0xd1
+  Offset: 7763259  Marker: 0xd2
+  Offset: 7773254  Marker: 0xd3
+  Offset: 7783076  Marker: 0xd4
+  Offset: 7792839  Marker: 0xd5
+  Offset: 7802636  Marker: 0xd6
+  Offset: 7812648  Marker: 0xd7
+  Offset: 7822741  Marker: 0xd0
+  Offset: 7832936  Marker: 0xd1
+  Offset: 7842984  Marker: 0xd2
+  Offset: 7853165  Marker: 0xd3
+  Offset: 7863439  Marker: 0xd4
+  Offset: 7873658  Marker: 0xd5
+  Offset: 7883721  Marker: 0xd6
+  Offset: 7893897  Marker: 0xd7
+  Offset: 7904016  Marker: 0xd0
+  Offset: 7914146  Marker: 0xd1
+  Offset: 7924336  Marker: 0xd2
+  Offset: 7934598  Marker: 0xd3
+  Offset: 7944779  Marker: 0xd4
+  Offset: 7955032  Marker: 0xd5
+  Offset: 7965340  Marker: 0xd6
+  Offset: 7975600  Marker: 0xd7
+  Offset: 7985926  Marker: 0xd0
+  Offset: 7996200  Marker: 0xd1
+  Offset: 8006665  Marker: 0xd2
+  Offset: 8017192  Marker: 0xd3
+  Offset: 8027613  Marker: 0xd4
+  Offset: 8038175  Marker: 0xd5
+  Offset: 8048828  Marker: 0xd6
+  Offset: 8059513  Marker: 0xd7
+  Offset: 8070326  Marker: 0xd0
+  Offset: 8081218  Marker: 0xd1
+  Offset: 8092386  Marker: 0xd2
+  Offset: 8103703  Marker: 0xd3
+  Offset: 8115074  Marker: 0xd4
+  Offset: 8126750  Marker: 0xd5
+  Offset: 8138428  Marker: 0xd6
+  Offset: 8150387  Marker: 0xd7
+  Offset: 8162579  Marker: 0xd0
+  Offset: 8174900  Marker: 0xd1
+  Offset: 8187482  Marker: 0xd2
+  Offset: 8200473  Marker: 0xd3
+  Offset: 8213413  Marker: 0xd4
+  Offset: 8226536  Marker: 0xd5
+  Offset: 8239957  Marker: 0xd6
+  Offset: 8253762  Marker: 0xd7
+  Offset: 8268007  Marker: 0xd0
+  Offset: 8282631  Marker: 0xd1
+  Offset: 8297597  Marker: 0xd2
+  Offset: 8312853  Marker: 0xd3
+  Offset: 8328472  Marker: 0xd4
+  Offset: 8344322  Marker: 0xd5
+  Offset: 8360319  Marker: 0xd6
+  Offset: 8376589  Marker: 0xd7
+  Offset: 8393162  Marker: 0xd0
+  Offset: 8410200  Marker: 0xd1
+  Offset: 8427618  Marker: 0xd2
+  Offset: 8445105  Marker: 0xd3
+  Offset: 8462379  Marker: 0xd4
+  Offset: 8479279  Marker: 0xd5
+  Offset: 8496071  Marker: 0xd6
+  Offset: 8512972  Marker: 0xd7
+  Offset: 8530120  Marker: 0xd0
+  Offset: 8547297  Marker: 0xd1
+  Offset: 8564493  Marker: 0xd2
+  Offset: 8581701  Marker: 0xd3
+  Offset: 8598885  Marker: 0xd4
+  Offset: 8616281  Marker: 0xd5
+  Offset: 8633699  Marker: 0xd6
+  Offset: 8651323  Marker: 0xd7
+  Offset: 8668965  Marker: 0xd0
+  Offset: 8686779  Marker: 0xd1
+  Offset: 8704569  Marker: 0xd2
+  Offset: 8722425  Marker: 0xd3
+  Offset: 8740283  Marker: 0xd4
+  Offset: 8758062  Marker: 0xd5
+  Offset: 8775818  Marker: 0xd6
+  Offset: 8793391  Marker: 0xd7
+  Offset: 8810968  Marker: 0xd0
+  Offset: 8828584  Marker: 0xd1
+  Offset: 8846271  Marker: 0xd2
+  Offset: 8864024  Marker: 0xd3
+  Offset: 8881884  Marker: 0xd4
+  Offset: 8899588  Marker: 0xd5
+  Offset: 8917134  Marker: 0xd6
+  Offset: 8934665  Marker: 0xd7
+  Offset: 8952080  Marker: 0xd0
+  Offset: 8969494  Marker: 0xd1
+  Offset: 8986923  Marker: 0xd2
+  Offset: 9004359  Marker: 0xd3
+  Offset: 9021869  Marker: 0xd4
+  Offset: 9039172  Marker: 0xd5
+  Offset: 9056630  Marker: 0xd6
+  Offset: 9073962  Marker: 0xd7
+  Offset: 9091336  Marker: 0xd0
+  Offset: 9108853  Marker: 0xd1
+  Offset: 9126377  Marker: 0xd2
+  Offset: 9143845  Marker: 0xd3
+  Offset: 9161394  Marker: 0xd4
+  Offset: 9178870  Marker: 0xd5
+  Offset: 9196337  Marker: 0xd6
+  Offset: 9213708  Marker: 0xd7
+  Offset: 9230906  Marker: 0xd0
+  Offset: 9248001  Marker: 0xd1
+  Offset: 9265267  Marker: 0xd2
+  Offset: 9282398  Marker: 0xd3
+  Offset: 9299519  Marker: 0xd4
+  Offset: 9316574  Marker: 0xd5
+  Offset: 9333604  Marker: 0xd6
+  Offset: 9350594  Marker: 0xd7
+  Offset: 9367503  Marker: 0xd0
+  Offset: 9384470  Marker: 0xd1
+  Offset: 9401329  Marker: 0xd2
+  Offset: 9418186  Marker: 0xd3
+  Offset: 9435132  Marker: 0xd4
+  Offset: 9452067  Marker: 0xd5
+  Offset: 9469106  Marker: 0xd6
+  Offset: 9486157  Marker: 0xd7
+  Offset: 9503125  Marker: 0xd0
+  Offset: 9520016  Marker: 0xd1
+  Offset: 9537116  Marker: 0xd2
+  Offset: 9554112  Marker: 0xd3
+  Offset: 9571156  Marker: 0xd4
+  Offset: 9587877  Marker: 0xd5
+  Offset: 9604720  Marker: 0xd6
+  Offset: 9621581  Marker: 0xd7
+  Offset: 9638353  Marker: 0xd0
+  Offset: 9655212  Marker: 0xd1
+  Offset: 9672129  Marker: 0xd2
+  Offset: 9689012  Marker: 0xd3
+  Offset: 9706122  Marker: 0xd4
+  Offset: 9723146  Marker: 0xd5
+  Offset: 9740414  Marker: 0xd6
+  Offset: 9757608  Marker: 0xd7
+  Offset: 9774767  Marker: 0xd0
+  Offset: 9792073  Marker: 0xd1
+  Offset: 9809296  Marker: 0xd2
+  Offset: 9826551  Marker: 0xd3
+  Offset: 9843628  Marker: 0xd4
+  Offset: 9860773  Marker: 0xd5
+  Offset: 9877962  Marker: 0xd6
+  Offset: 9895179  Marker: 0xd7
+  Offset: 9912446  Marker: 0xd0
+  Offset: 9929784  Marker: 0xd1
+  Offset: 9947132  Marker: 0xd2
+  Offset: 9964485  Marker: 0xd3
+  Offset: 9981906  Marker: 0xd4
+  Offset: 9999184  Marker: 0xd5
+  Offset: 10016226  Marker: 0xd6
+  Offset: 10033123  Marker: 0xd7
+  Offset: 10049732  Marker: 0xd0
+  Offset: 10065967  Marker: 0xd1
+  Offset: 10081860  Marker: 0xd2
+  Offset: 10097573  Marker: 0xd3
+  Offset: 10113136  Marker: 0xd4
+  Offset: 10128395  Marker: 0xd5
+  Offset: 10143469  Marker: 0xd6
+  Offset: 10158338  Marker: 0xd7
+  Offset: 10173219  Marker: 0xd0
+  Offset: 10187995  Marker: 0xd1
+  Offset: 10202625  Marker: 0xd2
+  Offset: 10217189  Marker: 0xd3
+  Offset: 10231691  Marker: 0xd4
+  Offset: 10246253  Marker: 0xd5
+  Offset: 10260757  Marker: 0xd6
+  Offset: 10275160  Marker: 0xd7
+  Offset: 10289449  Marker: 0xd0
+  Offset: 10303670  Marker: 0xd1
+  Offset: 10317706  Marker: 0xd2
+  Offset: 10331786  Marker: 0xd3
+  Offset: 10345688  Marker: 0xd4
+  Offset: 10359595  Marker: 0xd5
+  Offset: 10373474  Marker: 0xd6
+  Offset: 10387306  Marker: 0xd7
+  Offset: 10401031  Marker: 0xd0
+  Offset: 10414695  Marker: 0xd1
+  Offset: 10428368  Marker: 0xd2
+  Offset: 10442082  Marker: 0xd3
+  Offset: 10455751  Marker: 0xd4
+  Offset: 10469366  Marker: 0xd5
+  Offset: 10482931  Marker: 0xd6
+  Offset: 10496550  Marker: 0xd7
+  Offset: 10510163  Marker: 0xd0
+  Offset: 10523771  Marker: 0xd1
+  Offset: 10537545  Marker: 0xd2
+  Offset: 10551360  Marker: 0xd3
+  Offset: 10565246  Marker: 0xd4
+  Offset: 10578991  Marker: 0xd5
+  Offset: 10592747  Marker: 0xd6
+  Offset: 10606439  Marker: 0xd7
+  Offset: 10620068  Marker: 0xd0
+  Offset: 10633565  Marker: 0xd1
+  Offset: 10647045  Marker: 0xd2
+  Offset: 10660422  Marker: 0xd3
+  Offset: 10673879  Marker: 0xd4
+  Offset: 10687325  Marker: 0xd5
+  Offset: 10700926  Marker: 0xd6
+  Offset: 10714421  Marker: 0xd7
+  Offset: 10727984  Marker: 0xd0
+  Offset: 10741630  Marker: 0xd1
+  Offset: 10755349  Marker: 0xd2
+  Offset: 10769140  Marker: 0xd3
+  Offset: 10782958  Marker: 0xd4
+  Offset: 10796665  Marker: 0xd5
+  Offset: 10810308  Marker: 0xd6
+  Offset: 10823804  Marker: 0xd7
+  Offset: 10837355  Marker: 0xd0
+  Offset: 10850689  Marker: 0xd1
+  Offset: 10864005  Marker: 0xd2
+  Offset: 10877280  Marker: 0xd3
+  Offset: 10890720  Marker: 0xd4
+  Offset: 10904102  Marker: 0xd5
+  Offset: 10917472  Marker: 0xd6
+  Offset: 10930891  Marker: 0xd7
+  Offset: 10944312  Marker: 0xd0
+  Offset: 10957719  Marker: 0xd1
+  Offset: 10971072  Marker: 0xd2
+  Offset: 10984510  Marker: 0xd3
+  Offset: 10998106  Marker: 0xd4
+  Offset: 11011573  Marker: 0xd5
+  Offset: 11025137  Marker: 0xd6
+  Offset: 11038770  Marker: 0xd7
+  Offset: 11052234  Marker: 0xd0
+  Offset: 11065921  Marker: 0xd1
+  Offset: 11079568  Marker: 0xd2
+  Offset: 11093164  Marker: 0xd3
+  Offset: 11106811  Marker: 0xd4
+  Offset: 11120494  Marker: 0xd5
+  Offset: 11134191  Marker: 0xd6
+  Offset: 11147862  Marker: 0xd7
+  Offset: 11161548  Marker: 0xd0
+  Offset: 11175244  Marker: 0xd1
+  Offset: 11188862  Marker: 0xd2
+  Offset: 11202518  Marker: 0xd3
+  Offset: 11216115  Marker: 0xd4
+  Offset: 11229619  Marker: 0xd5
+  Offset: 11243177  Marker: 0xd6
+  Offset: 11256847  Marker: 0xd7
+  Offset: 11270622  Marker: 0xd0
+  Offset: 11284447  Marker: 0xd1
+  Offset: 11297997  Marker: 0xd2
+  Offset: 11311422  Marker: 0xd3
+  Offset: 11324656  Marker: 0xd4
+  Offset: 11337960  Marker: 0xd5
+  Offset: 11351587  Marker: 0xd6
+  Offset: 11365082  Marker: 0xd7
+  Offset: 11378695  Marker: 0xd0
+  Offset: 11392356  Marker: 0xd1
+  Offset: 11406209  Marker: 0xd2
+  Offset: 11420170  Marker: 0xd3
+  Offset: 11433997  Marker: 0xd4
+  Offset: 11447951  Marker: 0xd5
+  Offset: 11461938  Marker: 0xd6
+  Offset: 11475985  Marker: 0xd7
+  Offset: 11490362  Marker: 0xd0
+  Offset: 11504968  Marker: 0xd1
+  Offset: 11519731  Marker: 0xd2
+  Offset: 11534698  Marker: 0xd3
+  Offset: 11549745  Marker: 0xd4
+  Offset: 11564771  Marker: 0xd5
+  Offset: 11579725  Marker: 0xd6
+  Offset: 11594682  Marker: 0xd7
+  Offset: 11609717  Marker: 0xd0
+  Offset: 11625116  Marker: 0xd1
+  Offset: 11640585  Marker: 0xd2
+  Offset: 11656109  Marker: 0xd3
+  Offset: 11671474  Marker: 0xd4
+  Offset: 11686937  Marker: 0xd5
+  Offset: 11702342  Marker: 0xd6
+  Offset: 11717599  Marker: 0xd7
+  Offset: 11732802  Marker: 0xd0
+  Offset: 11747937  Marker: 0xd1
+  Offset: 11763098  Marker: 0xd2
+  Offset: 11778258  Marker: 0xd3
+  Offset: 11793463  Marker: 0xd4
+  Offset: 11808538  Marker: 0xd5
+  Offset: 11823412  Marker: 0xd6
+  Offset: 11838441  Marker: 0xd7
+  Offset: 11853494  Marker: 0xd0
+  Offset: 11868717  Marker: 0xd1
+  Offset: 11883961  Marker: 0xd2
+  Offset: 11899334  Marker: 0xd3
+  Offset: 11914629  Marker: 0xd4
+  Offset: 11930044  Marker: 0xd5
+  Offset: 11945482  Marker: 0xd6
+  Offset: 11960978  Marker: 0xd7
+  Offset: 11976599  Marker: 0xd0
+  Offset: 11992118  Marker: 0xd1
+  Offset: 12007700  Marker: 0xd2
+  Offset: 12023184  Marker: 0xd3
+  Offset: 12038892  Marker: 0xd4
+  Offset: 12054679  Marker: 0xd5
+  Offset: 12070355  Marker: 0xd6
+  Offset: 12085719  Marker: 0xd7
+  Offset: 12101172  Marker: 0xd0
+  Offset: 12116694  Marker: 0xd1
+  Offset: 12132182  Marker: 0xd2
+  Offset: 12147866  Marker: 0xd3
+  Offset: 12163471  Marker: 0xd4
+  Offset: 12178823  Marker: 0xd5
+  Offset: 12193875  Marker: 0xd6
+  Offset: 12208722  Marker: 0xd7
+  Offset: 12223904  Marker: 0xd0
+  Offset: 12239218  Marker: 0xd1
+  Offset: 12254611  Marker: 0xd2
+  Offset: 12270123  Marker: 0xd3
+  Offset: 12285268  Marker: 0xd4
+  Offset: 12300273  Marker: 0xd5
+  Offset: 12315119  Marker: 0xd6
+  Offset: 12330020  Marker: 0xd7
+  Offset: 12344890  Marker: 0xd0
+  Offset: 12359930  Marker: 0xd1
+  Offset: 12375202  Marker: 0xd2
+  Offset: 12390323  Marker: 0xd3
+  Offset: 12405158  Marker: 0xd4
+  Offset: 12419916  Marker: 0xd5
+  Offset: 12434514  Marker: 0xd6
+  Offset: 12448982  Marker: 0xd7
+  Offset: 12463233  Marker: 0xd0
+  Offset: 12477898  Marker: 0xd1
+  Offset: 12492294  Marker: 0xd2
+  Offset: 12506722  Marker: 0xd3
+  Offset: 12521147  Marker: 0xd4
+  Offset: 12535368  Marker: 0xd5
+  Offset: 12549400  Marker: 0xd6
+  Offset: 12563377  Marker: 0xd7
+  Offset: 12577232  Marker: 0xd0
+  Offset: 12591007  Marker: 0xd1
+  Offset: 12604651  Marker: 0xd2
+  Offset: 12618253  Marker: 0xd3
+  Offset: 12631909  Marker: 0xd4
+  Offset: 12645508  Marker: 0xd5
+  Offset: 12659049  Marker: 0xd6
+  Offset: 12672501  Marker: 0xd7
+  Offset: 12685995  Marker: 0xd0
+  Offset: 12699432  Marker: 0xd1
+  Offset: 12712570  Marker: 0xd2
+  Offset: 12725848  Marker: 0xd3
+  Offset: 12739202  Marker: 0xd4
+  Offset: 12752374  Marker: 0xd5
+  Offset: 12765550  Marker: 0xd6
+  Offset: 12778693  Marker: 0xd7
+  Offset: 12791852  Marker: 0xd0
+  Offset: 12804937  Marker: 0xd1
+  Offset: 12817947  Marker: 0xd2
+  Offset: 12830901  Marker: 0xd3
+  Offset: 12844058  Marker: 0xd4
+  Offset: 12857028  Marker: 0xd5
+  Offset: 12870072  Marker: 0xd6
+  Offset: 12883120  Marker: 0xd7
+  Offset: 12896308  Marker: 0xd0
+  Offset: 12909463  Marker: 0xd1
+  Offset: 12922517  Marker: 0xd2
+  Offset: 12935347  Marker: 0xd3
+  Offset: 12948326  Marker: 0xd4
+  Offset: 12961409  Marker: 0xd5
+  Offset: 12974583  Marker: 0xd6
+  Offset: 12987827  Marker: 0xd7
+  Offset: 13001139  Marker: 0xd0
+  Offset: 13014363  Marker: 0xd1
+  Offset: 13027643  Marker: 0xd2
+  Offset: 13040938  Marker: 0xd3
+  Offset: 13054246  Marker: 0xd4
+  Offset: 13067417  Marker: 0xd5
+  Offset: 13080655  Marker: 0xd6
+  Offset: 13093975  Marker: 0xd7
+  Offset: 13107356  Marker: 0xd0
+  Offset: 13120647  Marker: 0xd1
+  Offset: 13133898  Marker: 0xd2
+  Offset: 13147094  Marker: 0xd3
+  Offset: 13160431  Marker: 0xd4
+  Offset: 13173898  Marker: 0xd5
+  Offset: 13187023  Marker: 0xd9 (EOI)
+
+[GainMap] XMP packet extracted (52646 bytes)
+[GainMap] crs:HDRMaxValue = +4.00
+[GainMap] crs:SDRBrightness = +100
+[GainMap] crs:SDRContrast = +20
+[GainMap] crs:SDRClarity = 0
+[GainMap] crs:SDRHighlights = -100
+[GainMap] crs:SDRShadows = -100
+[GainMap] crs:SDRWhites = 0
+[GainMap] crs:SDRBlend = 0
+[GainMap] Extraction not yet implemented.
+[DEBUG] UploadImageBuffer: pixelData=000001B154DFA040, width=4592, height=3448, rowBytes=36736
+[LOG] [DX11] Uploaded image buffer to DirectX texture.
+[LOG] DX11: Entering main message/render loop.
+[LOG] DX11: Message received: 49353
+[LOG] DX11: Compiling shaders... (no color conversion, Skia handles all color management)
+[LOG] DX11: Shaders compiled and input layout created (no color conversion).
+[LOG] DX11: Creating vertex buffer for fullscreen quad (aspect-correct).
+[LOG] DX11: Setting up pipeline and drawing quad.
+[LOG] DX11: Presenting fullscreen textured quad.
+[LOG] DX11: Message received: 256
+[LOG] DX11: Quit/close/key message received, exiting loop.
+[LOG] DirectX10BitBackend finished. Exiting.
