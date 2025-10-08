@@ -4,8 +4,6 @@ project(HDRScreenSaver)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(OpenMP REQUIRED)
-
 # Set static CRT for all targets (Release/Debug)
 #set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 # Set dynamic CRT for all targets (Release/Debug)
@@ -15,85 +13,58 @@ include_directories(include)
 file(GLOB SOURCES "src/*.cpp")
 list(REMOVE_ITEM SOURCES "${CMAKE_SOURCE_DIR}/src/LauncherScr.cpp")
 
-## Use vcpkg toolchain if available
-if(DEFINED CMAKE_TOOLCHAIN_FILE)
-    message(STATUS "Using vcpkg toolchain: ${CMAKE_TOOLCHAIN_FILE}")
-endif()
-## Find Skia via vcpkg (optional, for Skia backend)
-find_package(unofficial-skia CONFIG REQUIRED)
-
 # Add executable and link libraries
 add_executable(HDRScreenSaver WIN32 ${SOURCES})
 
 set_target_properties(HDRScreenSaver PROPERTIES OUTPUT_NAME "HDRScreenSaver.scr")
 
-# Always use the KEYWORD signature for target_link_libraries to avoid CMake errors
-# Link GDI+ (default Windows backend)
+# ---------------------------------------------------------------------
 # Link comctl32 for settings dialog stuff (e.g. __imp_InitCommonControlsEx)
-target_link_libraries(HDRScreenSaver PRIVATE gdiplus comctl32)
+# ---------------------------------------------------------------------
+target_link_libraries(HDRScreenSaver PRIVATE comctl32)
 
-# Link OpenMP
-if(OpenMP_CXX_FOUND)
-    target_link_libraries(HDRScreenSaver PRIVATE OpenMP::OpenMP_CXX)
-endif()
+# ---------------------------------------------------------------------
+# Find and link WebView2 loader library
+# ---------------------------------------------------------------------
+set(WEBVIEW2_ROOT "${CMAKE_SOURCE_DIR}/third-party/microsoft.web.webview2.1.0.3485.44/build/native")
 
-# Link Skia if found
-if(TARGET unofficial::skia::skia)
-    target_link_libraries(HDRScreenSaver PRIVATE unofficial::skia::skia)
-    target_compile_definitions(HDRScreenSaver PRIVATE USE_SKIA_BACKEND)
-endif()
+include_directories("${WEBVIEW2_ROOT}/include")
 
-# Adobe XMP Toolkit SDK integration
-# Set these environment variables or modify the paths below to point to your XMP Toolkit SDK installation
-if(DEFINED ENV{XMP_TOOLKIT_DIR})
-    set(XMP_TOOLKIT_SHARED_DIR "$ENV{XMP_TOOLKIT_DIR}/public/libraries/windows_x64/Release")
-    set(XMP_TOOLKIT_SHARED_DEBUG_DIR "$ENV{XMP_TOOLKIT_DIR}/public/libraries/windows_x64/Debug")
-    set(XMP_TOOLKIT_INCLUDE_DIR "$ENV{XMP_TOOLKIT_DIR}")
+# Try to locate WebView2 SDK installed in default location used by installer
+# Default header path: C:/Program Files (x86)/Microsoft WebView2 SDK/<version>/include
+# Default lib path:    C:/Program Files (x86)/Microsoft WebView2 SDK/<version>/lib/<arch>
+# We will search for a matching folder automatically.
+
+if(EXISTS "${WEBVIEW2_ROOT}")
+  message(STATUS "Found WebView2 SDK root: ${WEBVIEW2_ROOT}")
+  set(WV2_INCLUDE_DIR "${WEBVIEW2_ROOT}/include")
+  # choose lib folder based on generator arch
+  if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+    set(WV2_LIB_DIR "${WEBVIEW2_ROOT}/x64")
+  else()
+    set(WV2_LIB_DIR "${WEBVIEW2_ROOT}/x86")
+  endif()
 else()
-    # Default paths - modify these to match your XMP Toolkit SDK installation
-    set(XMP_TOOLKIT_SHARED_DIR "C:/path/to/XMP-Toolkit-SDK/public/libraries/windows_x64/Release")
-    set(XMP_TOOLKIT_SHARED_DEBUG_DIR "C:/path/to/XMP-Toolkit-SDK/public/libraries/windows_x64/Debug")
-    set(XMP_TOOLKIT_INCLUDE_DIR "C:/path/to/XMP-Toolkit-SDK")
-    message(WARNING "XMP_TOOLKIT_DIR environment variable not set. Please set it to your XMP Toolkit SDK installation path or modify the paths above.")
+  message(FATAL_ERROR "WebView2 SDK not found. Set WEBVIEW2_ROOT to the SDK root folder.")
 endif()
-include_directories(${XMP_TOOLKIT_INCLUDE_DIR})
 
-# Link XMPFiles and XMPCore (required for XMP parsing)
-# Link DirectX libraries for DX11 backend
-target_link_libraries(HDRScreenSaver PRIVATE
-    # Dynamic XMP Toolkit SDK
-    $<$<CONFIG:Debug>:${XMP_TOOLKIT_SHARED_DEBUG_DIR}/XMPFiles.lib>
-    $<$<CONFIG:Release>:${XMP_TOOLKIT_SHARED_DIR}/XMPFiles.lib>
-    $<$<CONFIG:Debug>:${XMP_TOOLKIT_SHARED_DEBUG_DIR}/XMPCore.lib>
-    $<$<CONFIG:Release>:${XMP_TOOLKIT_SHARED_DIR}/XMPCore.lib>
-    # Static XMP Toolkit SDK
-    #$<$<CONFIG:Debug>:${XMP_TOOLKIT_SHARED_DEBUG_DIR}/XMPFilesStatic.lib>
-    #$<$<CONFIG:Release>:${XMP_TOOLKIT_SHARED_DIR}/XMPFilesStatic.lib>
-    #$<$<CONFIG:Debug>:${XMP_TOOLKIT_SHARED_DEBUG_DIR}/XMPCoreStatic.lib>
-    #$<$<CONFIG:Release>:${XMP_TOOLKIT_SHARED_DIR}/XMPCoreStatic.lib>
-    d3d11 dxgi d3dcompiler
-)
+target_include_directories(${PROJECT_NAME} PRIVATE "${WV2_INCLUDE_DIR}")
 
-
-# Enable XMP Toolkit usage in code
-add_definitions(-DWIN_ENV)
-
-# Post-build: Copy XMP Toolkit DLLs to output directories for Debug and Release. Otherwise we get a CRT library runtime error.
-# (Not necessary for skia, somehow that dll gets copied automatically)
-add_custom_command(TARGET HDRScreenSaver POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${XMP_TOOLKIT_SHARED_DEBUG_DIR}/XMPCore.dll"
-        $<TARGET_FILE_DIR:HDRScreenSaver>
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${XMP_TOOLKIT_SHARED_DEBUG_DIR}/XMPFiles.dll"
-        $<TARGET_FILE_DIR:HDRScreenSaver>
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${XMP_TOOLKIT_SHARED_DIR}/XMPCore.dll"
-        $<TARGET_FILE_DIR:HDRScreenSaver>
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${XMP_TOOLKIT_SHARED_DIR}/XMPFiles.dll"
-        $<TARGET_FILE_DIR:HDRScreenSaver>
-)
+# Link the WebView2 loader library (the installer provides WebView2Loader.dll and WebView2LoaderStatic.lib or WebView2Loader.dll with import lib)
+# Typical import lib name: WebView2LoaderStatic.lib or WebView2Loader.lib (check lib directory)
+file(GLOB WV2_LIB_FILES "${WV2_LIB_DIR}/*.lib")
+if(WV2_LIB_FILES)
+  # Prefer static loader if available
+  list(FILTER WV2_LIB_FILES INCLUDE REGEX "WebView2LoaderStatic.*\\.lib")
+  if(NOT WV2_LIB_FILES)
+    file(GLOB WV2_LIB_FILES "${WV2_LIB_DIR}/WebView2Loader*.lib")
+  endif()
+  list(GET WV2_LIB_FILES 0 WV2_LIB_FILE)
+  message(STATUS "Linking WebView2 lib: ${WV2_LIB_FILE}")
+  target_link_libraries(${PROJECT_NAME} PRIVATE "${WV2_LIB_FILE}")
+else()
+  message(WARNING "No .lib found in ${WV2_LIB_DIR}. If using the DLL directly, ensure WebView2Loader.dll is available at runtime and link to Win32 APIs (ole32, user32) as needed.")
+endif()
 
 # Add launcher executable
 add_executable(LauncherScr WIN32 src/LauncherScr.cpp)
