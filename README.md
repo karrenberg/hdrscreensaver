@@ -18,10 +18,11 @@ Unfortunately, it's closed source. If you work at Adobe, please convince people 
 I was unsuccessful going through Chromes enormous sources (manually and with AI help) to find out how they render the HDR image. They don't just use Skia, they have custom code on top. Skia in fact pretends to have gain map support but none of it is a) included in any existing builds and b) even if you build it manually with additional #defines you don't get any usable APIs.
 
 In the end, however, managing the entire pipeline manually proved too complicated. I got close, but the images were never shown correctly.
-So I gave up and asked the coding assistant to just wrap Chromium in a web app - and it worked almost on first try with WebView2.
+So I gave up and asked the coding assistant to just wrap Chromium in a web app - and it worked almost on first try with WebView2, and with much broader support, e.g. HDR AVIF also works fine.
 
 ## Features
-- Displays a slideshow of HDR JPEG images from a configurable folder.
+- Displays a slideshow of HDR and SDR images from a configurable folder (JPEG, PNG, WebP, GIF, BMP, SVG and others supported by the WebView2 runtime).
+- Automatically skips unsupported image formats.
 - Can toggle between HDR and SDR display with hotkeys H/S.
 - Can use arrow keys to go to next/previous image.
 - Can zoom into the image with mouse left click and move around with mouse wheel controls.
@@ -30,14 +31,19 @@ So I gave up and asked the coding assistant to just wrap Chromium in a web app -
 - Minimal launcher `.scr` for safe install/uninstall and Windows compatibility. This is to prevent having to copy skia and other DLLs into Windows/System.
 
 ## TODO
-- Display preview in screen saver settings dialog (currently not implemented).
 - Remove bright background gradient in HDR mode (WebView2 default, also present in Chrome et al)
 - Improve image loading performance
-- License
+- Display preview in screen saver settings dialog (currently not implemented).
+- Implement a mode that sorts images by date
+- Skipping of unsupported images should cache that information and not attempt to display any more of that type (otherwise dirs with many unsupported files may cause perceived hangs)
+- Make sure skipping of unsupported images resets timeout (could cause perceived infinite hang in situation as above).
 
-## HDR JPEG Images
+## HDR Images
+The images displayed by the screensaver are typically exported from photo editors (e.g. Lightroom) as HDR-capable images. The app displays files that the WebView2 runtime can render, including SDR images.
+Supported formats: JPEG, PNG, GIF, WebP, BMP, SVG, AVIF, TIFF, JXL (availability depends on the WebView2 runtime and installed codecs)
+Tested with JPEG, AVIF, TIFF, and JXL. The latter two could not be displayed on my Windows 11 machine.
 
-The main JPEG files to be displayed by the screensaver are created by Lightroom, with HDR enabled, and exported as HDR JPEG in Display P3 color space as described here:
+For HDR-specific workflows the original project focused on HDR JPEG exported from Lightroom in Display P3 color space as described here:
 https://helpx.adobe.com/lightroom-cc/using/hdr-output.html
 
 The files contain a base SDR image with 8 bits per pixel and a gain map to create the HDR image as described in resources/Gain_Map_1_0d15.pdf and here:
@@ -56,6 +62,7 @@ https://github.com/adobe/XMP-Toolkit-SDK/
 - `src/` - Source code
 - `include/` - Header files
 - `resources/` - Resource files (e.g., images, icons)
+- `third-party/` - External dependencies (e.g. WebView2)
 - `CMakeLists.txt` - Build configuration
 - `README.md` - Project documentation
 

@@ -12,14 +12,15 @@
 
 #include <webview2.h>
 
+#include "Logger.h"
+#include "SettingsDialog.h"
+#include "WebView2Mode.h"
+#include "ImageFileUtils.h"
+
 #pragma comment(lib, "ole32.lib")
 #pragma comment(lib, "user32.lib")
 #pragma comment(lib, "gdi32.lib")
 #pragma comment(lib, "shlwapi.lib")
-
-#include "Logger.h"
-#include "SettingsDialog.h"
-#include "WebView2Mode.h"
 
 using Microsoft::WRL::ComPtr;
 
@@ -37,6 +38,13 @@ static const UINT WM_APP_MOUSEMOVE = WM_APP + 2;
 // Globals for the low-level mouse hook
 static HHOOK g_wv2_mouseHook = nullptr;
 static POINT g_wv2_initial_mouse_pos = {0,0};
+// Record last navigation key (VK_LEFT/VK_RIGHT). Default to VK_RIGHT.
+static volatile LONG g_wv2_last_nav_key = VK_RIGHT;
+
+static void SetLastNavKey(UINT vk)
+{
+    InterlockedExchange(&g_wv2_last_nav_key, (LONG)vk);
+}
 
 // Low-level keyboard proc: forwards specified keys to the saver host window when the host or one of
 // its child windows is the foreground window. Returns 1 to swallow the event when handled.
@@ -119,6 +127,7 @@ struct WV2State {
     bool sdrMode = false;
     HHOOK kbHook = nullptr; // low-level keyboard hook handle
     EventRegistrationToken accelToken{};
+    EventRegistrationToken downloadToken{};
 };
 
 // Helper: install low-level hooks and initialize globals
@@ -156,12 +165,22 @@ static void UninstallLowLevelHooks(WV2State& s)
     g_wv2_thread_id = 0;
 }
 
-// Helper: remove accelerator registration if present
 static void RemoveAcceleratorIfAny(WV2State& s)
 {
     if (s.controller && s.accelToken.value != 0) {
         s.controller->remove_AcceleratorKeyPressed(s.accelToken);
         s.accelToken = {};
+    }
+}
+
+static void RemoveDownloadHandlerIfAny(WV2State& s)
+{
+    if (s.webview && s.downloadToken.value != 0) {
+        ComPtr<ICoreWebView2_4> webview4;
+        if (SUCCEEDED(s.webview.As(&webview4)) && webview4) {
+            webview4->remove_DownloadStarting(s.downloadToken);
+        }
+        s.downloadToken = {};
     }
 }
 
@@ -175,28 +194,6 @@ static std::wstring ToFileUri(const std::wstring& path)
     std::wstring p = path;
     for (auto& ch : p) if (ch == L'\\') ch = L'/';
     return L"file:///" + p;
-}
-
-static std::vector<std::wstring> GetJpegFiles(const std::wstring& folder, bool includeSubfolders)
-{
-    std::vector<std::wstring> files;
-    if (includeSubfolders) {
-        for (const auto& entry : std::filesystem::recursive_directory_iterator(folder)) {
-            if (!entry.is_regular_file()) continue;
-            auto ext = entry.path().extension().wstring();
-            std::transform(ext.begin(), ext.end(), ext.begin(), ::towlower);
-            if (ext == L".jpg" || ext == L".jpeg") files.push_back(entry.path().wstring());
-        }
-    } else {
-        for (const auto& entry : std::filesystem::directory_iterator(folder)) {
-            if (!entry.is_regular_file()) continue;
-            auto ext = entry.path().extension().wstring();
-            std::transform(ext.begin(), ext.end(), ext.begin(), ::towlower);
-            if (ext == L".jpg" || ext == L".jpeg") files.push_back(entry.path().wstring());
-        }
-    }
-    std::sort(files.begin(), files.end());
-    return files;
 }
 
 static LRESULT CALLBACK HostWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -279,11 +276,20 @@ static void SetHostFocus(WV2State& s)
 
 static bool InitWebView2(WV2State& s)
 {
-    // Provide browser args via environment var to support older SDKs
+    // Provide browser args via environment var to support older SDKs.
+    // Set flags to disable HDR display if requested.
+    // Set conservative flags to disable telemetry, background/networking,
+    // automatic updates and crash reporting.
+    const wchar_t* kTelemetryFlags =
+        L"--disable-background-networking --disable-breakpad --disable-component-update "
+        L"--disable-client-side-phishing-detection --disable-domain-reliability --disable-crash-reporter "
+        L"--safebrowsing-disable-auto-update --disable-features=AutofillServerCommunication,NetworkPrediction";
+
     if (s.sdrMode) {
-        SetEnvironmentVariableW(L"WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS", L"--force-color-profile=srgb --disable-hdr");
+        std::wstring args = std::wstring(kTelemetryFlags) + L" --force-color-profile=srgb --disable-hdr";
+        SetEnvironmentVariableW(L"WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS", args.c_str());
     } else {
-        SetEnvironmentVariableW(L"WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS", nullptr); // clear
+        SetEnvironmentVariableW(L"WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS", kTelemetryFlags);
     }
 
     // Use a distinct user data folder per mode so a fresh environment is created with new args
@@ -331,20 +337,70 @@ static bool InitWebView2(WV2State& s)
                                 settings->put_IsZoomControlEnabled(FALSE);
                                 settings->put_IsStatusBarEnabled(FALSE);
                             }
-                            // Note: put_DefaultBackgroundColor may not be available in older WebView2 SDKs.
-                            // We set the host window background to black instead.
+
+                            // Register a DownloadStarting handler to prevent unwanted "download" behavior
+                            // for some image types (for example .tif/.jxl) and instead skip to the next
+                            // file in current navigation direction.
+                            ComPtr<ICoreWebView2_4> webview4;
+                            if (SUCCEEDED(s.webview.As(&webview4)) && webview4) {
+                                webview4->add_DownloadStarting(
+                                    Microsoft::WRL::Callback<ICoreWebView2DownloadStartingEventHandler>(
+                                        [&s](ICoreWebView2* /*unused*/, ICoreWebView2DownloadStartingEventArgs* args) -> HRESULT {
+                                            if (!args) return S_OK;
+                                            // Get the download operation and source URI
+                                            ComPtr<ICoreWebView2DownloadOperation> op;
+                                            if (SUCCEEDED(args->get_DownloadOperation(&op)) && op) {
+                                                LPWSTR uriRaw = nullptr;
+                                                if (SUCCEEDED(op->get_Uri(&uriRaw)) && uriRaw) {
+                                                    std::wstring uri(uriRaw);
+                                                    CoTaskMemFree(uriRaw);
+
+                                                    // Cancel the default download behavior and mark handled.
+                                                    args->put_Cancel(TRUE);
+                                                    args->put_Handled(TRUE);
+                                                    // Decide direction based on last navigation
+                                                    UINT advanceKey = (g_wv2_last_nav_key == VK_LEFT) ? VK_LEFT : VK_RIGHT;
+                                                    // Log the skip action (URI and direction)
+                                                    LOG_MSG(L"WebView2Mode: Skipping unsupported image: " , uri , L" -> direction=" , (advanceKey == VK_LEFT ? L"LEFT" : L"RIGHT"));
+                                                    // Immediately advance by posting a hotkey message with the chosen direction
+                                                    if (g_wv2_thread_id != 0) {
+                                                        if (!PostThreadMessageW(g_wv2_thread_id, WM_APP_HOTKEY, (WPARAM)advanceKey, 0)) {
+                                                            LOG_MSG(L"WebView2Mode: Skipping unsupported image: failed to advance to next image");
+                                                        }
+                                                    } else {
+                                                        if (s.hwnd) {
+                                                            PostMessageW(s.hwnd, WM_KEYDOWN, (WPARAM)advanceKey, 0);
+                                                            PostMessageW(s.hwnd, WM_KEYUP, (WPARAM)advanceKey, 0);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            // If we obtained a deferral but didn't complete it above, ensure release
+                                            // (def->Complete called where appropriate). The ComPtr will release on exit.
+                                            return S_OK;
+                                        }).Get(),
+                                    &s.downloadToken);
+                            }
+
                             EventRegistrationToken navStartToken{};
                             s.webview->add_NavigationStarting(
                                 Microsoft::WRL::Callback<ICoreWebView2NavigationStartingEventHandler>(
                                     [](ICoreWebView2*, ICoreWebView2NavigationStartingEventArgs* args) -> HRESULT {
                                         LPWSTR uri = nullptr;
-                                        if (SUCCEEDED(args->get_Uri(&uri))) {
-                                            LOG_MSG(std::wstring(L"WebView2Mode: NavigationStarting -> ") + (uri ? uri : L"<null>"));
-                                            if (uri) CoTaskMemFree(uri);
+                                        if (SUCCEEDED(args->get_Uri(&uri)) && uri) {
+                                            std::wstring u(uri);
+                                            LOG_MSG(std::wstring(L"WebView2Mode: NavigationStarting -> ") + u);
+                                            // Allow only file:// URIs
+                                            if (u.rfind(L"file://", 0) != 0) {
+                                                args->put_Cancel(TRUE);
+                                                LOG_MSG(L"WebView2Mode: Navigation canceled for non-file URI: ", u.c_str());
+                                            }
+                                            CoTaskMemFree(uri);
                                         }
                                         return S_OK;
                                     }).Get(),
                                 &navStartToken);
+
                             EventRegistrationToken navCompletedToken{};
                             s.webview->add_NavigationCompleted(
                                 Microsoft::WRL::Callback<ICoreWebView2NavigationCompletedEventHandler>(
@@ -371,9 +427,9 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
         return 1;
     }
 
-    const std::vector<std::wstring> imageFiles = GetJpegFiles(settings.imageFolder, settings.includeSubfolders);
+    const std::vector<std::wstring> imageFiles = GetImageFilesInFolder(settings.imageFolder, settings.includeSubfolders);
     if (imageFiles.empty()) {
-        LOG_MSG(L"No .jpg images found in folder: " + settings.imageFolder);
+        LOG_MSG(L"No images found in folder: " + settings.imageFolder);
         return 1;
     }
 
@@ -459,11 +515,15 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
             PostQuitMessage(0);
             handled = true;
         } else if (key == VK_RIGHT) {
+            // record navigation direction so DownloadStarting knows user intent
+            SetLastNavKey(VK_RIGHT);
             if (settings.randomizeOrder) currentIndex = getNextRandomIndex();
             else currentIndex = (currentIndex + 1) % imageFiles.size();
             navigateTo(currentIndex);
             handled = true;
         } else if (key == VK_LEFT) {
+            // record navigation direction so DownloadStarting knows user intent
+            SetLastNavKey(VK_LEFT);
             if (settings.randomizeOrder) {
                 if (historyPosition > 0) { historyPosition--; currentIndex = history[historyPosition]; }
             } else {
@@ -564,6 +624,7 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
             LOG_MSG(L"WebView2Mode: Current bounds before reinit: left=" + std::to_wstring(curBounds.left) + L", top=" + std::to_wstring(curBounds.top) + L", right=" + std::to_wstring(curBounds.right) + L", bottom=" + std::to_wstring(curBounds.bottom));
             // Tear down existing controller/webview and unregister handlers
             RemoveAcceleratorIfAny(s);
+            RemoveDownloadHandlerIfAny(s);
             s.webview.Reset();
             s.controller.Reset();
             // Uninstall low-level hooks prior to reinit
@@ -598,6 +659,8 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
 
         if (std::chrono::steady_clock::now() - lastAdvance >= advanceInterval) {
             lastAdvance = std::chrono::steady_clock::now();
+            // record automatic forward navigation
+            SetLastNavKey(VK_RIGHT);
             if (settings.randomizeOrder) currentIndex = getNextRandomIndex();
             else currentIndex = (currentIndex + 1) % imageFiles.size();
             navigateTo(currentIndex);
@@ -611,5 +674,7 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
     UninstallLowLevelHooks(s);
     // Remove accelerator registration if present
     RemoveAcceleratorIfAny(s);
+    // Remove download handler if present
+    RemoveDownloadHandlerIfAny(s);
     return 0;
 }

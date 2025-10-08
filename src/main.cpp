@@ -25,6 +25,7 @@
 // Signal handling
 #include <csignal>
 
+
 // --- Global shutdown flag ---
 volatile bool g_shutdownRequested = false;
 
@@ -34,44 +35,6 @@ static void SignalHandler(int signal) {
         LOG_MSG(L"Ctrl+C received. Shutting down gracefully...");
         g_shutdownRequested = true;
     }
-}
-
-/**
- * Get all JPEG files in a folder (case-insensitive)
- * @param folder Path to the folder to search
- * @param includeSubfolders Whether to search subdirectories recursively
- * @return Vector of JPEG file paths, sorted alphabetically
- */
-static std::vector<std::wstring> GetJpegFilesInFolder(const std::wstring& folder, bool includeSubfolders = false) {
-    std::vector<std::wstring> files;
-
-    if (includeSubfolders) {
-        // Recursively search through all subdirectories
-        for (const auto& entry : std::filesystem::recursive_directory_iterator(folder)) {
-            if (!entry.is_regular_file()) continue;
-            auto path = entry.path();
-            auto ext = path.extension().wstring();
-            std::transform(ext.begin(), ext.end(), ext.begin(), ::towlower);
-            if (ext == L".jpg" || ext == L".jpeg") {
-                files.push_back(path.wstring());
-            }
-        }
-    } else {
-        // Only search the specified folder (no subdirectories)
-        for (const auto& entry : std::filesystem::directory_iterator(folder)) {
-            if (!entry.is_regular_file()) continue;
-            auto path = entry.path();
-            auto ext = path.extension().wstring();
-            std::transform(ext.begin(), ext.end(), ext.begin(), ::towlower);
-            if (ext == L".jpg" || ext == L".jpeg") {
-                files.push_back(path.wstring());
-            }
-        }
-    }
-
-    // Sort files alphabetically
-    std::sort(files.begin(), files.end());
-    return files;
 }
 
 // --- Registry helpers for image folder config ---
@@ -128,9 +91,11 @@ static void SaveImageFolderToRegistry(const std::wstring& folder) {
  */
 static std::wstring ToWString(const char* str) {
     if (!str) return L"";
-    size_t len = strlen(str);
-    std::wstring wstr(len, L' ');
-    mbstowcs(&wstr[0], str, len);
+    // Convert using the system ANSI code page to match prior behavior of mbstowcs
+    int required = MultiByteToWideChar(CP_ACP, 0, str, -1, nullptr, 0);
+    if (required <= 0) return L"";
+    std::wstring wstr(required - 1, L'\0');
+    MultiByteToWideChar(CP_ACP, 0, str, -1, &wstr[0], required);
     return wstr;
 }
 
@@ -161,7 +126,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int x) {
     LOG_MSG(L"HDRScreenSaver starting. Command line: '", ToWString(lpCmdLine), L"'");
 
     // Initialize COM so we can use WIC (Windows Imaging Component) for color space conversions.
-    CoInitialize(NULL);
+    struct CoInit {
+        CoInit() { CoInitialize(nullptr); }
+        ~CoInit() { CoUninitialize(); }
+    } coinit;
 
     // Use CommandLineToArgvW for robust argument parsing
     wchar_t mode;
