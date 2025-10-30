@@ -134,6 +134,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int x) {
     // Use CommandLineToArgvW for robust argument parsing
     wchar_t mode;
     std::wstring param;
+    std::wstring imagePathOverride;
     bool randomizeOrderOverride = false;
     std::wstring imageFolderOverride;
     {
@@ -145,13 +146,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int x) {
             return 0;
         }
 
-        std::wstring arg1 = argv[1];
-        if (arg1.size() > 0 && (arg1[0] == L'/' || arg1[0] == L'-'))
-            arg1 = arg1.substr(1);
-        mode = towlower(arg1[0]);
-        param = arg1.size() > 2 && arg1[1] == L':' ? arg1.substr(2) : L"";
-        if (param.empty() && argc > 2)
-            param = argv[2];
+        std::wstring firstArg = argv[1];
+        // If the first arg does NOT start with a switch char, treat it as an image path (Open With).
+        if (firstArg.size() > 0 && firstArg[0] != L'/' && firstArg[0] != L'-') {
+            imagePathOverride = firstArg;
+            mode = L'x'; // open-with should behave like standalone
+            param.clear();
+        } else {
+            std::wstring arg1 = firstArg;
+            if (arg1.size() > 0 && (arg1[0] == L'/' || arg1[0] == L'-'))
+                arg1 = arg1.substr(1);
+            mode = towlower(arg1[0]);
+            param = arg1.size() > 2 && arg1[1] == L':' ? arg1.substr(2) : L"";
+            if (param.empty() && argc > 2)
+                param = argv[2];
+        }
 
         // Check for help flags first
         bool helpRequested = false;
@@ -210,6 +219,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int x) {
         LOG_MSG(L"Command line override: image folder set to: " + settings.imageFolder);
     }
 
+    // If Open With supplied an image path, remember it and request no auto-advance.
+    if (!imagePathOverride.empty()) {
+        LOG_MSG(L"Open-with image path detected: " + imagePathOverride);
+    }
+
     Logger::Instance().Configure(settings.logEnabled, settings.logPath);
 
     // --- Determine mode: screensaver, preview, or standalone ---
@@ -239,7 +253,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int x) {
 
         case L'x': {
             LOG_MSG(L"Standalone mode requested.");
-            return RunWebView2Mode(false /*shutdownOnAnyUnhandledInput*/, settings);
+            // If an image path was passed (Open With), show that image but keep navigation in the same folder.
+            // Also disable automatic advancing when launched via Open With.
+            const bool disableAutoAdvance = !imagePathOverride.empty();
+            return RunWebView2Mode(false /*shutdownOnAnyUnhandledInput*/, settings, imagePathOverride, disableAutoAdvance);
         }
 
         default: {

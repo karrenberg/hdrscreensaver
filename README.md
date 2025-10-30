@@ -1,8 +1,8 @@
 # HDR ScreenSaver
+A Windows screensaver / image viewer written in C++. This screensaver displays HDR images using WebView2. You need an HDR display and Windows set to HDR mode to make full use of this.
+The app can be used as a Windows screensaver or standalone like a minimal image viewer app. I made it my default image viewer in Windows.
 
-A Windows screensaver written in C++. This screensaver displays HDR images using WebView2. You need an HDR display and Windows set to HDR mode to make full use of this.
-The app can be used as a Windows screensaver or standalone (like an image viewing app).
-
+## Background
 For years I've had the dream of using my awesome 1400 nits display to show all the information that my digital camera RAW files can capture instead of the compressed and tonemapped SDR you get by default. However, for a long time there were hardly any resources, not to speak of existing work flows or apps outside of film software which doesn't really target still images. Darktable can export HDR since a long time, but it's too much trial-and-error to be useful for this purpose since it always displays SDR and the work flow isn't optimized for HDR at all.
 Finally, some time ago Adobe Lightroom added a full HDR workflow that displays HDR while editing, has some really nice features (SDR+HDR histogram, HDR visualization, SDR display preview and SDR-only adjustments) and allows to export several HDR image formats. And at least some of them can be displayed properly by Chromium-based browsers.
 
@@ -22,15 +22,17 @@ So I gave up and asked the coding assistant to just wrap Chromium in a web app -
 
 ## Features
 - Displays a slideshow of HDR and SDR images from a configurable folder (JPEG, PNG, WebP, GIF, BMP, SVG and others supported by the WebView2 runtime).
+- Open-with / Explorer integration: The app can be launched from Explorer's "Open with..." on an image and/or be made the default app to open supported file types, effectively behaving like a minimal image viewer.
 - Automatically skips unsupported image formats.
 - Can toggle between HDR and SDR display with hotkeys H/S.
 - Can use arrow keys to go to next/previous image.
-- Can zoom into the image with mouse left click and move around with mouse wheel controls.
+- Can zoom into the image with mouse left click and move around with mouse wheel controls (difficult in screensaver mode which exits on mouse movement ;) ).
 - All rendering and color management is done by WebView2.
 - Graceful shutdown on ESC or Ctrl+C. Screensaver mode also exits after mouse movement or pressing any other key.
-- Minimal launcher `.scr` for safe install/uninstall and Windows compatibility. This is to prevent having to copy skia and other DLLs into Windows/System.
+- Minimal launcher `.scr` for safe install/uninstall and Windows compatibility. This is to prevent having to copy skia and other DLLs into Windows/System (see TODO below).
 
 ## TODO
+- Get rid of the launcher .scr now that no DLLs need to be copied anymore.
 - Remove bright background gradient in HDR mode (WebView2 default, also present in Chrome et al)
 - Improve image loading performance
 - Display preview in screen saver settings dialog (currently not implemented).
@@ -78,7 +80,7 @@ https://github.com/adobe/XMP-Toolkit-SDK/
 - Download WebView2 (current link: https://developer.microsoft.com/en-us/microsoft-edge/webview2)
 - Unpack folder (e.g. 7zip can read the archive directly)
 - Copy folder to third-party/
-- Adjust CMakeLists.txt
+- Adjust path in CMakeLists.txt
 - Tested with version 1.0.3485.44.
 
 ### Steps
@@ -96,7 +98,8 @@ cmake -S . -B build -G "Visual Studio 17 2022" -A x64
 cmake --build build --config Release
 ```
 
-3. The resulting `.scr` file will be in `build/Release/`. Use the provided install script to register as a screensaver.
+3. The resulting `.scr` file will be in `build/Release/`. Use the provided install script to register as a screensaver: `install_screensaver.bat install`.
+4. To uninstall the screensaver, use `install_screensaver.bat uninstall`.
 
 #### Notes for Visual Studio Code Users
 - You do **not** need the full Visual Studio IDE, only the Build Tools 2022 with C++ support.
@@ -109,6 +112,7 @@ cmake --build build --config Release
 - `/p` or `/p:parent_hwnd` - Preview mode (for Windows screensaver preview, not implemented)
 - `/s` - Screensaver mode (activated by Windows, exits on mouse movement or any key except special hotkeys)
 - `/x` - Standalone mode (for testing, only exits on ESC key)
+- Pass an image path as first argument to start image viewer mode (standalone without auto-advance)
 
 **Note:** Running the screensaver without arguments will display a help message with all available options.
 
@@ -118,7 +122,7 @@ cmake --build build --config Release
   - Example: `HDRScreenSaver.scr /s /r` (screensaver mode with random order enabled)
 
 ### Image Display
-- The screensaver displays images from the configured folder
+- The screensaver displays images from the configured folder.
 - Images are loaded and displayed with WebView2, no custom color management or anything else.
 
 ### Special Hotkeys (work in all modes)
@@ -126,7 +130,6 @@ cmake --build build --config Release
 - **Left Arrow** - Previous image
 - **Right Arrow** - Next image
 - **H/S** - Toggle between HDR and SDR display (if image has HDR version)
-- **G** - Toggle gain map display (if image has gain map, not available for WebView2 backend)
 
 ## Configuration Dialog
 
@@ -156,4 +159,4 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 
 ---
 
-_Last updated: October 8, 2025_
+_Last updated: October 31, 2025_

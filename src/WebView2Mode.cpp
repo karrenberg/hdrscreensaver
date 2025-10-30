@@ -420,17 +420,61 @@ static bool InitWebView2(WV2State& s)
     return SUCCEEDED(hr);
 }
 
-int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings& settings)
+int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings& settings, const std::wstring& singleImagePath /*= L""*/, bool disableAutoAdvance /*= false*/)
 {
-    if (!std::filesystem::exists(settings.imageFolder)) {
-        MessageBoxW(nullptr, (L"HDRScreenSaver: Image folder not found:\n" + settings.imageFolder).c_str(), L"HDRScreenSaver", MB_OK);
-        return 1;
+    std::vector<std::wstring> imageFiles;
+    std::wstring startingImage = L"";
+
+    if (!singleImagePath.empty()) {
+        if (!std::filesystem::exists(singleImagePath) || !std::filesystem::is_regular_file(singleImagePath)) {
+            MessageBoxW(nullptr, (L"HDRScreenSaver: Image file not found:\n" + singleImagePath).c_str(), L"HDRScreenSaver", MB_OK);
+            return 1;
+        }
+        startingImage = singleImagePath;
+        // Try to load all images from the same folder as the provided image so arrow keys can navigate
+        try {
+            std::filesystem::path p(singleImagePath);
+            std::filesystem::path parent = p.parent_path();
+            if (!parent.empty() && std::filesystem::exists(parent)) {
+                imageFiles = GetImageFilesInFolder(parent.wstring(), settings.includeSubfolders);
+            }
+        } catch (...) {
+            // Fall back to single image only
+        }
+        if (imageFiles.empty()) {
+            // Fallback: show only the provided file
+            imageFiles.push_back(singleImagePath);
+        }
+    } else {
+        if (!std::filesystem::exists(settings.imageFolder)) {
+            MessageBoxW(nullptr, (L"HDRScreenSaver: Image folder not found:\n" + settings.imageFolder).c_str(), L"HDRScreenSaver", MB_OK);
+            return 1;
+        }
+        imageFiles = GetImageFilesInFolder(settings.imageFolder, settings.includeSubfolders);
+        if (imageFiles.empty()) {
+            LOG_MSG(L"No images found in folder: " + settings.imageFolder);
+            return 1;
+        }
     }
 
-    const std::vector<std::wstring> imageFiles = GetImageFilesInFolder(settings.imageFolder, settings.includeSubfolders);
-    if (imageFiles.empty()) {
-        LOG_MSG(L"No images found in folder: " + settings.imageFolder);
-        return 1;
+    // Determine start index if a starting image was provided
+    size_t startIndex = 0;
+    if (!startingImage.empty()) {
+        for (size_t i = 0; i < imageFiles.size(); ++i) {
+            bool matched = false;
+            try {
+                if (std::filesystem::equivalent(imageFiles[i], startingImage))
+                    matched = true;
+            } catch (...) {
+                // fall back to string compare
+                if (imageFiles[i] == startingImage)
+                    matched = true;
+            }
+            if (matched) {
+                startIndex = i;
+                break;
+            }
+        }
     }
 
     WV2State s;
@@ -486,7 +530,7 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
     };
 
     // State for navigation
-    size_t currentIndex = 0;
+    size_t currentIndex = startIndex;
     std::vector<size_t> history; history.reserve(1024);
     size_t historyPosition = 0;
     const size_t maxHistorySize = 1000;
@@ -577,6 +621,8 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
     bool mouseMoved = false;
 
     const auto advanceInterval = std::chrono::seconds(settings.displaySeconds);
+    // If disableAutoAdvance is requested (open-with single file), we'll skip the automatic advancement.
+    const bool autoAdvanceEnabled = !disableAutoAdvance;
     auto lastAdvance = std::chrono::steady_clock::now();
 
     MSG msg;
@@ -657,7 +703,7 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
             InstallLowLevelHooks(s, curPos);
         }
 
-        if (std::chrono::steady_clock::now() - lastAdvance >= advanceInterval) {
+        if (autoAdvanceEnabled && std::chrono::steady_clock::now() - lastAdvance >= advanceInterval) {
             lastAdvance = std::chrono::steady_clock::now();
             // record automatic forward navigation
             SetLastNavKey(VK_RIGHT);
