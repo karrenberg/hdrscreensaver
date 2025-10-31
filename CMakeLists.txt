@@ -14,7 +14,7 @@ file(GLOB SOURCES "src/*.cpp")
 list(REMOVE_ITEM SOURCES "${CMAKE_SOURCE_DIR}/src/LauncherScr.cpp")
 
 # Add executable and link libraries
-add_executable(HDRScreenSaver WIN32 ${SOURCES})
+add_executable(HDRScreenSaver WIN32 ${SOURCES} resources/HDRScreensaver.rc)
 
 set_target_properties(HDRScreenSaver PROPERTIES OUTPUT_NAME "HDRScreenSaver.scr")
 
@@ -67,9 +67,10 @@ else()
 endif()
 
 # Add launcher executable
-add_executable(LauncherScr WIN32 src/LauncherScr.cpp)
+add_executable(LauncherScr WIN32 src/LauncherScr.cpp resources/HDRScreensaver.rc)
 set_target_properties(LauncherScr PROPERTIES OUTPUT_NAME "HDRScreenSaverLauncher.scr")
 # Statically link CRT for launcher (so it doesn't need DLLs)
 set_target_properties(LauncherScr PROPERTIES MSVC_RUNTIME_LIBRARY "MultiThreaded")
 
-target_sources(HDRScreenSaver PRIVATE src/SettingsDialogTemplate.rc)
+target_sources(HDRScreenSaver PRIVATE "resources/HDRScreensaver.rc" src/SettingsDialogTemplate.rc)
+target_sources(LauncherScr PRIVATE "resources/HDRScreensaver.rc")
