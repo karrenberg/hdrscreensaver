@@ -196,6 +196,19 @@ static std::wstring ToFileUri(const std::wstring& path)
     return L"file:///" + p;
 }
 
+// Helper: build an ANSI window title from a wide path, prefixed with "HDRScreenSaver - "
+static std::string BuildWindowTitleA(const std::wstring& widePath)
+{
+    std::wstring prefix = L"HDRScreenSaver - ";
+    std::wstring full = prefix + widePath;
+    int needed = WideCharToMultiByte(CP_ACP, 0, full.c_str(), -1, nullptr, 0, nullptr, nullptr);
+    if (needed <= 0) return std::string("HDRScreenSaver");
+    std::string out(needed, '\0');
+    WideCharToMultiByte(CP_ACP, 0, full.c_str(), -1, &out[0], needed, nullptr, nullptr);
+    if (!out.empty() && out.back() == '\0') out.pop_back();
+    return out;
+}
+
 static LRESULT CALLBACK HostWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     WV2State* state = reinterpret_cast<WV2State*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
@@ -479,7 +492,15 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
 
     WV2State s;
     const bool fullscreen = shutdownOnAnyUnhandledInput; // fullscreen for screensaver mode
-    if (!CreateHostWindow(s, "HDRScreenSaver - WebView2", fullscreen)) return 1;
+
+    // Build a window title. In windowed mode include the current file name for easier identification.
+    std::string windowTitle = "HDRScreenSaver";
+    if (!fullscreen && !imageFiles.empty()) {
+        std::wstring wname = std::filesystem::path(imageFiles[startIndex]).wstring();
+        windowTitle = BuildWindowTitleA(wname);
+    }
+
+    if (!CreateHostWindow(s, windowTitle.c_str(), fullscreen)) return 1;
 
     // (no interactive debug popup here) ensure thread id recorded for hook forwarding
     g_wv2_thread_id = GetCurrentThreadId();
@@ -527,6 +548,12 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
         const std::wstring uri = ToFileUri(imageFiles[index]);
         s.webview->Navigate(uri.c_str());
         LOG_MSG(L"WebView2Mode: Showing " + imageFiles[index]);
+        // Update window title to reflect the currently shown image (full path) when not fullscreen
+        if (!fullscreen && s.hwnd) {
+            std::wstring wpath = std::filesystem::path(imageFiles[index]).wstring();
+            std::string title = BuildWindowTitleA(wpath);
+            SetWindowTextA(s.hwnd, title.c_str());
+        }
     };
 
     // State for navigation
