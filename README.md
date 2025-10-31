@@ -149,6 +149,13 @@ cmake --build build --config Release
 - **Enable logging**: Toggle logging to file
 - **Log file path**: Location of the log file
 
+## Creating an installer (Inno Setup)
+
+1. Build release binaries
+2. Ensure Inno Setup is installed (ISCC.exe available) or edit `installer\create_installer.bat` to point to your ISCC path.
+3. From the repo root run: installer\create_installer.bat
+4. The produced installer is placed under `installer\Output\`
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
