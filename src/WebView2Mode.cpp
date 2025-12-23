@@ -46,23 +46,54 @@ static void SetLastNavKey(UINT vk)
     InterlockedExchange(&g_wv2_last_nav_key, (LONG)vk);
 }
 
+// Helper: Check if a window belongs to our application (host window or its descendants, or same process)
+static bool IsOurWindow(HWND hwnd)
+{
+    if (!hwnd || !g_wv2_host_hwnd) return false;
+    if (hwnd == g_wv2_host_hwnd) return true;
+
+    // Check if it's a descendant of the host window
+    HWND parent = GetParent(hwnd);
+    while (parent) {
+        if (parent == g_wv2_host_hwnd) return true;
+        parent = GetParent(parent);
+    }
+
+    // Also check if it's in the same process (WebView2 creates windows in our process)
+    DWORD fgProcessId = 0;
+    DWORD hostProcessId = 0;
+    GetWindowThreadProcessId(hwnd, &fgProcessId);
+    GetWindowThreadProcessId(g_wv2_host_hwnd, &hostProcessId);
+    if (fgProcessId == hostProcessId && fgProcessId != 0) {
+        return true;
+    }
+
+    return false;
+}
+
 // Low-level keyboard proc: forwards specified keys to the saver host window when the host or one of
-// its child windows is the foreground window. Returns 1 to swallow the event when handled.
+// its child windows is the foreground window. Returns non-zero to swallow the event when handled.
 static LRESULT CALLBACK WV2_LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
+    if (nCode < 0) {
+        return CallNextHookEx(g_wv2_kbHook, nCode, wParam, lParam);
+    }
+
     if (nCode == HC_ACTION && (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN)) {
         KBDLLHOOKSTRUCT* k = reinterpret_cast<KBDLLHOOKSTRUCT*>(lParam);
         UINT vk = (UINT)k->vkCode;
         HWND fg = GetForegroundWindow();
         if (!fg) return CallNextHookEx(g_wv2_kbHook, nCode, wParam, lParam);
 
-        // Only intercept when the foreground window is our saver host or a child of it
-        if (!g_wv2_host_hwnd || !(fg == g_wv2_host_hwnd || IsChild(g_wv2_host_hwnd, fg))) {
+        // Only intercept when the foreground window belongs to our application
+        if (!g_wv2_host_hwnd || !IsOurWindow(fg)) {
             return CallNextHookEx(g_wv2_kbHook, nCode, wParam, lParam);
         }
 
         bool shouldHandle = false;
         WPARAM postKey = 0;
+        // Virtual key codes for letters are case-insensitive (same code for 'H' and 'h')
+        // Use uppercase character codes which match the virtual key codes
         switch (vk) {
             case VK_LEFT: postKey = VK_LEFT; shouldHandle = true; break;
             case VK_RIGHT: postKey = VK_RIGHT; shouldHandle = true; break;
@@ -84,7 +115,8 @@ static LRESULT CALLBACK WV2_LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARA
                 PostMessageW(target, WM_KEYDOWN, (WPARAM)postKey, 0);
                 PostMessageW(target, WM_KEYUP, (WPARAM)postKey, 0);
             }
-            return 1; // swallow event
+            // Return non-zero to prevent the event from being passed to the target window
+            return 1;
         }
     }
     return CallNextHookEx(g_wv2_kbHook, nCode, wParam, lParam);
