@@ -79,6 +79,7 @@ So I gave up and asked the coding assistant to just wrap Chromium in a web app -
 - **Left Arrow** - Previous image
 - **Right Arrow** - Next image
 - **H/S** - Toggle between HDR and SDR display (if image has HDR version)
+- **R** - Toggle random order on/off
 
 ### Configuration Dialog
 
@@ -187,4 +188,4 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 
 ---
 
-_Last updated: October 31, 2025_
+_Last updated: April 07, 2026_

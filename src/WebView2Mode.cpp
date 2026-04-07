@@ -101,6 +101,7 @@ static LRESULT CALLBACK WV2_LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARA
             case 'H': /* H */ postKey = 'H'; shouldHandle = true; break;
             case 'S': /* S */ postKey = 'S'; shouldHandle = true; break;
             case 'G': /* G */ postKey = 'G'; shouldHandle = true; break;
+            case 'R': /* R */ postKey = 'R'; shouldHandle = true; break;
             default: break;
         }
 
@@ -590,11 +591,17 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
 
     // State for navigation
     size_t currentIndex = startIndex;
+    bool randomize = settings.randomizeOrder; // mutable: can be toggled with R hotkey
     std::vector<size_t> history; history.reserve(1024);
     size_t historyPosition = 0;
     const size_t maxHistorySize = 1000;
     std::random_device rd; std::mt19937 gen(rd());
     std::uniform_int_distribution<size_t> dist(0, imageFiles.size() - 1);
+
+    // In screensaver/standalone mode with random order, pick a random starting image
+    if (randomize && singleImagePath.empty() && imageFiles.size() > 1) {
+        currentIndex = dist(gen);
+    }
 
     auto getNextRandomIndex = [&]() -> size_t {
         size_t nextIndex = dist(gen);
@@ -620,14 +627,14 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
         } else if (key == VK_RIGHT) {
             // record navigation direction so DownloadStarting knows user intent
             SetLastNavKey(VK_RIGHT);
-            if (settings.randomizeOrder) currentIndex = getNextRandomIndex();
+            if (randomize) currentIndex = getNextRandomIndex();
             else currentIndex = (currentIndex + 1) % imageFiles.size();
             navigateTo(currentIndex);
             handled = true;
         } else if (key == VK_LEFT) {
             // record navigation direction so DownloadStarting knows user intent
             SetLastNavKey(VK_LEFT);
-            if (settings.randomizeOrder) {
+            if (randomize) {
                 if (historyPosition > 0) { historyPosition--; currentIndex = history[historyPosition]; }
             } else {
                 currentIndex = (currentIndex + imageFiles.size() - 1) % imageFiles.size();
@@ -638,6 +645,10 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
             state.sdrMode = !state.sdrMode;
             state.requestReinit = true;
             LOG_MSG(std::wstring(L"WebView2Mode: Hotkey H/S toggled. New mode: ") + (state.sdrMode ? L"SDR" : L"HDR"));
+            handled = true;
+        } else if (key == 'R' || key == 'r') {
+            randomize = !randomize;
+            LOG_MSG(std::wstring(L"WebView2Mode: Random mode ") + (randomize ? L"enabled" : L"disabled"));
             handled = true;
         } else if (shutdownOnAnyUnhandledInput) {
             PostQuitMessage(0);
@@ -766,7 +777,7 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
             lastAdvance = std::chrono::steady_clock::now();
             // record automatic forward navigation
             SetLastNavKey(VK_RIGHT);
-            if (settings.randomizeOrder) currentIndex = getNextRandomIndex();
+            if (randomize) currentIndex = getNextRandomIndex();
             else currentIndex = (currentIndex + 1) % imageFiles.size();
             navigateTo(currentIndex);
         }

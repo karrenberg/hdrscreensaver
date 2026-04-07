@@ -222,6 +222,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int x) {
     // If Open With supplied an image path, remember it and request no auto-advance.
     if (!imagePathOverride.empty()) {
         LOG_MSG(L"Open-with image path detected: " + imagePathOverride);
+        settings.randomizeOrder = false;
+        LOG_MSG(L"Open-with mode: random order disabled");
     }
 
     Logger::Instance().Configure(settings.logEnabled, settings.logPath);
