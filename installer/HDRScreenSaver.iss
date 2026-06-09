@@ -23,6 +23,9 @@ Source: "build\Release\HDRScreenSaver.scr.exe"; DestDir: "{app}"; DestName: "HDR
 ; Launcher to be the screensaver file in System32 (required for Windows to list it as a screensaver)
 Source: "build\Release\HDRScreenSaverLauncher.scr.exe"; DestDir: "{win}\System32"; DestName: "HDRScreenSaver.scr"; Flags: ignoreversion
 
+; Bundled offline world map for the location overlay (optional; skipped if not staged)
+Source: "build\Release\world_map.jpg"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+
 ; Include WebView2 bootstrapper
 Source: "build\Release\MicrosoftEdgeWebView2RuntimeInstallerX64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall
 

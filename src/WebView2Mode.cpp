@@ -16,6 +16,8 @@
 #include "SettingsDialog.h"
 #include "WebView2Mode.h"
 #include "ImageFileUtils.h"
+#include "ImageMetadata.h"
+#include "MapOverlay.h"
 
 #pragma comment(lib, "ole32.lib")
 #pragma comment(lib, "user32.lib")
@@ -102,6 +104,7 @@ static LRESULT CALLBACK WV2_LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARA
             case 'S': /* S */ postKey = 'S'; shouldHandle = true; break;
             case 'G': /* G */ postKey = 'G'; shouldHandle = true; break;
             case 'R': /* R */ postKey = 'R'; shouldHandle = true; break;
+            case 'M': /* M */ postKey = 'M'; shouldHandle = true; break;
             default: break;
         }
 
@@ -161,7 +164,27 @@ struct WV2State {
     HHOOK kbHook = nullptr; // low-level keyboard hook handle
     EventRegistrationToken accelToken{};
     EventRegistrationToken downloadToken{};
+    MapOverlay* mapOverlay = nullptr; // optional location map overlay (not owned)
 };
+
+// Update the overlay for the given image: when enabled, show the photo date (lower-left)
+// plus a map pin if the image has GPS metadata. Hidden entirely when disabled.
+static void UpdateMapOverlay(MapOverlay* overlay, bool mapEnabled, bool dateEnabled, const std::wstring& imagePath)
+{
+    if (!overlay) return;
+    // The map and the date are independent: show whichever is enabled (Show() hides the
+    // overlay entirely when there is neither a map to draw nor a date).
+    bool showMap = false;
+    double lat = 0.0, lon = 0.0;
+    if (mapEnabled) {
+        GpsLocation gps = ReadGpsLocation(imagePath);
+        showMap = gps.hasGps;
+        lat = gps.latitude;
+        lon = gps.longitude;
+    }
+    std::wstring date = dateEnabled ? ReadDateTaken(imagePath) : L"";
+    overlay->Show(date, showMap, lat, lon);
+}
 
 // Helper: install low-level hooks and initialize globals
 static void InstallLowLevelHooks(WV2State& s, const POINT& initialMousePos)
@@ -252,6 +275,9 @@ static LRESULT CALLBACK HostWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
             RECT rc; GetClientRect(hwnd, &rc);
             state->controller->put_Bounds(rc);
         }
+        if (state && state->mapOverlay) {
+            state->mapOverlay->Reposition();
+        }
         break;
     case WM_SETFOCUS:
         if (state && state->controller) {
@@ -263,6 +289,11 @@ static LRESULT CALLBACK HostWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
             if (state && state->controller) {
                 state->controller->MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC);
             }
+            if (state && state->mapOverlay) state->mapOverlay->SetOwnerActive(true);
+        } else {
+            // Hide the (topmost) overlay when we lose activation so it doesn't float
+            // above other apps after alt-tab.
+            if (state && state->mapOverlay) state->mapOverlay->SetOwnerActive(false);
         }
         break;
     case WM_DESTROY:
@@ -572,6 +603,12 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
         LOG_MSG(L"WebView2Mode: WebView2 initialized successfully");
     }
 
+    // Location map overlay (lower-left corner). Created/initialized below, before the
+    // first navigation. `mapEnabled` can be toggled at runtime with the 'M' hotkey.
+    MapOverlay overlay;
+    bool mapEnabled = settings.mapOverlayEnabled;
+    const bool dateEnabled = settings.dateOverlayEnabled;
+
     // Navigation helpers
     auto navigateTo = [&](size_t index) {
         if (!s.webview) {
@@ -587,6 +624,8 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
             std::string title = BuildWindowTitleA(wpath);
             SetWindowTextA(s.hwnd, title.c_str());
         }
+        // Update the location map for the newly shown image.
+        UpdateMapOverlay(s.mapOverlay, mapEnabled, dateEnabled, imageFiles[index]);
     };
 
     // State for navigation
@@ -614,6 +653,11 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
 
     // Ensure focus is on our host and WebView for immediate keyboard handling
     SetHostFocus(s);
+
+    // Create the location map overlay now that the host window exists.
+    if (overlay.Initialize(s.hwnd, settings.mapZoomDegrees)) {
+        s.mapOverlay = &overlay;
+    }
 
     // First navigation once ready
     navigateTo(currentIndex);
@@ -649,6 +693,11 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
         } else if (key == 'R' || key == 'r') {
             randomize = !randomize;
             LOG_MSG(std::wstring(L"WebView2Mode: Random mode ") + (randomize ? L"enabled" : L"disabled"));
+            handled = true;
+        } else if (key == 'M' || key == 'm') {
+            mapEnabled = !mapEnabled;
+            LOG_MSG(std::wstring(L"WebView2Mode: Location map ") + (mapEnabled ? L"enabled" : L"disabled"));
+            UpdateMapOverlay(s.mapOverlay, mapEnabled, dateEnabled, imageFiles[currentIndex]);
             handled = true;
         } else if (shutdownOnAnyUnhandledInput) {
             PostQuitMessage(0);
@@ -784,6 +833,10 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
 
         Sleep(10);
     }
+
+    // Tear down the location map overlay
+    s.mapOverlay = nullptr;
+    overlay.Shutdown();
 
     if (needUninit) CoUninitialize();
     // Ensure hooks are removed on exit

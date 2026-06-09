@@ -11,6 +11,9 @@ struct ScreenSaverSettings {
     bool enableCaching;
     bool includeSubfolders;
     bool randomizeOrder;
+    bool mapOverlayEnabled;  // show the location map overlay by default
+    int  mapZoomDegrees;     // half-extent in degrees cropped around the pin (zoom)
+    bool dateOverlayEnabled; // show the photo date in the overlay
 };
 
 // Shows the settings dialog. Returns true if settings were changed and saved.

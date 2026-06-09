@@ -16,8 +16,24 @@
 #define IDC_LOGPATH_BROWSE 2006
 #define IDC_INCLUDE_SUBFOLDERS 2007
 #define IDC_RANDOMIZE_ORDER 2008
+#define IDC_MAP_OVERLAY 2009
+#define IDC_MAP_ZOOM_SLIDER 2010
+#define IDC_MAP_ZOOM_LABEL 2011
+#define IDC_DATE_OVERLAY 2012
+
+// Map zoom slider range, expressed as the half-extent in degrees around the pin.
+static const int kMapZoomMin = 1;   // ~220 km across
+static const int kMapZoomMax = 25;  // ~5550 km across
 
 #pragma comment(lib, "shlwapi.lib")
+
+// Update the "~N km across" caption next to the zoom slider for the given half-extent.
+static void UpdateMapZoomLabel(HWND hDlg, int zoomDegrees) {
+    int kmAcross = (int)(2.0 * zoomDegrees * 111.0 + 0.5);
+    wchar_t buf[64];
+    swprintf(buf, 64, L"~%d km across", kmAcross);
+    SetDlgItemTextW(hDlg, IDC_MAP_ZOOM_LABEL, buf);
+}
 
 static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
     ScreenSaverSettings* s = reinterpret_cast<ScreenSaverSettings*>(GetWindowLongPtrW(hDlg, GWLP_USERDATA));
@@ -29,10 +45,28 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPara
         SetDlgItemInt(hDlg, IDC_DISPLAYSEC_EDIT, s->displaySeconds, FALSE);
         CheckDlgButton(hDlg, IDC_INCLUDE_SUBFOLDERS, s->includeSubfolders ? BST_CHECKED : BST_UNCHECKED);
         CheckDlgButton(hDlg, IDC_RANDOMIZE_ORDER, s->randomizeOrder ? BST_CHECKED : BST_UNCHECKED);
+        CheckDlgButton(hDlg, IDC_MAP_OVERLAY, s->mapOverlayEnabled ? BST_CHECKED : BST_UNCHECKED);
+        CheckDlgButton(hDlg, IDC_DATE_OVERLAY, s->dateOverlayEnabled ? BST_CHECKED : BST_UNCHECKED);
         CheckDlgButton(hDlg, IDC_LOG_ENABLE, s->logEnabled ? BST_CHECKED : BST_UNCHECKED);
         SetDlgItemTextW(hDlg, IDC_LOGPATH_EDIT, s->logPath.c_str());
+        {
+            int zoom = s->mapZoomDegrees;
+            if (zoom < kMapZoomMin) zoom = kMapZoomMin;
+            if (zoom > kMapZoomMax) zoom = kMapZoomMax;
+            HWND slider = GetDlgItem(hDlg, IDC_MAP_ZOOM_SLIDER);
+            SendMessageW(slider, TBM_SETRANGE, TRUE, MAKELONG(kMapZoomMin, kMapZoomMax));
+            SendMessageW(slider, TBM_SETTICFREQ, 5, 0);
+            SendMessageW(slider, TBM_SETPOS, TRUE, zoom);
+            UpdateMapZoomLabel(hDlg, zoom);
+        }
         return TRUE;
     }
+    case WM_HSCROLL:
+        if ((HWND)lParam == GetDlgItem(hDlg, IDC_MAP_ZOOM_SLIDER)) {
+            int zoom = (int)SendMessageW((HWND)lParam, TBM_GETPOS, 0, 0);
+            UpdateMapZoomLabel(hDlg, zoom);
+        }
+        break;
     case WM_COMMAND:
         switch (LOWORD(wParam)) {
         case IDC_BROWSE_BTN: {
@@ -86,6 +120,9 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPara
             s->displaySeconds = sec;
             s->includeSubfolders = (IsDlgButtonChecked(hDlg, IDC_INCLUDE_SUBFOLDERS) == BST_CHECKED);
             s->randomizeOrder = (IsDlgButtonChecked(hDlg, IDC_RANDOMIZE_ORDER) == BST_CHECKED);
+            s->mapOverlayEnabled = (IsDlgButtonChecked(hDlg, IDC_MAP_OVERLAY) == BST_CHECKED);
+            s->mapZoomDegrees = (int)SendMessageW(GetDlgItem(hDlg, IDC_MAP_ZOOM_SLIDER), TBM_GETPOS, 0, 0);
+            s->dateOverlayEnabled = (IsDlgButtonChecked(hDlg, IDC_DATE_OVERLAY) == BST_CHECKED);
             s->logEnabled = (IsDlgButtonChecked(hDlg, IDC_LOG_ENABLE) == BST_CHECKED);
             GetDlgItemTextW(hDlg, IDC_LOGPATH_EDIT, buf, MAX_PATH);
             s->logPath = buf;
@@ -102,7 +139,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPara
 }
 
 bool ShowSettingsDialog(HWND parent, ScreenSaverSettings& settings) {
-    INITCOMMONCONTROLSEX icc = { sizeof(icc), ICC_STANDARD_CLASSES };
+    INITCOMMONCONTROLSEX icc = { sizeof(icc), ICC_STANDARD_CLASSES | ICC_BAR_CLASSES };
     InitCommonControlsEx(&icc);
     INT_PTR ret = DialogBoxParamW(GetModuleHandleW(nullptr), MAKEINTRESOURCEW(IDD_SETTINGS), parent, DlgProc, (LPARAM)&settings);
     return ret == 1;
@@ -132,6 +169,9 @@ ScreenSaverSettings LoadSettingsFromRegistry() {
     s.logPath = L"";
     s.includeSubfolders = true;
     s.randomizeOrder = false;
+    s.mapOverlayEnabled = true;
+    s.mapZoomDegrees = 3;  // ~666 km across (2 * 3 deg * 111 km)
+    s.dateOverlayEnabled = true;
     if (RegOpenKeyExW(HKEY_CURRENT_USER, L"Software\\HDRScreenSaver", 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
         if (RegQueryValueExW(hKey, L"ImageFolder", nullptr, nullptr, (LPBYTE)buf, &len) == ERROR_SUCCESS && wcslen(buf) > 0)
             s.imageFolder = buf;
@@ -147,6 +187,15 @@ ScreenSaverSettings LoadSettingsFromRegistry() {
         sz = sizeof(val);
         if (RegQueryValueExW(hKey, L"RandomizeOrder", nullptr, nullptr, (LPBYTE)&val, &sz) == ERROR_SUCCESS)
             s.randomizeOrder = (val != 0);
+        sz = sizeof(val);
+        if (RegQueryValueExW(hKey, L"MapOverlayEnabled", nullptr, nullptr, (LPBYTE)&val, &sz) == ERROR_SUCCESS)
+            s.mapOverlayEnabled = (val != 0);
+        sz = sizeof(val);
+        if (RegQueryValueExW(hKey, L"MapZoomDegrees", nullptr, nullptr, (LPBYTE)&val, &sz) == ERROR_SUCCESS && val > 0 && val <= 90)
+            s.mapZoomDegrees = (int)val;
+        sz = sizeof(val);
+        if (RegQueryValueExW(hKey, L"DateOverlayEnabled", nullptr, nullptr, (LPBYTE)&val, &sz) == ERROR_SUCCESS)
+            s.dateOverlayEnabled = (val != 0);
         len = sizeof(buf);
         if (RegQueryValueExW(hKey, L"LogPath", nullptr, nullptr, (LPBYTE)buf, &len) == ERROR_SUCCESS && wcslen(buf) > 0)
             s.logPath = buf;
@@ -177,6 +226,12 @@ void SaveSettingsToRegistry(const ScreenSaverSettings& s) {
         RegSetValueExW(hKey, L"IncludeSubfolders", 0, REG_DWORD, (const BYTE*)&val, sizeof(val));
         val = (DWORD)(s.randomizeOrder ? 1 : 0);
         RegSetValueExW(hKey, L"RandomizeOrder", 0, REG_DWORD, (const BYTE*)&val, sizeof(val));
+        val = (DWORD)(s.mapOverlayEnabled ? 1 : 0);
+        RegSetValueExW(hKey, L"MapOverlayEnabled", 0, REG_DWORD, (const BYTE*)&val, sizeof(val));
+        val = (DWORD)s.mapZoomDegrees;
+        RegSetValueExW(hKey, L"MapZoomDegrees", 0, REG_DWORD, (const BYTE*)&val, sizeof(val));
+        val = (DWORD)(s.dateOverlayEnabled ? 1 : 0);
+        RegSetValueExW(hKey, L"DateOverlayEnabled", 0, REG_DWORD, (const BYTE*)&val, sizeof(val));
         RegSetValueExW(hKey, L"LogPath", 0, REG_SZ, (const BYTE*)s.logPath.c_str(), (DWORD)((s.logPath.size()+1)*sizeof(wchar_t)));
         RegCloseKey(hKey);
     }

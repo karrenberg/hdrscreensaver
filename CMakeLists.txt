@@ -24,6 +24,26 @@ set_target_properties(HDRScreenSaver PROPERTIES OUTPUT_NAME "HDRScreenSaver.scr"
 target_link_libraries(HDRScreenSaver PRIVATE comctl32)
 
 # ---------------------------------------------------------------------
+# Libraries for the offline location map overlay:
+#   gdiplus       - render/crop the world map and pin
+#   windowscodecs - WIC, read EXIF GPS metadata
+#   propsys       - PROPVARIANT helpers used when reading metadata
+# ---------------------------------------------------------------------
+target_link_libraries(HDRScreenSaver PRIVATE gdiplus windowscodecs propsys)
+
+# Copy the bundled offline world map next to the executable if it is present in resources/.
+# The map overlay degrades gracefully (no map shown) when the asset is missing.
+if(EXISTS "${CMAKE_SOURCE_DIR}/resources/world_map.jpg")
+  add_custom_command(TARGET HDRScreenSaver POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+      "${CMAKE_SOURCE_DIR}/resources/world_map.jpg"
+      "$<TARGET_FILE_DIR:HDRScreenSaver>/world_map.jpg"
+    COMMENT "Copying world_map.jpg next to HDRScreenSaver")
+else()
+  message(STATUS "resources/world_map.jpg not found - location map overlay will be inert until it is added.")
+endif()
+
+# ---------------------------------------------------------------------
 # Find and link WebView2 loader library
 # ---------------------------------------------------------------------
 set(WEBVIEW2_ROOT "${CMAKE_SOURCE_DIR}/third-party/microsoft.web.webview2.1.0.3485.44/build/native")

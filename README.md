@@ -31,6 +31,7 @@ So I gave up and asked the coding assistant to just wrap Chromium in a web app -
 - Automatically skips unsupported image formats.
 - Can toggle between HDR and SDR display with hotkeys H/S.
 - Can use arrow keys to go to next/previous image.
+- Press **M** to overlay a small, offline map in the lower-left corner with a pin at the photo's GPS location (on by default). Photos without embedded location data show no map. Fully offline — no reverse geocoding, no online map tiles.
 - Can zoom into the image with mouse left click and move around with mouse wheel controls (difficult in screensaver mode which exits on mouse movement ;) ).
 - All rendering and color management is done by WebView2.
 - Graceful shutdown on ESC or Ctrl+C. Screensaver mode also exits after mouse movement or pressing any other key.
@@ -80,6 +81,7 @@ So I gave up and asked the coding assistant to just wrap Chromium in a web app -
 - **Right Arrow** - Next image
 - **H/S** - Toggle between HDR and SDR display (if image has HDR version)
 - **R** - Toggle random order on/off
+- **M** - Toggle the location map overlay on/off
 
 ### Configuration Dialog
 
@@ -96,6 +98,8 @@ So I gave up and asked the coding assistant to just wrap Chromium in a web app -
 - **Randomize order**: When enabled, images are displayed in random order instead of sequentially
   - Right arrow and automatic advancement select random images
   - Left arrow navigates back through history (last 1000 images viewed)
+- **Show location map (M)**: When enabled (default), photos with embedded GPS data show an offline map with a location pin in the lower-left corner (toggle at runtime with `M`)
+- **Map zoom**: Slider controlling how much area the location map covers (from a close ~220 km view to a wide ~5500 km view)
 - **Enable logging**: Toggle logging to file
 - **Log file path**: Location of the log file
 
@@ -175,6 +179,19 @@ https://www.adobe.com/devnet/xmp.html
 
 XMP Toolkit:
 https://github.com/adobe/XMP-Toolkit-SDK/
+
+
+## Location Map
+
+The `M` hotkey overlays an offline map with a pin at the photo's GPS location. GPS coordinates are read from the image's EXIF metadata via the Windows Imaging Component, and the pin is drawn onto a cropped region of a bundled world map. Everything happens locally — no network access, no reverse geocoding, no online map tiles.
+
+The map asset lives at `resources/world_map.jpg` (a ~16k × 8k equirectangular image). It is not required to build; when absent the overlay simply stays inactive. When present, the build copies it next to the executable and the installer bundles it.
+
+The bundled map is derived from **Natural Earth** ("Natural Earth I with Shaded Relief, Water, and Drainages", 1:10m raster), which is in the public domain:
+
+https://www.naturalearthdata.com/downloads/10m-raster-data/10m-natural-earth-1/
+
+> Made with Natural Earth. Free vector and raster map data @ naturalearthdata.com.
 
 
 ## License
