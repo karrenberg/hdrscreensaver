@@ -28,8 +28,11 @@ target_link_libraries(HDRScreenSaver PRIVATE comctl32)
 #   gdiplus       - render/crop the world map and pin
 #   windowscodecs - WIC, read EXIF GPS metadata
 #   propsys       - PROPVARIANT helpers used when reading metadata
+# Libraries for the online satellite tile fetch (TileMap.cpp):
+#   winhttp       - HTTPS tile requests to ESRI ArcGIS servers
+#   ole32         - CreateStreamOnHGlobal for decoding tile bytes via IStream
 # ---------------------------------------------------------------------
-target_link_libraries(HDRScreenSaver PRIVATE gdiplus windowscodecs propsys)
+target_link_libraries(HDRScreenSaver PRIVATE gdiplus windowscodecs propsys winhttp ole32)
 
 # Copy the bundled offline world map next to the executable if it is present in resources/.
 # The map overlay degrades gracefully (no map shown) when the asset is missing.

@@ -167,16 +167,17 @@ struct WV2State {
     MapOverlay* mapOverlay = nullptr; // optional location map overlay (not owned)
 };
 
-// Update the overlay for the given image: when enabled, show the photo date (lower-left)
-// plus a map pin if the image has GPS metadata. Hidden entirely when disabled.
-static void UpdateMapOverlay(MapOverlay* overlay, bool mapEnabled, bool dateEnabled, const std::wstring& imagePath)
+enum class MapMode { Off = 0, Offline = 1, Online = 2 };
+
+// Update the overlay for the given image. mapMode controls whether to show no map,
+// the offline world map, or online satellite tiles. The date is independent of mapMode.
+static void UpdateMapOverlay(MapOverlay* overlay, MapMode mapMode, bool dateEnabled, const std::wstring& imagePath)
 {
     if (!overlay) return;
-    // The map and the date are independent: show whichever is enabled (Show() hides the
-    // overlay entirely when there is neither a map to draw nor a date).
     bool showMap = false;
     double lat = 0.0, lon = 0.0;
-    if (mapEnabled) {
+    if (mapMode != MapMode::Off) {
+        overlay->SetOnlineMode(mapMode == MapMode::Online);
         GpsLocation gps = ReadGpsLocation(imagePath);
         showMap = gps.hasGps;
         lat = gps.latitude;
@@ -289,11 +290,6 @@ static LRESULT CALLBACK HostWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
             if (state && state->controller) {
                 state->controller->MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC);
             }
-            if (state && state->mapOverlay) state->mapOverlay->SetOwnerActive(true);
-        } else {
-            // Hide the (topmost) overlay when we lose activation so it doesn't float
-            // above other apps after alt-tab.
-            if (state && state->mapOverlay) state->mapOverlay->SetOwnerActive(false);
         }
         break;
     case WM_DESTROY:
@@ -604,9 +600,11 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
     }
 
     // Location map overlay (lower-left corner). Created/initialized below, before the
-    // first navigation. `mapEnabled` can be toggled at runtime with the 'M' hotkey.
+    // first navigation. `mapMode` can be cycled at runtime with the 'M' hotkey.
     MapOverlay overlay;
-    bool mapEnabled = settings.mapOverlayEnabled;
+    MapMode mapMode = !settings.mapOverlayEnabled ? MapMode::Off
+                    : settings.mapOnlineMode      ? MapMode::Online
+                    :                               MapMode::Offline;
     const bool dateEnabled = settings.dateOverlayEnabled;
 
     // Navigation helpers
@@ -625,7 +623,7 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
             SetWindowTextA(s.hwnd, title.c_str());
         }
         // Update the location map for the newly shown image.
-        UpdateMapOverlay(s.mapOverlay, mapEnabled, dateEnabled, imageFiles[index]);
+        UpdateMapOverlay(s.mapOverlay, mapMode, dateEnabled, imageFiles[index]);
     };
 
     // State for navigation
@@ -655,7 +653,7 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
     SetHostFocus(s);
 
     // Create the location map overlay now that the host window exists.
-    if (overlay.Initialize(s.hwnd, settings.mapZoomDegrees)) {
+    if (overlay.Initialize(s.hwnd, settings.mapZoomDegrees, settings.mapOnlineMode)) {
         s.mapOverlay = &overlay;
     }
 
@@ -695,9 +693,17 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
             LOG_MSG(std::wstring(L"WebView2Mode: Random mode ") + (randomize ? L"enabled" : L"disabled"));
             handled = true;
         } else if (key == 'M' || key == 'm') {
-            mapEnabled = !mapEnabled;
-            LOG_MSG(std::wstring(L"WebView2Mode: Location map ") + (mapEnabled ? L"enabled" : L"disabled"));
-            UpdateMapOverlay(s.mapOverlay, mapEnabled, dateEnabled, imageFiles[currentIndex]);
+            if (settings.mapOnlineMode) {
+                mapMode = (mapMode == MapMode::Off)     ? MapMode::Offline
+                        : (mapMode == MapMode::Offline) ? MapMode::Online
+                        :                                 MapMode::Off;
+            } else {
+                mapMode = (mapMode == MapMode::Off) ? MapMode::Offline : MapMode::Off;
+            }
+            const wchar_t* modeStr = mapMode == MapMode::Off ? L"disabled"
+                                   : mapMode == MapMode::Offline ? L"offline" : L"satellite";
+            LOG_MSG(std::wstring(L"WebView2Mode: Location map ") + modeStr);
+            UpdateMapOverlay(s.mapOverlay, mapMode, dateEnabled, imageFiles[currentIndex]);
             handled = true;
         } else if (shutdownOnAnyUnhandledInput) {
             PostQuitMessage(0);

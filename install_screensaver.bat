@@ -55,6 +55,13 @@ for %%F in ("%BUILD_DIR%\*.dll") do (
 )
 echo Copied !COPIED_DLLS! DLL(s) to %APPDIR%\
 
+if exist "%BUILD_DIR%\world_map.jpg" (
+    copy /Y "%BUILD_DIR%\world_map.jpg" "%APPDIR%\" >nul
+    echo Copied world_map.jpg to %APPDIR%\
+) else (
+    echo Note: world_map.jpg not found in build output - offline map will be unavailable
+)
+
 if exist "%BUILD_DIR%\%LAUNCHER%.exe" (
     copy /Y "%BUILD_DIR%\%LAUNCHER%.exe" "%SYSTEM32%\%SCRNAME%" >nul
     if errorlevel 1 (

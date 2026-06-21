@@ -12,8 +12,9 @@ struct ScreenSaverSettings {
     bool includeSubfolders;
     bool randomizeOrder;
     bool mapOverlayEnabled;  // show the location map overlay by default
-    int  mapZoomDegrees;     // half-extent in degrees cropped around the pin (zoom)
+    double mapZoomDegrees;   // half-extent in degrees cropped around the pin (zoom)
     bool dateOverlayEnabled; // show the photo date in the overlay
+    bool mapOnlineMode;      // use online satellite map (vs bundled offline world map)
 };
 
 // Shows the settings dialog. Returns true if settings were changed and saved.

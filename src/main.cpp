@@ -235,7 +235,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int x) {
             ScreenSaverSettings settings = LoadSettingsFromRegistry();
             if (ShowSettingsDialog(nullptr, settings)) {
                 SaveSettingsToRegistry(settings);
-                MessageBoxW(nullptr, L"Settings saved.", L"HDRScreenSaver", MB_OK);
                 LOG_MSG(L"Settings updated and saved.");
             } else {
                 LOG_MSG(L"Settings dialog cancelled or unchanged.");
