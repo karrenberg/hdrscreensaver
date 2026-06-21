@@ -28,10 +28,11 @@ public:
     bool IsMapLoaded() const { return m_worldBitmap != nullptr; }
 
     // Shows the overlay for the current photo. The date label (if any) is anchored at the
-    // lower-left corner; when hasGps is true a map cropped around the coordinate is stacked
-    // above it. The world map is loaded on first use; if its asset is missing only the date
-    // is shown. No-op if there is neither a date nor a usable map.
-    void Show(const std::wstring& dateText, bool hasGps, double latitude, double longitude);
+    // lower-left corner; location sits above it; the map is stacked above both. The world
+    // map is loaded on first use; if its asset is missing only the text lines are shown.
+    // No-op if there is nothing to display.
+    void Show(const std::wstring& dateText, const std::wstring& locationText,
+              bool hasGps, double latitude, double longitude);
 
     // Switches between online (satellite) and offline (world map) rendering at runtime.
     // Safe to call before the next Show().
@@ -65,7 +66,8 @@ private:
     bool       m_hasMap = false;          // current photo has GPS (and offline or online map available)
     double     m_lat = 0.0;
     double     m_lon = 0.0;
-    std::wstring m_date;                  // formatted photo date drawn at the lower-left (empty = none)
+    std::wstring m_date;                  // formatted photo date (empty = none)
+    std::wstring m_location;              // "Sublocation, City, Country" text (empty = none)
 
     // Online satellite tile path
     bool       m_onlineMode = false;

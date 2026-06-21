@@ -213,9 +213,11 @@ bool MapOverlay::EnsureWorldLoaded()
 // Show
 // ---------------------------------------------------------------------------
 
-void MapOverlay::Show(const std::wstring& dateText, bool hasGps, double latitude, double longitude)
+void MapOverlay::Show(const std::wstring& dateText, const std::wstring& locationText,
+                      bool hasGps, double latitude, double longitude)
 {
     m_date = dateText;
+    m_location = locationText;
     m_lat = latitude;
     m_lon = longitude;
 
@@ -224,7 +226,7 @@ void MapOverlay::Show(const std::wstring& dateText, bool hasGps, double latitude
     bool worldOk = EnsureWorldLoaded();
     m_hasMap = hasGps && (worldOk || m_onlineMode);
 
-    if (!m_hasMap && m_date.empty()) {  // nothing to show
+    if (!m_hasMap && m_date.empty() && m_location.empty()) {  // nothing to show
         Hide();
         return;
     }
@@ -323,11 +325,13 @@ void MapOverlay::Redraw()
     side = std::clamp(side, 120, static_cast<int>(ownerH * 0.40));
     const int margin = std::max(20, side / 12);
     const int mapH = m_hasMap ? side : 0;
-    // Date band sits below the map, anchored at the lower-left corner.
-    const int textBand = m_date.empty() ? 0 : std::max(16, static_cast<int>(side * 0.16));
-    if (mapH == 0 && textBand == 0) return;
+    const REAL fontPx = std::max(10.0f, side * 0.085f);
+    const int bandH = static_cast<int>(fontPx * 1.6f);  // shared height for both text rows
+    const int locBand  = m_location.empty() ? 0 : bandH;
+    const int textBand = m_date.empty()     ? 0 : bandH;
+    if (mapH == 0 && locBand == 0 && textBand == 0) return;
     const int winW = side;
-    const int winH = mapH + textBand;
+    const int winH = mapH + locBand + textBand;
     const int left = orc.left + margin;
     const int top = orc.bottom - margin - winH;
 
@@ -430,22 +434,29 @@ void MapOverlay::Redraw()
             }
         }
 
-        // Photo date in the band below the map (~75% opaque white, soft shadow for legibility).
-        if (textBand > 0) {
+        // Text bands below the map: location row then date row.
+        if (locBand > 0 || textBand > 0) {
             FontFamily ff(L"Segoe UI");
-            const REAL fontPx = std::max(10.0f, side * 0.085f);
             Font font(&ff, fontPx, FontStyleRegular, UnitPixel);
             StringFormat sf;
             sf.SetAlignment(StringAlignmentCenter);
             sf.SetLineAlignment(StringAlignmentCenter);
+            sf.SetTrimming(StringTrimmingEllipsisCharacter);
+            sf.SetFormatFlags(StringFormatFlagsNoWrap);
             g.SetTextRenderingHint(TextRenderingHintAntiAlias);
-            const REAL bandTop = static_cast<REAL>(mapH);
+
             SolidBrush shadow(Color(140, 0, 0, 0));
-            g.DrawString(m_date.c_str(), -1, &font,
-                         RectF(1.0f, bandTop + 1.0f, static_cast<REAL>(winW), static_cast<REAL>(textBand)), &sf, &shadow);
-            SolidBrush text(Color(191, 255, 255, 255)); // ~75% opaque
-            g.DrawString(m_date.c_str(), -1, &font,
-                         RectF(0.0f, bandTop, static_cast<REAL>(winW), static_cast<REAL>(textBand)), &sf, &text);
+            SolidBrush textBrush(Color(191, 255, 255, 255));
+
+            auto drawRow = [&](const std::wstring& str, int yTop, int rowH) {
+                const RectF rShadow(1.0f, static_cast<REAL>(yTop) + 1.0f, static_cast<REAL>(winW), static_cast<REAL>(rowH));
+                const RectF rText (0.0f, static_cast<REAL>(yTop),        static_cast<REAL>(winW), static_cast<REAL>(rowH));
+                g.DrawString(str.c_str(), -1, &font, rShadow, &sf, &shadow);
+                g.DrawString(str.c_str(), -1, &font, rText,   &sf, &textBrush);
+            };
+
+            if (locBand > 0)  drawRow(m_location, mapH,            locBand);
+            if (textBand > 0) drawRow(m_date,      mapH + locBand, textBand);
         }
         g.Flush();
     }

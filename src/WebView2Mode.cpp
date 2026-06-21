@@ -183,8 +183,9 @@ static void UpdateMapOverlay(MapOverlay* overlay, MapMode mapMode, bool dateEnab
         lat = gps.latitude;
         lon = gps.longitude;
     }
-    std::wstring date = dateEnabled ? ReadDateTaken(imagePath) : L"";
-    overlay->Show(date, showMap, lat, lon);
+    std::wstring date     = dateEnabled ? ReadDateTaken(imagePath) : L"";
+    std::wstring location = (mapMode != MapMode::Off || dateEnabled) ? ReadLocationInfo(imagePath) : L"";
+    overlay->Show(date, location, showMap, lat, lon);
 }
 
 // Helper: install low-level hooks and initialize globals

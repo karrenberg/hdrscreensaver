@@ -139,6 +139,32 @@ static inline GpsLocation ReadGpsLocation(const std::wstring& imagePath)
 
 namespace ImageMetadataDetail {
 
+// Convert a narrow IPTC string (typically UTF-8 from Lightroom) to wide.
+static inline std::wstring IptcToWide(const char* s)
+{
+    if (!s || !*s) return L"";
+    int n = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, s, -1, nullptr, 0);
+    if (n <= 0) n = MultiByteToWideChar(CP_ACP, 0, s, -1, nullptr, 0);
+    if (n <= 0) return L"";
+    std::wstring r(n - 1, L'\0');
+    if (MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, s, -1, &r[0], n) == 0)
+        MultiByteToWideChar(CP_ACP, 0, s, -1, &r[0], n);
+    return r;
+}
+
+static inline std::wstring ReadIptcString(IWICMetadataQueryReader* reader, const wchar_t* path)
+{
+    PROPVARIANT v;
+    PropVariantInit(&v);
+    std::wstring result;
+    if (SUCCEEDED(reader->GetMetadataByName(path, &v))) {
+        if (v.vt == VT_LPSTR && v.pszVal)   result = IptcToWide(v.pszVal);
+        else if (v.vt == VT_LPWSTR && v.pwszVal) result = v.pwszVal;
+    }
+    PropVariantClear(&v);
+    return result;
+}
+
 // Format an EXIF date string "YYYY:MM:DD HH:MM:SS" as e.g. "5 June 2018". Returns empty on failure.
 static inline std::wstring FormatExifDate(const char* exif)
 {
@@ -191,4 +217,37 @@ static inline std::wstring ReadDateTaken(const std::wstring& imagePath)
         if (!result.empty()) return result;
     }
     return L"";
+}
+
+// Reads IPTC location fields (Sub-location, City, Country) and returns them joined
+// as e.g. "Lambton Quay, Wellington, New Zealand". Returns empty if none are present.
+static inline std::wstring ReadLocationInfo(const std::wstring& imagePath)
+{
+    using namespace Microsoft::WRL;
+    using namespace ImageMetadataDetail;
+
+    ComPtr<IWICImagingFactory> factory;
+    if (FAILED(CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER,
+                                IID_PPV_ARGS(&factory))) || !factory) return L"";
+    ComPtr<IWICBitmapDecoder> decoder;
+    if (FAILED(factory->CreateDecoderFromFilename(imagePath.c_str(), nullptr, GENERIC_READ,
+                                                  WICDecodeMetadataCacheOnDemand, &decoder)) || !decoder) return L"";
+    ComPtr<IWICBitmapFrameDecode> frame;
+    if (FAILED(decoder->GetFrame(0, &frame)) || !frame) return L"";
+    ComPtr<IWICMetadataQueryReader> reader;
+    if (FAILED(frame->GetMetadataQueryReader(&reader)) || !reader) return L"";
+
+    // IPTC Record 2 datasets (JPEG APP13/IRB block): 90=City, 92=Sub-location, 101=Country
+    const std::wstring subloc  = ReadIptcString(reader.Get(), L"/app13/irb/8bimiptc/iptc/{ushort=92}");
+    const std::wstring city    = ReadIptcString(reader.Get(), L"/app13/irb/8bimiptc/iptc/{ushort=90}");
+    const std::wstring country = ReadIptcString(reader.Get(), L"/app13/irb/8bimiptc/iptc/{ushort=101}");
+
+    std::wstring result;
+    for (const std::wstring* p : { &subloc, &city, &country }) {
+        if (!p->empty()) {
+            if (!result.empty()) result += L", ";
+            result += *p;
+        }
+    }
+    return result;
 }
