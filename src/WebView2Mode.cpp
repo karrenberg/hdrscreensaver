@@ -626,6 +626,10 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
         UpdateMapOverlay(s.mapOverlay, mapMode, dateEnabled, imageFiles[index]);
     };
 
+    const auto advanceInterval = std::chrono::seconds(settings.displaySeconds);
+    const bool autoAdvanceEnabled = !disableAutoAdvance;
+    auto lastAdvance = std::chrono::steady_clock::now();
+
     // State for navigation
     size_t currentIndex = startIndex;
     bool randomize = settings.randomizeOrder; // mutable: can be toggled with R hotkey
@@ -672,6 +676,7 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
             if (randomize) currentIndex = getNextRandomIndex();
             else currentIndex = (currentIndex + 1) % imageFiles.size();
             navigateTo(currentIndex);
+            lastAdvance = std::chrono::steady_clock::now();
             handled = true;
         } else if (key == VK_LEFT) {
             // record navigation direction so DownloadStarting knows user intent
@@ -682,6 +687,7 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
                 currentIndex = (currentIndex + imageFiles.size() - 1) % imageFiles.size();
             }
             navigateTo(currentIndex);
+            lastAdvance = std::chrono::steady_clock::now();
             handled = true;
         } else if (key == VK_DOWN || key == 'H' || key == 'h' || key == 'S' || key == 's') {
             state.sdrMode = !state.sdrMode;
@@ -745,10 +751,7 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
     POINT initialMousePos{0,0}; GetCursorPos(&initialMousePos);
     bool mouseMoved = false;
 
-    const auto advanceInterval = std::chrono::seconds(settings.displaySeconds);
     // If disableAutoAdvance is requested (open-with single file), we'll skip the automatic advancement.
-    const bool autoAdvanceEnabled = !disableAutoAdvance;
-    auto lastAdvance = std::chrono::steady_clock::now();
 
     MSG msg;
     bool running = true;
