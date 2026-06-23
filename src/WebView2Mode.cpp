@@ -288,13 +288,14 @@ static LRESULT CALLBACK HostWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
             state->controller->MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC);
         }
         break;
-    case WM_ACTIVATE:
-        if (LOWORD(wParam) != WA_INACTIVE) {
-            if (state && state->controller) {
-                state->controller->MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC);
-            }
-        }
+    case WM_ACTIVATE: {
+        const bool active = LOWORD(wParam) != WA_INACTIVE;
+        if (active && state && state->controller)
+            state->controller->MoveFocus(COREWEBVIEW2_MOVE_FOCUS_REASON_PROGRAMMATIC);
+        if (state && state->mapOverlay)
+            state->mapOverlay->SetOwnerActive(active);
         break;
+    }
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
