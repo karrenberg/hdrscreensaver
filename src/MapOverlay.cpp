@@ -213,11 +213,11 @@ bool MapOverlay::EnsureWorldLoaded()
 // Show
 // ---------------------------------------------------------------------------
 
-void MapOverlay::Show(const std::wstring& dateText, const std::wstring& locationText,
+void MapOverlay::Show(const std::wstring& dateText, const std::vector<std::wstring>& locationLines,
                       bool hasGps, double latitude, double longitude)
 {
     m_date = dateText;
-    m_location = locationText;
+    m_locationLines = locationLines;
     m_lat = latitude;
     m_lon = longitude;
 
@@ -226,7 +226,7 @@ void MapOverlay::Show(const std::wstring& dateText, const std::wstring& location
     bool worldOk = EnsureWorldLoaded();
     m_hasMap = hasGps && (worldOk || m_onlineMode);
 
-    if (!m_hasMap && m_date.empty() && m_location.empty()) {  // nothing to show
+    if (!m_hasMap && m_date.empty() && m_locationLines.empty()) {  // nothing to show
         Hide();
         return;
     }
@@ -327,8 +327,9 @@ void MapOverlay::Redraw()
     const int mapH = m_hasMap ? side : 0;
     const REAL fontPx = std::max(10.0f, side * 0.085f);
     const int bandH = static_cast<int>(fontPx * 1.6f);  // shared height for both text rows
-    const int locBand  = m_location.empty() ? 0 : bandH;
-    const int textBand = m_date.empty()     ? 0 : bandH;
+    const int locLineCount = static_cast<int>(m_locationLines.size());
+    const int locBand  = locLineCount * bandH;
+    const int textBand = m_date.empty() ? 0 : bandH;
     if (mapH == 0 && locBand == 0 && textBand == 0) return;
     const int winW = side;
     const int winH = mapH + locBand + textBand;
@@ -455,8 +456,9 @@ void MapOverlay::Redraw()
                 g.DrawString(str.c_str(), -1, &font, rText,   &sf, &textBrush);
             };
 
-            if (locBand > 0)  drawRow(m_location, mapH,            locBand);
-            if (textBand > 0) drawRow(m_date,      mapH + locBand, textBand);
+            int y = mapH;
+            for (const auto& line : m_locationLines) { drawRow(line, y, bandH); y += bandH; }
+            if (textBand > 0) drawRow(m_date, y, textBand);
         }
         g.Flush();
     }

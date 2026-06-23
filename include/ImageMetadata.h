@@ -17,6 +17,8 @@
 #pragma comment(lib, "propsys.lib")
 #pragma comment(lib, "ole32.lib")
 
+using Microsoft::WRL::ComPtr;
+
 struct GpsLocation {
     bool   hasGps = false;
     double latitude = 0.0;   // decimal degrees, +N / -S
@@ -152,19 +154,6 @@ static inline std::wstring IptcToWide(const char* s)
     return r;
 }
 
-static inline std::wstring ReadIptcString(IWICMetadataQueryReader* reader, const wchar_t* path)
-{
-    PROPVARIANT v;
-    PropVariantInit(&v);
-    std::wstring result;
-    if (SUCCEEDED(reader->GetMetadataByName(path, &v))) {
-        if (v.vt == VT_LPSTR && v.pszVal)   result = IptcToWide(v.pszVal);
-        else if (v.vt == VT_LPWSTR && v.pwszVal) result = v.pwszVal;
-    }
-    PropVariantClear(&v);
-    return result;
-}
-
 // Format an EXIF date string "YYYY:MM:DD HH:MM:SS" as e.g. "5 June 2018". Returns empty on failure.
 static inline std::wstring FormatExifDate(const char* exif)
 {
@@ -219,35 +208,103 @@ static inline std::wstring ReadDateTaken(const std::wstring& imagePath)
     return L"";
 }
 
-// Reads IPTC location fields (Sub-location, City, Country) and returns them joined
-// as e.g. "Lambton Quay, Wellington, New Zealand". Returns empty if none are present.
-static inline std::wstring ReadLocationInfo(const std::wstring& imagePath)
+static inline std::wstring PropVariantToWString(const PROPVARIANT& v)
+{
+    switch (v.vt) {
+        case VT_LPWSTR: return v.pwszVal ? v.pwszVal : L"";
+        case VT_BSTR:   return v.bstrVal ? std::wstring(v.bstrVal, SysStringLen(v.bstrVal)) : L"";
+        case VT_LPSTR:  return v.pszVal ? ImageMetadataDetail::IptcToWide(v.pszVal) : L"";
+        default:        return L"";
+    }
+}
+
+static inline bool EndsWithName(const std::wstring& path, const wchar_t* leaf)
+{
+    std::wstring needle = L"//{str=";
+    needle += leaf;
+    needle += L"}";
+    return path.size() >= needle.size() &&
+           path.compare(path.size() - needle.size(), needle.size(), needle) == 0;
+}
+
+static bool FindIptcValueRecursive(IWICMetadataQueryReader* reader,
+                                   const std::wstring& pathPrefix,
+                                   const wchar_t* leafName,
+                                   std::wstring& out)
+{
+    ComPtr<IEnumString> names;
+    if (FAILED(reader->GetEnumerator(&names)) || !names)
+        return false;
+
+    while (true) {
+        LPOLESTR name = nullptr;
+        ULONG fetched = 0;
+        if (names->Next(1, &name, &fetched) != S_OK)
+            break;
+
+        PROPVARIANT v;
+        PropVariantInit(&v);
+
+        if (SUCCEEDED(reader->GetMetadataByName(name, &v))) {
+            std::wstring full = pathPrefix.empty() ? name : (pathPrefix + L"/" + name);
+
+            if (EndsWithName(full, leafName) && (v.vt == VT_LPWSTR || v.vt == VT_BSTR || v.vt == VT_LPSTR)) {
+                out = PropVariantToWString(v);
+                CoTaskMemFree(name);
+                PropVariantClear(&v);
+                return true;
+            }
+
+            if (v.vt == VT_UNKNOWN && v.punkVal) {
+                ComPtr<IWICMetadataQueryReader> child;
+                if (SUCCEEDED(v.punkVal->QueryInterface(__uuidof(IWICMetadataQueryReader),
+                                                        reinterpret_cast<void**>(child.GetAddressOf()))) && child) {
+                    if (FindIptcValueRecursive(child.Get(), full, leafName, out)) {
+                        CoTaskMemFree(name);
+                        PropVariantClear(&v);
+                        return true;
+                    }
+                }
+            }
+        }
+
+        CoTaskMemFree(name);
+        PropVariantClear(&v);
+    }
+
+    return false;
+}
+
+struct LocationInfo {
+    std::wstring sublocation;  // IPTC Sub-location (specific named location within city)
+    std::wstring city;
+    std::wstring country;
+};
+
+// Reads IPTC Sub-location, City, and Country from image metadata.
+// Fields not present in the image are left empty.
+static inline LocationInfo ReadLocationInfo(const std::wstring& imagePath)
 {
     using namespace Microsoft::WRL;
     using namespace ImageMetadataDetail;
 
+    LocationInfo info;
     ComPtr<IWICImagingFactory> factory;
     if (FAILED(CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER,
-                                IID_PPV_ARGS(&factory))) || !factory) return L"";
+                                IID_PPV_ARGS(&factory))) || !factory) return info;
     ComPtr<IWICBitmapDecoder> decoder;
     if (FAILED(factory->CreateDecoderFromFilename(imagePath.c_str(), nullptr, GENERIC_READ,
-                                                  WICDecodeMetadataCacheOnDemand, &decoder)) || !decoder) return L"";
+                                                  WICDecodeMetadataCacheOnDemand, &decoder)) || !decoder) return info;
     ComPtr<IWICBitmapFrameDecode> frame;
-    if (FAILED(decoder->GetFrame(0, &frame)) || !frame) return L"";
+    if (FAILED(decoder->GetFrame(0, &frame)) || !frame) return info;
     ComPtr<IWICMetadataQueryReader> reader;
-    if (FAILED(frame->GetMetadataQueryReader(&reader)) || !reader) return L"";
+    if (FAILED(frame->GetMetadataQueryReader(&reader)) || !reader) return info;
 
-    // IPTC Record 2 datasets (JPEG APP13/IRB block): 90=City, 92=Sub-location, 101=Country
-    const std::wstring subloc  = ReadIptcString(reader.Get(), L"/app13/irb/8bimiptc/iptc/{ushort=92}");
-    const std::wstring city    = ReadIptcString(reader.Get(), L"/app13/irb/8bimiptc/iptc/{ushort=90}");
-    const std::wstring country = ReadIptcString(reader.Get(), L"/app13/irb/8bimiptc/iptc/{ushort=101}");
+    FindIptcValueRecursive(reader.Get(), L"", L"Sub-location", info.sublocation);
+    FindIptcValueRecursive(reader.Get(), L"", L"City", info.city);
+    FindIptcValueRecursive(reader.Get(), L"", L"Country/Primary Location Name", info.country);
 
-    std::wstring result;
-    for (const std::wstring* p : { &subloc, &city, &country }) {
-        if (!p->empty()) {
-            if (!result.empty()) result += L", ";
-            result += *p;
-        }
-    }
-    return result;
+    LOG_MSG(L"ReadLocationInfo: subloc=" + info.sublocation +
+            L" city=" + info.city + L" country=" + info.country);
+    return info;
 }

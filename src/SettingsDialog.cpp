@@ -153,12 +153,12 @@ ScreenSaverSettings LoadSettingsFromRegistry() {
     DWORD len = sizeof(buf);
     s.imageFolder = L"";
     s.displaySeconds = 15;
-    s.logEnabled = true;
+    s.logEnabled = false;
     s.logPath = L"";
     s.includeSubfolders = true;
     s.randomizeOrder = false;
     s.mapOverlayEnabled = true;
-    s.mapZoomDegrees = 3.0;  // ~666 km across (2 * 3 deg * 111 km)
+    s.mapZoomDegrees = 0.002;
     s.dateOverlayEnabled = true;
     s.mapOnlineMode = true;
     if (RegOpenKeyExW(HKEY_CURRENT_USER, L"Software\\HDRScreenSaver", 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
