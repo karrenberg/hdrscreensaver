@@ -5,7 +5,6 @@
 #include <wrl.h>
 #include <string>
 #include <vector>
-#include <initializer_list>
 #include <algorithm>
 #include <filesystem>
 #include <random>
@@ -185,13 +184,10 @@ static void UpdateMapOverlay(MapOverlay* overlay, MapMode mapMode, bool dateEnab
         lon = gps.longitude;
     }
     std::wstring date = dateEnabled ? ReadDateTaken(imagePath) : L"";
-    std::vector<std::wstring> locLines;
-    if (mapMode != MapMode::Off || dateEnabled) {
-        LocationInfo loc = ReadLocationInfo(imagePath);
-        for (const std::wstring* p : { &loc.sublocation, &loc.city, &loc.country })
-            if (!p->empty()) locLines.push_back(*p);
-    }
-    overlay->Show(date, locLines, showMap, lat, lon);
+    LocationInfo loc;
+    if (mapMode != MapMode::Off || dateEnabled)
+        loc = ReadLocationInfo(imagePath);
+    overlay->Show(date, loc.sublocation, loc.city, loc.country, showMap, lat, lon);
 }
 
 // Helper: install low-level hooks and initialize globals

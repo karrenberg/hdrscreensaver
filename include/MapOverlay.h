@@ -8,7 +8,6 @@
 
 #include <windows.h>
 #include <string>
-#include <vector>
 #include <atomic>
 #include <thread>
 #include <mutex>
@@ -28,10 +27,11 @@ public:
     // True once the bundled world map image has been found and loaded.
     bool IsMapLoaded() const { return m_worldBitmap != nullptr; }
 
-    // Shows the overlay for the current photo. Layout top-to-bottom: map, location lines
-    // (one per non-empty field), date. The world map is loaded on first use.
-    // No-op if there is nothing to display.
-    void Show(const std::wstring& dateText, const std::vector<std::wstring>& locationLines,
+    // Shows the overlay for the current photo. Layout top-to-bottom: map, location text
+    // (sublocation on its own line; city+country merged onto one line when they fit),
+    // date. The world map is loaded on first use. No-op if there is nothing to display.
+    void Show(const std::wstring& dateText,
+              const std::wstring& sublocation, const std::wstring& city, const std::wstring& country,
               bool hasGps, double latitude, double longitude);
 
     // Switches between online (satellite) and offline (world map) rendering at runtime.
@@ -66,8 +66,10 @@ private:
     bool       m_hasMap = false;          // current photo has GPS (and offline or online map available)
     double     m_lat = 0.0;
     double     m_lon = 0.0;
-    std::wstring              m_date;          // formatted photo date (empty = none)
-    std::vector<std::wstring> m_locationLines; // non-empty location fields, one per line
+    std::wstring m_date;        // formatted photo date (empty = none)
+    std::wstring m_sublocation; // IPTC Sub-location (always its own line if non-empty)
+    std::wstring m_city;
+    std::wstring m_country;
 
     // Online satellite tile path
     bool       m_onlineMode = false;

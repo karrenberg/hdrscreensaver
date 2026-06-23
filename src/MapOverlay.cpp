@@ -15,6 +15,7 @@ using std::max;
 #include <mutex>
 #include <condition_variable>
 #include <atomic>
+#include <vector>
 
 #include "MapOverlay.h"
 #include "TileMap.h"
@@ -213,11 +214,14 @@ bool MapOverlay::EnsureWorldLoaded()
 // Show
 // ---------------------------------------------------------------------------
 
-void MapOverlay::Show(const std::wstring& dateText, const std::vector<std::wstring>& locationLines,
+void MapOverlay::Show(const std::wstring& dateText,
+                      const std::wstring& sublocation, const std::wstring& city, const std::wstring& country,
                       bool hasGps, double latitude, double longitude)
 {
     m_date = dateText;
-    m_locationLines = locationLines;
+    m_sublocation = sublocation;
+    m_city = city;
+    m_country = country;
     m_lat = latitude;
     m_lon = longitude;
 
@@ -226,7 +230,7 @@ void MapOverlay::Show(const std::wstring& dateText, const std::vector<std::wstri
     bool worldOk = EnsureWorldLoaded();
     m_hasMap = hasGps && (worldOk || m_onlineMode);
 
-    if (!m_hasMap && m_date.empty() && m_locationLines.empty()) {  // nothing to show
+    if (!m_hasMap && m_date.empty() && m_sublocation.empty() && m_city.empty() && m_country.empty()) {
         Hide();
         return;
     }
@@ -326,12 +330,56 @@ void MapOverlay::Redraw()
     const int margin = std::max(20, side / 12);
     const int mapH = m_hasMap ? side : 0;
     const REAL fontPx = std::max(10.0f, side * 0.085f);
-    const int bandH = static_cast<int>(fontPx * 1.6f);  // shared height for both text rows
-    const int locLineCount = static_cast<int>(m_locationLines.size());
-    const int locBand  = locLineCount * bandH;
+    const int bandH = static_cast<int>(fontPx * 1.6f);
+
+    // Build location render lines: sublocation always separate; city+country merged if
+    // the combined text fits within 1.4× the map width, otherwise kept as two lines.
+    std::vector<std::wstring> locLines;
+    if (!m_sublocation.empty()) locLines.push_back(m_sublocation);
+
+    float maxLocW = 0.0f;  // widest measured location line (pixels)
+    {
+        Bitmap tmpBmp(1, 1, PixelFormat32bppARGB);
+        Graphics gm(&tmpBmp);
+        FontFamily ff(L"Segoe UI");
+        Font font(&ff, fontPx, FontStyleRegular, UnitPixel);
+        StringFormat sfm;
+        sfm.SetFormatFlags(StringFormatFlagsNoWrap);
+        sfm.SetTrimming(StringTrimmingNone);
+        auto measureW = [&](const std::wstring& s) -> float {
+            RectF b; gm.MeasureString(s.c_str(), -1, &font, PointF(0, 0), &sfm, &b);
+            return b.Width;
+        };
+
+        const float kMaxW = side * 1.4f;
+        if (!m_city.empty() && !m_country.empty()) {
+            const std::wstring combined = m_city + L", " + m_country;
+            float w = measureW(combined);
+            if (w <= kMaxW) {
+                locLines.push_back(combined);
+                maxLocW = std::max(maxLocW, w);
+            } else {
+                locLines.push_back(m_city);
+                locLines.push_back(m_country);
+                maxLocW = std::max({ maxLocW, measureW(m_city), measureW(m_country) });
+            }
+        } else if (!m_city.empty()) {
+            locLines.push_back(m_city);
+            maxLocW = std::max(maxLocW, measureW(m_city));
+        } else if (!m_country.empty()) {
+            locLines.push_back(m_country);
+            maxLocW = std::max(maxLocW, measureW(m_country));
+        }
+        if (!m_sublocation.empty())
+            maxLocW = std::max(maxLocW, measureW(m_sublocation));
+    }
+
+    const int locBand  = static_cast<int>(locLines.size()) * bandH;
     const int textBand = m_date.empty() ? 0 : bandH;
     if (mapH == 0 && locBand == 0 && textBand == 0) return;
-    const int winW = side;
+    // Widen the window just enough to fit the widest location line (capped at 1.4× map).
+    const int winW = std::max(side, std::min(static_cast<int>(maxLocW + fontPx * 0.6f + 0.5f),
+                                             static_cast<int>(side * 1.4f)));
     const int winH = mapH + locBand + textBand;
     const int left = orc.left + margin;
     const int top = orc.bottom - margin - winH;
@@ -457,7 +505,7 @@ void MapOverlay::Redraw()
             };
 
             int y = mapH;
-            for (const auto& line : m_locationLines) { drawRow(line, y, bandH); y += bandH; }
+            for (const auto& line : locLines) { drawRow(line, y, bandH); y += bandH; }
             if (textBand > 0) drawRow(m_date, y, textBand);
         }
         g.Flush();
