@@ -29,8 +29,8 @@ using namespace Gdiplus;
 
 // Posted by the worker thread when a new satellite crop is ready.
 // lParam = Gdiplus::Bitmap*   wParam = request generation number
-// Safe to use WM_APP+1 on the overlay window — the host window's hook messages
-// (also WM_APP+1) are posted to the host HWND, a different window.
+// WM_APP+1 is also used by the keyboard hook, but those are thread messages (hwnd==nullptr).
+// This message is posted to the overlay HWND, so the main loop distinguishes them by hwnd.
 #define WM_APP_TILES_READY (WM_APP + 1)
 
 namespace {

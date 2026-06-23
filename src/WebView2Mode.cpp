@@ -766,13 +766,14 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
         while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
             if (msg.message == WM_QUIT) { running = false; break; }
 
-            // Forwarded hotkey from low-level hook
-            if (msg.message == WM_APP_HOTKEY) {
+            // Forwarded hotkey from low-level hook (thread message: hwnd==nullptr).
+            // Guard on hwnd to avoid confusing window messages that share the WM_APP+N value.
+            if (msg.message == WM_APP_HOTKEY && msg.hwnd == nullptr) {
                 WPARAM key = msg.wParam;
                 if (handleKey((UINT)key, s)) continue;
             }
 
-            if (msg.message == WM_APP_MOUSEMOVE && shutdownOnAnyUnhandledInput) {
+            if (msg.message == WM_APP_MOUSEMOVE && msg.hwnd == nullptr && shutdownOnAnyUnhandledInput) {
                 // Mouse moved according to low-level hook; perform same shutdown logic as WM_MOUSEMOVE
                 PostQuitMessage(0);
                 mouseMoved = true;
