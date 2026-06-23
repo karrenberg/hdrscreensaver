@@ -621,8 +621,8 @@ int RunWebView2Mode(bool shutdownOnAnyUnhandledInput, const ScreenSaverSettings&
             return;
         }
         const std::wstring uri = ToFileUri(imageFiles[index]);
-        s.webview->Navigate(uri.c_str());
         LOG_MSG(L"WebView2Mode: Showing " + imageFiles[index]);
+        s.webview->Navigate(uri.c_str());
         // Update window title to reflect the currently shown image (full path) when not fullscreen
         if (!fullscreen && s.hwnd) {
             std::wstring wpath = std::filesystem::path(imageFiles[index]).wstring();

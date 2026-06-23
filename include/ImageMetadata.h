@@ -230,13 +230,20 @@ static inline bool EndsWithName(const std::wstring& path, const wchar_t* leaf)
 static bool FindIptcValueRecursive(IWICMetadataQueryReader* reader,
                                    const std::wstring& pathPrefix,
                                    const wchar_t* leafName,
-                                   std::wstring& out)
+                                   std::wstring& out,
+                                   int depth = 0,
+                                   int* nodeCount = nullptr)
 {
+    if (depth > 6) return false;
+    int localCount = 0;
+    if (!nodeCount) nodeCount = &localCount;
+
     ComPtr<IEnumString> names;
     if (FAILED(reader->GetEnumerator(&names)) || !names)
         return false;
 
     while (true) {
+        if (++(*nodeCount) > 500) return false;  // circuit breaker against runaway codecs
         LPOLESTR name = nullptr;
         ULONG fetched = 0;
         if (names->Next(1, &name, &fetched) != S_OK)
@@ -259,7 +266,7 @@ static bool FindIptcValueRecursive(IWICMetadataQueryReader* reader,
                 ComPtr<IWICMetadataQueryReader> child;
                 if (SUCCEEDED(v.punkVal->QueryInterface(__uuidof(IWICMetadataQueryReader),
                                                         reinterpret_cast<void**>(child.GetAddressOf()))) && child) {
-                    if (FindIptcValueRecursive(child.Get(), full, leafName, out)) {
+                    if (FindIptcValueRecursive(child.Get(), full, leafName, out, depth + 1, nodeCount)) {
                         CoTaskMemFree(name);
                         PropVariantClear(&v);
                         return true;
@@ -283,12 +290,22 @@ struct LocationInfo {
 
 // Reads IPTC Sub-location, City, and Country from image metadata.
 // Fields not present in the image are left empty.
+// Only attempts IPTC enumeration for JPEG/TIFF; other codecs (AVIF, HEIC, PNG, …)
+// can hang indefinitely inside WIC's metadata enumerator.
 static inline LocationInfo ReadLocationInfo(const std::wstring& imagePath)
 {
     using namespace Microsoft::WRL;
     using namespace ImageMetadataDetail;
 
     LocationInfo info;
+
+    // IPTC is a JPEG/TIFF standard; skip enumeration for other formats.
+    {
+        auto ext = std::filesystem::path(imagePath).extension().wstring();
+        for (auto& c : ext) c = static_cast<wchar_t>(towlower(c));
+        if (ext != L".jpg" && ext != L".jpeg" && ext != L".tif" && ext != L".tiff")
+            return info;
+    }
     ComPtr<IWICImagingFactory> factory;
     if (FAILED(CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER,
                                 IID_PPV_ARGS(&factory))) || !factory) return info;
