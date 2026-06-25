@@ -318,13 +318,16 @@ static void SetHostFocus(WV2State& s)
  static bool CreateHostWindow(WV2State& s, const LPCSTR title, bool fullscreen)
 {
      const LPCSTR kClassName = "HDRWebView2HostForSaver";
+    HINSTANCE hInst = GetModuleHandle(nullptr);
     WNDCLASSEX wc{ sizeof(WNDCLASSEX) };
     wc.style = CS_HREDRAW | CS_VREDRAW;
     wc.lpfnWndProc = HostWndProc;
-    wc.hInstance = GetModuleHandle(nullptr);
+    wc.hInstance = hInst;
     wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
     wc.lpszClassName = kClassName;
+    wc.hIcon   = LoadIcon(hInst, MAKEINTRESOURCE(101));
+    wc.hIconSm = (HICON)LoadImage(hInst, MAKEINTRESOURCE(101), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
     if (!RegisterClassEx(&wc) && GetLastError() != ERROR_CLASS_ALREADY_EXISTS) {
         LOG_MSG(L"WebView2Mode: RegisterClassEx failed");
         return false;
