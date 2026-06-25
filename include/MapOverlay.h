@@ -45,13 +45,17 @@ public:
     // Call after the owner window is resized/moved.
     void Reposition();
 
+    // Same as Reposition() but uses a caller-supplied owner rect (for WM_MOVING, where
+    // GetWindowRect still returns the pre-move position).
+    void RepositionTo(const RECT& ownerRect);
+
     // Suspends/resumes the overlay when the owner window loses/gains activation, so it
     // does not float above other apps after the user alt-tabs away.
     void SetOwnerActive(bool active);
 
 private:
     bool EnsureWorldLoaded();
-    void Redraw();
+    void Redraw(const RECT* ownerRect = nullptr);
     void WorkerLoop();
     static LRESULT CALLBACK OverlayWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 

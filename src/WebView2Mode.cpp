@@ -73,6 +73,10 @@ static bool IsOurWindow(HWND hwnd)
     return false;
 }
 
+// Tracks whether a Windows key is physically held — updated directly in the hook so we
+// don't rely on GetAsyncKeyState, which is unreliable for VK_LWIN/VK_RWIN in LL hooks.
+static bool s_winKeyDown = false;
+
 // Low-level keyboard proc: forwards specified keys to the saver host window when the host or one of
 // its child windows is the foreground window. Returns non-zero to swallow the event when handled.
 static LRESULT CALLBACK WV2_LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
@@ -81,9 +85,20 @@ static LRESULT CALLBACK WV2_LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARA
         return CallNextHookEx(g_wv2_kbHook, nCode, wParam, lParam);
     }
 
-    if (nCode == HC_ACTION && (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN)) {
+    if (nCode == HC_ACTION) {
         KBDLLHOOKSTRUCT* k = reinterpret_cast<KBDLLHOOKSTRUCT*>(lParam);
         UINT vk = (UINT)k->vkCode;
+        bool isDown = (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN);
+
+        // Track Win key state ourselves — GetAsyncKeyState is unreliable for VK_LWIN/VK_RWIN
+        // inside a LL keyboard hook because Windows processes those keys at a lower layer.
+        if (vk == VK_LWIN || vk == VK_RWIN) {
+            s_winKeyDown = isDown;
+            return CallNextHookEx(g_wv2_kbHook, nCode, wParam, lParam);
+        }
+
+        if (!isDown) return CallNextHookEx(g_wv2_kbHook, nCode, wParam, lParam);
+
         HWND fg = GetForegroundWindow();
         if (!fg) return CallNextHookEx(g_wv2_kbHook, nCode, wParam, lParam);
 
@@ -93,8 +108,7 @@ static LRESULT CALLBACK WV2_LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARA
         }
 
         // Pass through Win+key combinations so system shortcuts (Win+Shift+S etc.) still work
-        bool winHeld = (GetAsyncKeyState(VK_LWIN) | GetAsyncKeyState(VK_RWIN)) & 0x8000;
-        if (winHeld) return CallNextHookEx(g_wv2_kbHook, nCode, wParam, lParam);
+        if (s_winKeyDown) return CallNextHookEx(g_wv2_kbHook, nCode, wParam, lParam);
 
         bool shouldHandle = false;
         WPARAM postKey = 0;
@@ -288,6 +302,11 @@ static LRESULT CALLBACK HostWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
     case WM_MOVE:
         if (state && state->mapOverlay) {
             state->mapOverlay->Reposition();
+        }
+        break;
+    case WM_MOVING:
+        if (state && state->mapOverlay) {
+            state->mapOverlay->RepositionTo(*reinterpret_cast<RECT*>(lParam));
         }
         break;
     case WM_SETFOCUS:

@@ -291,6 +291,15 @@ void MapOverlay::Reposition()
     }
 }
 
+void MapOverlay::RepositionTo(const RECT& ownerRect)
+{
+    if (m_wantVisible && !m_suspended) {
+        Redraw(&ownerRect);
+        SetWindowPos(m_hwnd, HWND_TOPMOST, 0, 0, 0, 0,
+                     SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+    }
+}
+
 // ---------------------------------------------------------------------------
 // SetOwnerActive
 // ---------------------------------------------------------------------------
@@ -314,13 +323,17 @@ void MapOverlay::SetOwnerActive(bool active)
 // Redraw  — the core painting function
 // ---------------------------------------------------------------------------
 
-void MapOverlay::Redraw()
+void MapOverlay::Redraw(const RECT* ownerRect)
 {
     if (!m_hwnd) return;
 
     // Position/size relative to the owner window's lower-left corner.
     RECT orc{};
-    if (!GetWindowRect(m_owner, &orc)) return;
+    if (ownerRect) {
+        orc = *ownerRect;
+    } else if (!GetWindowRect(m_owner, &orc)) {
+        return;
+    }
     const int ownerW = orc.right - orc.left;
     const int ownerH = orc.bottom - orc.top;
     if (ownerW <= 0 || ownerH <= 0) return;
