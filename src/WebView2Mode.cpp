@@ -92,10 +92,12 @@ static LRESULT CALLBACK WV2_LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARA
             return CallNextHookEx(g_wv2_kbHook, nCode, wParam, lParam);
         }
 
+        // Pass through Win+key combinations so system shortcuts (Win+Shift+S etc.) still work
+        bool winHeld = (GetAsyncKeyState(VK_LWIN) | GetAsyncKeyState(VK_RWIN)) & 0x8000;
+        if (winHeld) return CallNextHookEx(g_wv2_kbHook, nCode, wParam, lParam);
+
         bool shouldHandle = false;
         WPARAM postKey = 0;
-        // Virtual key codes for letters are case-insensitive (same code for 'H' and 'h')
-        // Use uppercase character codes which match the virtual key codes
         switch (vk) {
             case VK_LEFT: postKey = VK_LEFT; shouldHandle = true; break;
             case VK_RIGHT: postKey = VK_RIGHT; shouldHandle = true; break;
@@ -279,6 +281,11 @@ static LRESULT CALLBACK HostWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
             RECT rc; GetClientRect(hwnd, &rc);
             state->controller->put_Bounds(rc);
         }
+        if (state && state->mapOverlay) {
+            state->mapOverlay->Reposition();
+        }
+        break;
+    case WM_MOVE:
         if (state && state->mapOverlay) {
             state->mapOverlay->Reposition();
         }
